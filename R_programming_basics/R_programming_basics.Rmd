@@ -1,0 +1,257 @@
+---
+title: "R programming basics"
+author: "Katerina Vecerkova"
+date: "7/11/2024"
+output: html_document
+---
+
+# Operators
+
+Operators are special symbols or keywords used to perform operations on variables and values. R provides various types of operators to facilitate different kinds of computations and manipulations in your code.
+
+*Types of Operators:*
+1. Arithmetic Operators
+2. Logical Operators
+3. Relational Operators
+4. Assignment Operators
+5. Miscellaneous Operators
+
+## Arithmetic operators
+
+```{r}
+3 + 5  # Addition
+8 - 5 # Subtraction
+2 * 5  # Multiplication
+6 / 2 # Division
+2 ^ 3 # Exponentiation
+13 %% 4  # Modulus (remainder of the division)
+2 ^ 1/2 # Be aware of operator priority
+2 ^ (1/2) # And use parentheses
+```
+
+## Logical operators
+
+```{r}
+TRUE & FALSE  # Logical AND
+TRUE | FALSE  # Logical OR
+!FALSE  # Logical NOT
+(TRUE & TRUE) | (FALSE & FALSE)
+xor(TRUE, TRUE) # Exclusive OR
+```
+
+## Relational operators
+
+```{r}
+FALSE == 0  # Equal to
+TRUE == 1  # Equal to
+6 != 8  # Not equal to
+7 < 8  # Less than
+7 > 8  # Greater than
+2 <= 7  # Less than or equal to
+2 >= 7  # Greater than or equal to
+```
+
+## Assignment operators
+
+```{r}
+x <- 5  # Left assignment
+5 -> x  # Right assignment
+x = 5  # Equals assignment (less common)
+```
+
+## Miscellaneous operators
+
+```{r}
+seq <- 1:5  # Sequence
+seq
+```
+
+```{r}
+df <- data.frame(a = 1:3, b = 4:6)
+df$a  # List subset operator
+```
+
+```{r}
+vec <- c(1, 2, 3)
+vec[2]  # Indexing operator
+```
+
+```{r}
+1 %in% vec  # Membership operator
+```
+
+## Special operators
+
+```{r}
+model <- lm(y ~ x, data = df)  # Tilde operator in a linear model
+```
+
+# Variables
+
+Variables are used to store and reuse values in a program. They act as containers for data that can be accessed and manipulated throughout your code. In R, you can assign values to variables using the assignment operator <- (preferred) or (=).
+
+```{r}
+myVariable <- "hello" # Camel case naming convention
+my_variable <- 3      # Snake case naming convention
+my_variable <- 5      # Re-assigning a new value to an existing variable
+also_my_variable <- 6 # Another variable following snake case
+result <- my_variable + also_my_variable # Using variables in expressions
+print(result) # This will output 11
+```
+
+# Data types
+
+In R, data types define the kind of data that can be stored and manipulated within a variable. Understanding data types is essential for effective programming and data analysis.
+
+*Basic Data Types:*
+1. Numeric: Represents numbers, which can be integers or doubles (real numbers)
+2. Integer: Represents whole numbers
+3. Character: Represents text or string data
+4. Logical: Represents boolean values (`TRUE` or `FALSE`)
+5. Complex: Represents complex numbers
+6. Factor: Represents categorical data
+
+```{r}
+num <- 3.14          # Numeric (double)
+int <- 5L            # Integer (note the 'L' suffix)
+char <- "hello"      # Character
+bool <- TRUE         # Logical
+comp <- 1 + 2i       # Complex
+fact <- factor("male", levels = c("male", "female"))  # Factor
+```
+
+# Data structures
+
+In addition to basic data types, R supports several data structures that can hold multiple values:
+
+1. Vector: A sequence of elements of the same type
+2. Matrix: A two-dimensional array of elements of the same type
+3. List: A collection of elements, which can be of different types
+4. Data Frame: A table-like structure where each column can be of a different type
+5. Array: Multi-dimensional generalization of matrices
+
+## Functions to determine data types
+
+1. `class()`: Returns the class/type of an R object.Provides the high-level classification of the object, often corresponding to how the object behaves (e.g., "integer", "numeric", "data.frame").
+2. `typeof()`: Returns the internal storage mode of an R object. Gives the low-level internal storage mode of the object (e.g., "integer", "double", "character").
+3. `mode()`: Returns the mode of an R object.Similar to `typeof()`, but sometimes gives a higher-level view and is more consistent with older versions of R and S.
+
+```{r}
+# Example variable
+x <- 42L  # Integer
+
+# Determine class
+class_x <- class(x)
+print(class_x)
+
+# Determine type
+typeof_x <- typeof(x)
+print(typeof_x)
+
+# Determine mode
+mode_x <- mode(x)
+print(mode_x)
+```
+
+```{r}
+# Example with different data types
+y <- "R programming"  # Character
+
+# Determine class
+class_y <- class(y)
+print(class_y)
+
+# Determine type
+typeof_y <- typeof(y)
+print(typeof_y)
+
+# Determine mode
+mode_y <- mode(y)
+print(mode_y)
+```
+
+# Functons
+
+Functions are reusable blocks of code that perform specific tasks. They help in breaking down complex problems into smaller, manageable pieces and promote code reusability.
+
+*Why Use Functions?*
+
+- Code Reusability: Functions allow you to write a piece of code once and reuse it multiple times.
+- Modularity: Functions help in organizing code into smaller, logical sections.
+- Readability: Code becomes easier to read and understand when divided into functions.
+- Maintenance: Functions make it easier to update and maintain code.
+
+*Defining a function*
+
+In R, you can define a function using the `function` keyword. A function can have arguments (inputs) and return a value.
+
+```{r, eval=FALSE}
+function_name <- function(arg1, arg2, ...) {
+  # Function body
+  # Perform some operations
+  return(value)  # Return a value (optional)
+}
+```
+
+Let's create a simple function that adds two numbers:
+
+```{r}
+add_numbers <- function(a, b) {
+  res <- a + b
+  return(res)
+}
+
+result <- add_numbers(3, 5)
+result
+```
+
+You can also define functions with default argument values:
+
+```{r}
+greet <- function(name = "World") {
+  message <- paste("Hello,", name)
+  return(message)
+}
+```
+
+```{r}
+greet() # Uses default value
+```
+
+```{r}
+greet("students!") # Uses provided value
+```
+
+Variables defined inside a function are local to that function and are not accessible outside. This is known as the scope of variables.
+
+```{r}
+increment <- function(x, by = 1) {
+  y <- x + by
+  return(y)
+}
+
+increment(5, 2) # Variable y only exists in the function increment and accessing it will cause an error
+```
+
+R also provides a wide range of built-in functions for various tasks like mathematical operations, statistical analysis, and data manipulation. We install packages exactly for the already implemented functions!
+
+```{r}
+sqrt(16) # Square root
+log(10) # Natural logarithm
+mean(c(1, 2, 3, 4, 5)) # Mean of a vector
+sd(c(1, 2, 3, 4, 5)) # Standard deviation of a vector
+```
+
+# Control structures
+
+## Branching using if and else
+
+## Loops
+
+### For
+
+### While
+
+### Repeat
+
+# String operations
