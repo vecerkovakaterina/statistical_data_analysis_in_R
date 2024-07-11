@@ -1,1 +1,2 @@
-# statistical_data_analysis_in_R
+# Statistical Data Analysis in R
+This is a work in progress
