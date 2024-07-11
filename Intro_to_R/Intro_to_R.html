@@ -255,7 +255,7 @@ pre code {
 <h2 number="2.2"><span class="header-section-number">2.2</span> renv</h2>
 <p>In software development, an environment refers to a specific set of dependencies and software versions used to run an application or project. Environments help prevent conflicts between projects requiring different package versions and ensure consistency across development, testing, and production stages.</p>
 <p>The <code>renv</code> R package manages dependencies for R projects by creating snapshots of the packages and versions used, making it easy to replicate the same environment. It ensures package version consistency across machines and team members, avoids conflicts, and maintains reproducibility, especially in complex projects with many dependencies.</p>
-<p>When creating a new Rproject, RStudio will prompt you to initialize renv. You can also do this manually:</p>
+<p>When creating a new Rproject, RStudio will prompt you to use <code>renv</code>. You can also do this manually:</p>
 <pre class="r"><code>renv::init()</code></pre>
 <p>Now when you install a package, it will get installed to your <code>renv</code> environment.</p>
 <pre class="r"><code>install.packages(c(&quot;ggplot2&quot;, &quot;dplyr&quot;))</code></pre>
@@ -308,7 +308,7 @@ output:
     x &lt;- seq(1, input$range)
     plot(x, x^2, type = &quot;l&quot;, col = &quot;blue&quot;)
   })</code></pre>
-<div class="shiny-plot-output html-fill-item" id="out3d6b0da8ea27f3f6" style="width:100%;height:400px;"></div>
+<div class="shiny-plot-output html-fill-item" id="out64f306247d35d2a7" style="width:100%;height:400px;"></div>
 </div>
 <div id="section-cran" class="section level2" number="3.3">
 <h2 number="3.3"><span class="header-section-number">3.3</span> CRAN</h2>
@@ -330,6 +330,81 @@ if (!requireNamespace(&quot;BiocManager&quot;, quietly = TRUE)) {
 
 # Use BiocManager to install a package from Bioconductor
 BiocManager::install(&quot;DEseq2&quot;)</code></pre>
+<p>Since Python is also a popular programming language used in data analysis and bioinformatics, here’s a table of Python equivalents:</p>
+<table>
+<thead>
+<tr class="header">
+<th>R Tool</th>
+<th>Python Equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R Project</td>
+<td>Anaconda/Conda</td>
+</tr>
+<tr class="even">
+<td>renv</td>
+<td>virtualenv/venv</td>
+</tr>
+<tr class="odd">
+<td>R Markdown</td>
+<td>Jupyter Notebook</td>
+</tr>
+<tr class="even">
+<td>CRAN</td>
+<td>PyPI</td>
+</tr>
+<tr class="odd">
+<td>Shiny</td>
+<td>Dash/Streamlit</td>
+</tr>
+<tr class="even">
+<td>ggplot2</td>
+<td>Matplotlib/Seaborn</td>
+</tr>
+<tr class="odd">
+<td>dplyr</td>
+<td>pandas</td>
+</tr>
+<tr class="even">
+<td>tidyr</td>
+<td>pandas (with reshape2)</td>
+</tr>
+<tr class="odd">
+<td>caret</td>
+<td>scikit-learn</td>
+</tr>
+<tr class="even">
+<td>RStudio</td>
+<td>Pycharm/VSCode</td>
+</tr>
+<tr class="odd">
+<td>Bioconductor</td>
+<td>Biopython</td>
+</tr>
+<tr class="even">
+<td>Plumber</td>
+<td>FastAPI/Flask</td>
+</tr>
+<tr class="odd">
+<td>knitr</td>
+<td>nbconvert</td>
+</tr>
+<tr class="even">
+<td>rvest</td>
+<td>Beautiful Soup</td>
+</tr>
+<tr class="odd">
+<td>data.table</td>
+<td>pandas (with Dask)</td>
+</tr>
+<tr class="even">
+<td>leaflet</td>
+<td>Folium</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
