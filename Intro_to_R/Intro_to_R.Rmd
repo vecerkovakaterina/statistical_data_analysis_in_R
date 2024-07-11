@@ -1,5 +1,5 @@
 ---
-title: "Intro_to_R"
+title: "Introduction to R"
 author: "Katerina Vecerkova vecerkok@vscht.cz"
 date: "6/27/2024"
 runtime: shiny
@@ -172,6 +172,7 @@ A typical Shiny application consists of two main parts: the UI, which defines th
 Shiny elements can be seamlessly integrated into R Markdown documents alongside text and other R code, allowing analysts to add interactivity to their analyses when necessary. Quarto supports rendering and serving these documents, making it straightforward to incorporate interactive features into Quarto documents.
 
 ```{r}
+library(shiny)
 sliderInput("range", "Select x:", min = 1, max = 10, value = 5)
 ```
 
