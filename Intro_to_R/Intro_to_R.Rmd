@@ -1,0 +1,77 @@
+---
+title: "Intro_to_R"
+author: "Katerina Vecerkova vecerkok@vscht.cz"
+date: "6/27/2024"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+---
+
+# Introduction
+
+## R
+
+R is a programming language used for statistical analysis and data visualization. It is open-source and free, available under the GNU General Public License. R is an interpreted language, meaning commands are executed one by one in its console. The community behind R is very active and develops and maintains wide range of R packages. Whenever you want to use a function implemented in a package, install the package like this:
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+To be able to use the functions form the tidyverse package and also access its documentation, import the package like so:
+
+```{r, eval=FALSE}
+library(tidyverse)
+```
+
+To install R, follow the instructions on the [CRAN website](https://cran.r-project.org).
+
+The R console is accessible by either clicking the R icon or through the computer terminal/console by typing:
+
+```{bash, eval=FALSE}
+R
+```
+
+for Linux and macOS and
+
+```{text, eval=FALSE}
+R.exe
+```
+
+for Windows.
+
+## Development environments
+
+### Rstudio
+
+A more efficient and organized way to use R commands and view the results is to use an IDE(Integrated Development Environment). The most popular choice is Rstudio. Rstudio is installed separately from R and is available from [here](https://posit.co/download/rstudio-desktop/). It has a very comfortable user interface that let's us edit scripts, browse through files, access documentation, and view plots, tables and variables.
+
+#### How to run a command in Rstudio
+
+#### How to run a whole script in Rstudio
+
+#### How to run a whole script in Terminal
+
+### Jupyter Notebook a Google Colab
+
+Another option, popular among Python users, is to repurpose Jupyter Notebooks or its cousin from Google, Google Colab. These platforms provide an interactive environment for writing and running code, combining code execution with rich text elements (like headings, images, and equations).
+
+To use R in Jupyter Notebooks, you need to install the IRKernel. For Google Colab, you can use R by specifying the language at the beginning of the notebook or by using R cells within a Python notebook.
+
+# Project Development
+
+## Rproj
+
+## renv
+
+## Rstudio
+
+# Useful R vocabulary
+
+## R Markdown
+
+## shiny
+
+## CRAN
+
+## Bioconductor
