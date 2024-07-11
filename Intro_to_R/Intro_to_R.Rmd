@@ -95,7 +95,7 @@ In software development, an environment refers to a specific set of dependencies
 
 The `renv` R package manages dependencies for R projects by creating snapshots of the packages and versions used, making it easy to replicate the same environment. It ensures package version consistency across machines and team members, avoids conflicts, and maintains reproducibility, especially in complex projects with many dependencies.
 
-When creating a new Rproject, RStudio will prompt you to initialize renv. You can also do this manually:
+When creating a new Rproject, RStudio will prompt you to use `renv`. You can also do this manually:
 
 ```{r, eval=FALSE}
 renv::init()
@@ -217,3 +217,24 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 # Use BiocManager to install a package from Bioconductor
 BiocManager::install("DEseq2")
 ```
+
+Since Python is also a popular programming language used in data analysis and bioinformatics, here's a table of Python equivalents:
+
+| R Tool             | Python Equivalent      |
+|--------------------|------------------------|
+| R Project          | Anaconda/Conda         |
+| renv               | virtualenv/venv        |
+| R Markdown         | Jupyter Notebook       |
+| CRAN               | PyPI                   |
+| Shiny              | Dash/Streamlit         |
+| ggplot2            | Matplotlib/Seaborn     |
+| dplyr              | pandas                 |
+| tidyr              | pandas (with reshape2) |
+| caret              | scikit-learn           |
+| RStudio            | Pycharm/VSCode         |
+| Bioconductor       | Biopython              |
+| Plumber            | FastAPI/Flask          |
+| knitr              | nbconvert              |
+| rvest              | Beautiful Soup         |
+| data.table         | pandas (with Dask)     |
+| leaflet            | Folium                 |
