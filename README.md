@@ -8,4 +8,5 @@ These tutorials are inspired by these two books:
 *Tutorials:*
 1. Intro to R
 2. R programming basics
-3.
+3. Data manipulation with tidyverse
+4.
