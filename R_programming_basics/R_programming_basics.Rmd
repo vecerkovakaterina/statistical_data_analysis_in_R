@@ -2,7 +2,9 @@
 title: "R programming basics"
 author: "Katerina Vecerkova"
 date: "7/11/2024"
-output: html_document
+output:
+  html_document:
+    toc: true
 ---
 
 # Operators
@@ -10,6 +12,7 @@ output: html_document
 Operators are special symbols or keywords used to perform operations on variables and values. R provides various types of operators to facilitate different kinds of computations and manipulations in your code.
 
 *Types of Operators:*
+
 1. Arithmetic Operators
 2. Logical Operators
 3. Relational Operators
@@ -82,7 +85,7 @@ vec[2]  # Indexing operator
 
 ## Special operators
 
-```{r}
+```{r, eval=FALSE}
 model <- lm(y ~ x, data = df)  # Tilde operator in a linear model
 ```
 
@@ -224,7 +227,7 @@ greet("students!") # Uses provided value
 
 Variables defined inside a function are local to that function and are not accessible outside. This is known as the scope of variables.
 
-```{r}
+```{r, eval=FALSE}
 increment <- function(x, by = 1) {
   y <- x + by
   return(y)
