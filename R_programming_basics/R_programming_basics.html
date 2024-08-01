@@ -167,16 +167,51 @@ pre code {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#operators">Operators</a>
+<ul>
+<li><a href="#arithmetic-operators">Arithmetic operators</a></li>
+<li><a href="#logical-operators">Logical operators</a></li>
+<li><a href="#relational-operators">Relational operators</a></li>
+<li><a href="#assignment-operators">Assignment operators</a></li>
+<li><a href="#miscellaneous-operators">Miscellaneous operators</a></li>
+<li><a href="#special-operators">Special operators</a></li>
+</ul></li>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#data-types">Data types</a></li>
+<li><a href="#data-structures">Data structures</a>
+<ul>
+<li><a href="#functions-to-determine-data-types">Functions to determine data types</a></li>
+</ul></li>
+<li><a href="#functons">Functons</a></li>
+<li><a href="#control-structures">Control structures</a>
+<ul>
+<li><a href="#branching-using-if-and-else">Branching using if and else</a></li>
+<li><a href="#loops">Loops</a>
+<ul>
+<li><a href="#for">For</a></li>
+<li><a href="#while">While</a></li>
+<li><a href="#repeat">Repeat</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#string-operations">String operations</a></li>
+</ul>
+</div>
 
 <div id="operators" class="section level1">
 <h1>Operators</h1>
+<p>Operators are special symbols or keywords used to perform operations on variables and values. R provides various types of operators to facilitate different kinds of computations and manipulations in your code.</p>
+<p><em>Types of Operators:</em></p>
+<ol style="list-style-type: decimal">
+<li>Arithmetic Operators</li>
+<li>Logical Operators</li>
+<li>Relational Operators</li>
+<li>Assignment Operators</li>
+<li>Miscellaneous Operators</li>
+</ol>
 <div id="arithmetic-operators" class="section level2">
 <h2>Arithmetic operators</h2>
-<ul>
-<li>: Addition</li>
-<li>: Subtraction</li>
-<li>: Multiplication / : Division ^ or ** : Exponentiation %% : Modulus (remainder of the division) %/% : Integer division</li>
-</ul>
 <pre class="r"><code>3 + 5  # Addition</code></pre>
 <pre><code>## [1] 8</code></pre>
 <pre class="r"><code>8 - 5 # Subtraction</code></pre>
@@ -187,42 +222,190 @@ pre code {
 <pre><code>## [1] 3</code></pre>
 <pre class="r"><code>2 ^ 3 # Exponentiation</code></pre>
 <pre><code>## [1] 8</code></pre>
-<pre class="r"><code>13 %% 4  # Modulus</code></pre>
+<pre class="r"><code>13 %% 4  # Modulus (remainder of the division)</code></pre>
 <pre><code>## [1] 1</code></pre>
+<pre class="r"><code>2 ^ 1/2 # Be aware of operator priority</code></pre>
+<pre><code>## [1] 1</code></pre>
+<pre class="r"><code>2 ^ (1/2) # And use parentheses</code></pre>
+<pre><code>## [1] 1.414214</code></pre>
 </div>
 <div id="logical-operators" class="section level2">
 <h2>Logical operators</h2>
+<pre class="r"><code>TRUE &amp; FALSE  # Logical AND</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>TRUE | FALSE  # Logical OR</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>!FALSE  # Logical NOT</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>(TRUE &amp; TRUE) | (FALSE &amp; FALSE)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>xor(TRUE, TRUE) # Exclusive OR</code></pre>
+<pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="relational-operators" class="section level2">
 <h2>Relational operators</h2>
+<pre class="r"><code>FALSE == 0  # Equal to</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>TRUE == 1  # Equal to</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>6 != 8  # Not equal to</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>7 &lt; 8  # Less than</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>7 &gt; 8  # Greater than</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>2 &lt;= 7  # Less than or equal to</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>2 &gt;= 7  # Greater than or equal to</code></pre>
+<pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="assignment-operators" class="section level2">
 <h2>Assignment operators</h2>
+<pre class="r"><code>x &lt;- 5  # Left assignment
+5 -&gt; x  # Right assignment
+x = 5  # Equals assignment (less common)</code></pre>
 </div>
 <div id="miscellaneous-operators" class="section level2">
 <h2>Miscellaneous operators</h2>
+<pre class="r"><code>seq &lt;- 1:5  # Sequence
+seq</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>df &lt;- data.frame(a = 1:3, b = 4:6)
+df$a  # List subset operator</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>vec &lt;- c(1, 2, 3)
+vec[2]  # Indexing operator</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>1 %in% vec  # Membership operator</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="special-operators" class="section level2">
+<h2>Special operators</h2>
+<pre class="r"><code>model &lt;- lm(y ~ x, data = df)  # Tilde operator in a linear model</code></pre>
 </div>
 </div>
 <div id="variables" class="section level1">
 <h1>Variables</h1>
+<p>Variables are used to store and reuse values in a program. They act as containers for data that can be accessed and manipulated throughout your code. In R, you can assign values to variables using the assignment operator &lt;- (preferred) or (=).</p>
+<pre class="r"><code>myVariable &lt;- &quot;hello&quot; # Camel case naming convention
+my_variable &lt;- 3      # Snake case naming convention
+my_variable &lt;- 5      # Re-assigning a new value to an existing variable
+also_my_variable &lt;- 6 # Another variable following snake case
+result &lt;- my_variable + also_my_variable # Using variables in expressions
+print(result) # This will output 11</code></pre>
+<pre><code>## [1] 11</code></pre>
 </div>
 <div id="data-types" class="section level1">
 <h1>Data types</h1>
-<div id="vectors" class="section level2">
-<h2>Vectors</h2>
-<div id="operations-on-vectors" class="section level3">
-<h3>Operations on vectors</h3>
+<p>In R, data types define the kind of data that can be stored and manipulated within a variable. Understanding data types is essential for effective programming and data analysis.</p>
+<p><em>Basic Data Types:</em> 1. Numeric: Represents numbers, which can be integers or doubles (real numbers) 2. Integer: Represents whole numbers 3. Character: Represents text or string data 4. Logical: Represents boolean values (<code>TRUE</code> or <code>FALSE</code>) 5. Complex: Represents complex numbers 6. Factor: Represents categorical data</p>
+<pre class="r"><code>num &lt;- 3.14          # Numeric (double)
+int &lt;- 5L            # Integer (note the &#39;L&#39; suffix)
+char &lt;- &quot;hello&quot;      # Character
+bool &lt;- TRUE         # Logical
+comp &lt;- 1 + 2i       # Complex
+fact &lt;- factor(&quot;male&quot;, levels = c(&quot;male&quot;, &quot;female&quot;))  # Factor</code></pre>
 </div>
-</div>
-<div id="data-tables" class="section level2">
-<h2>Data tables</h2>
-</div>
-<div id="data-frames" class="section level2">
-<h2>Data frames</h2>
+<div id="data-structures" class="section level1">
+<h1>Data structures</h1>
+<p>In addition to basic data types, R supports several data structures that can hold multiple values:</p>
+<ol style="list-style-type: decimal">
+<li>Vector: A sequence of elements of the same type</li>
+<li>Matrix: A two-dimensional array of elements of the same type</li>
+<li>List: A collection of elements, which can be of different types</li>
+<li>Data Frame: A table-like structure where each column can be of a different type</li>
+<li>Array: Multi-dimensional generalization of matrices</li>
+</ol>
+<div id="functions-to-determine-data-types" class="section level2">
+<h2>Functions to determine data types</h2>
+<ol style="list-style-type: decimal">
+<li><code>class()</code>: Returns the class/type of an R object.Provides the high-level classification of the object, often corresponding to how the object behaves (e.g., “integer”, “numeric”, “data.frame”).</li>
+<li><code>typeof()</code>: Returns the internal storage mode of an R object. Gives the low-level internal storage mode of the object (e.g., “integer”, “double”, “character”).</li>
+<li><code>mode()</code>: Returns the mode of an R object.Similar to <code>typeof()</code>, but sometimes gives a higher-level view and is more consistent with older versions of R and S.</li>
+</ol>
+<pre class="r"><code># Example variable
+x &lt;- 42L  # Integer
+
+# Determine class
+class_x &lt;- class(x)
+print(class_x)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code># Determine type
+typeof_x &lt;- typeof(x)
+print(typeof_x)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code># Determine mode
+mode_x &lt;- mode(x)
+print(mode_x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code># Example with different data types
+y &lt;- &quot;R programming&quot;  # Character
+
+# Determine class
+class_y &lt;- class(y)
+print(class_y)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Determine type
+typeof_y &lt;- typeof(y)
+print(typeof_y)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<pre class="r"><code># Determine mode
+mode_y &lt;- mode(y)
+print(mode_y)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
 </div>
 </div>
 <div id="functons" class="section level1">
 <h1>Functons</h1>
+<p>Functions are reusable blocks of code that perform specific tasks. They help in breaking down complex problems into smaller, manageable pieces and promote code reusability.</p>
+<p><em>Why Use Functions?</em></p>
+<ul>
+<li>Code Reusability: Functions allow you to write a piece of code once and reuse it multiple times.</li>
+<li>Modularity: Functions help in organizing code into smaller, logical sections.</li>
+<li>Readability: Code becomes easier to read and understand when divided into functions.</li>
+<li>Maintenance: Functions make it easier to update and maintain code.</li>
+</ul>
+<p><em>Defining a function</em></p>
+<p>In R, you can define a function using the <code>function</code> keyword. A function can have arguments (inputs) and return a value.</p>
+<pre class="r"><code>function_name &lt;- function(arg1, arg2, ...) {
+  # Function body
+  # Perform some operations
+  return(value)  # Return a value (optional)
+}</code></pre>
+<p>Let’s create a simple function that adds two numbers:</p>
+<pre class="r"><code>add_numbers &lt;- function(a, b) {
+  res &lt;- a + b
+  return(res)
+}
+
+result &lt;- add_numbers(3, 5)
+result</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p>You can also define functions with default argument values:</p>
+<pre class="r"><code>greet &lt;- function(name = &quot;World&quot;) {
+  message &lt;- paste(&quot;Hello,&quot;, name)
+  return(message)
+}</code></pre>
+<pre class="r"><code>greet() # Uses default value</code></pre>
+<pre><code>## [1] &quot;Hello, World&quot;</code></pre>
+<pre class="r"><code>greet(&quot;students!&quot;) # Uses provided value</code></pre>
+<pre><code>## [1] &quot;Hello, students!&quot;</code></pre>
+<p>Variables defined inside a function are local to that function and are not accessible outside. This is known as the scope of variables.</p>
+<pre class="r"><code>increment &lt;- function(x, by = 1) {
+  y &lt;- x + by
+  return(y)
+}
+
+increment(5, 2) # Variable y only exists in the function increment and accessing it will cause an error</code></pre>
+<p>R also provides a wide range of built-in functions for various tasks like mathematical operations, statistical analysis, and data manipulation. We install packages exactly for the already implemented functions!</p>
+<pre class="r"><code>sqrt(16) # Square root</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>log(10) # Natural logarithm</code></pre>
+<pre><code>## [1] 2.302585</code></pre>
+<pre class="r"><code>mean(c(1, 2, 3, 4, 5)) # Mean of a vector</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>sd(c(1, 2, 3, 4, 5)) # Standard deviation of a vector</code></pre>
+<pre><code>## [1] 1.581139</code></pre>
 </div>
 <div id="control-structures" class="section level1">
 <h1>Control structures</h1>
