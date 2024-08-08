@@ -249,12 +249,91 @@ sd(c(1, 2, 3, 4, 5)) # Standard deviation of a vector
 
 ## Branching using if and else
 
+The `if` statement allows you to execute code only if a certain condition is true. The `else` statement can be used to execute code if the condition is false.
+
+```{r}
+x <- 10
+
+if (x > 5) {
+  print("x is greater than 5")
+} else {
+  print("x is not greater than 5")
+}
+```
+
+The `ifelse` function is a vectorized version of the `if` statement. It takes three arguments: a condition, a value if the condition is true, and a value if the condition is false.
+
 ## Loops
 
 ### For
 
+The `for` loop is used to iterate over a sequence of elements.
+
+```{r}
+for (i in 1:5) {
+  print(i)
+}
+```
+
 ### While
+
+The `while` loop continues to execute as long as a specified condition is true.
+
+```{r}
+count <- 1
+
+while (count <= 5) {
+  print(count)
+  count <- count + 1
+}
+```
 
 ### Repeat
 
+The `repeat` loop executes an infinite loop unless it is interrupted by a `break` statement.
+
+```{r}
+count <- 1
+
+repeat {
+  print(count)
+  count <- count + 1
+  if (count > 5) {
+    break
+  }
+}
+```
+
+### Switch Statement
+
+The `switch` statement allows you to execute code based on the value of an expression.
+
+```{r}
+value <- "b"
+
+result <- switch(value,
+                 "a" = "First",
+                 "b" = "Second",
+                 "c" = "Third",
+                 "Unknown")
+
+print(result)
+```
+
 # String operations
+
+## Concatenation
+
+## Subsetting
+
+## Length
+
+## Replacement
+
+## Pattern Matching
+
+## Splitting
+
+## Case Conversion
+
+## Trimming

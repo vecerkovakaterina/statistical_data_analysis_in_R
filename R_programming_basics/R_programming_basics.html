@@ -193,9 +193,20 @@ pre code {
 <li><a href="#for">For</a></li>
 <li><a href="#while">While</a></li>
 <li><a href="#repeat">Repeat</a></li>
+<li><a href="#switch-statement">Switch Statement</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#string-operations">String operations</a></li>
+<li><a href="#string-operations">String operations</a>
+<ul>
+<li><a href="#concatenation">Concatenation</a></li>
+<li><a href="#subsetting">Subsetting</a></li>
+<li><a href="#length">Length</a></li>
+<li><a href="#replacement">Replacement</a></li>
+<li><a href="#pattern-matching">Pattern Matching</a></li>
+<li><a href="#splitting">Splitting</a></li>
+<li><a href="#case-conversion">Case Conversion</a></li>
+<li><a href="#trimming">Trimming</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -411,22 +422,106 @@ increment(5, 2) # Variable y only exists in the function increment and accessing
 <h1>Control structures</h1>
 <div id="branching-using-if-and-else" class="section level2">
 <h2>Branching using if and else</h2>
+<p>The <code>if</code> statement allows you to execute code only if a certain condition is true. The <code>else</code> statement can be used to execute code if the condition is false.</p>
+<pre class="r"><code>x &lt;- 10
+
+if (x &gt; 5) {
+  print(&quot;x is greater than 5&quot;)
+} else {
+  print(&quot;x is not greater than 5&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;x is greater than 5&quot;</code></pre>
+<p>The <code>ifelse</code> function is a vectorized version of the <code>if</code> statement. It takes three arguments: a condition, a value if the condition is true, and a value if the condition is false.</p>
 </div>
 <div id="loops" class="section level2">
 <h2>Loops</h2>
 <div id="for" class="section level3">
 <h3>For</h3>
+<p>The <code>for</code> loop is used to iterate over a sequence of elements.</p>
+<pre class="r"><code>for (i in 1:5) {
+  print(i)
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
 </div>
 <div id="while" class="section level3">
 <h3>While</h3>
+<p>The <code>while</code> loop continues to execute as long as a specified condition is true.</p>
+<pre class="r"><code>count &lt;- 1
+
+while (count &lt;= 5) {
+  print(count)
+  count &lt;- count + 1
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
 </div>
 <div id="repeat" class="section level3">
 <h3>Repeat</h3>
+<p>The <code>repeat</code> loop executes an infinite loop unless it is interrupted by a <code>break</code> statement.</p>
+<pre class="r"><code>count &lt;- 1
+
+repeat {
+  print(count)
+  count &lt;- count + 1
+  if (count &gt; 5) {
+    break
+  }
+}</code></pre>
+<pre><code>## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5</code></pre>
+</div>
+<div id="switch-statement" class="section level3">
+<h3>Switch Statement</h3>
+<p>The <code>switch</code> statement allows you to execute code based on the value of an expression.</p>
+<pre class="r"><code>value &lt;- &quot;b&quot;
+
+result &lt;- switch(value,
+                 &quot;a&quot; = &quot;First&quot;,
+                 &quot;b&quot; = &quot;Second&quot;,
+                 &quot;c&quot; = &quot;Third&quot;,
+                 &quot;Unknown&quot;)
+
+print(result)</code></pre>
+<pre><code>## [1] &quot;Second&quot;</code></pre>
 </div>
 </div>
 </div>
 <div id="string-operations" class="section level1">
 <h1>String operations</h1>
+<div id="concatenation" class="section level2">
+<h2>Concatenation</h2>
+</div>
+<div id="subsetting" class="section level2">
+<h2>Subsetting</h2>
+</div>
+<div id="length" class="section level2">
+<h2>Length</h2>
+</div>
+<div id="replacement" class="section level2">
+<h2>Replacement</h2>
+</div>
+<div id="pattern-matching" class="section level2">
+<h2>Pattern Matching</h2>
+</div>
+<div id="splitting" class="section level2">
+<h2>Splitting</h2>
+</div>
+<div id="case-conversion" class="section level2">
+<h2>Case Conversion</h2>
+</div>
+<div id="trimming" class="section level2">
+<h2>Trimming</h2>
+</div>
 </div>
 
 
