@@ -1,0 +1,406 @@
+---
+title: "Tidyverse Data Manipulation"
+author: "Kateřina Večerková"
+date: "8/1/2024"
+output: 
+  html_document:
+    toc: true
+---
+
+# `tidyverse` data manipulation
+
+The `tidyverse` is a collection of R packages developed for data science. All `tidyverse` packages share underlying ideas, syntax and data structures, making them highly interopable. The `tidyverse` simplifies many common data manipulation, visualization and analysis tasks. `tidyverse` packages include:
+- `readr`: data import
+- `dplyr`: data manipulation
+- `tidyr`: data tidying
+- `ggplot2`: data visualization
+- `forcats`: categorical data manipulation
+- `stringr`: string manipulation
+- `lubridate`: date and time manipulation
+- `tibble`: modern data frames
+- `purrr`: functional programming
+
+To install the complete tidyverse, use
+```{r, message=FALSE, warning=FALSE, results='hide'}
+install.packages("tidyverse")
+```
+
+## Loading data from files with readr
+
+The `readr` R package offers functions for importing and exporting tabular data in various formats, such as comma-separated values (CSV), tab-separated values (TSV), and other delimiter-separated files.
+
+```{bash}
+head iris.csv
+```
+
+CSV, which stands for comma-separated values, is a widely used format for storing tabular data. The first row typically contains the column names, and each subsequent row contains the corresponding data values separated by commas. We're gonna load this dataset form the file `iris.csv` to R.
+
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+# import the readr package
+library(readr)
+# load the csv dataset
+iris <- readr::read_csv("iris.csv")
+# let's look at the first 5 rows
+head(iris)
+```
+
+Another widely used format is TSV, or tab-separated values. In this case the delimier of columns isn't a comma, but a tab `\t`.
+
+```{r}
+# laod the tsv dataset
+iris <- readr::read_tsv("iris.tsv")
+head(iris)
+```
+
+## Manipulating data with dplyr
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(dplyr)
+```
+
+### 1. Filtering Rows
+Filter the dataset to include only rows where the species is "setosa".
+
+```{r}
+setosa_iris <- iris %>% dplyr::filter(variety == "setosa")
+head(setosa_iris)
+```
+
+Notice the %>% (pipe) operator, it expresses a sequence of multiple operations. Also it is not necessary to put the package before the function, here I explicitly wrote it to demonstrate the use of different tidyverse packages.
+
+### 2. Selecting Columns
+Select only the columns for sepal length and sepal width.
+
+```{r}
+sepal_data <- iris %>% dplyr::select(sepal.length, sepal.width)
+head(sepal_data)
+```
+### 3. Adding New Columns
+Create a new column that is the ratio of petal length and petal width.
+
+```{r}
+iris <- iris %>% dplyr::mutate(petal.ratio = petal.length / petal.width)
+head(iris)
+```
+
+### 4. Summarizing data
+Calculate the mean and standard deviation of sepal length for each species.
+
+```{r}
+summary_stats <- iris %>% dplyr::group_by(variety) %>% dplyr::summarize(mean_sepal.length = mean(sepal.length), sd_sepal.length = sd(sepal.length))
+summary_stats
+```
+
+### 5. Arranging rows
+Arrange the dataset by sepal length in descending order.
+
+```{r}
+sorted_iris <- iris %>% dplyr::arrange(desc(sepal.length))
+head(sorted_iris)
+```
+
+### 6. Grouping and Summarizing
+For each species, count the number of instances where petal length is greater than 4.
+
+```{r}
+count_petal_length <- iris %>% dplyr::filter(petal.length > 4) %>% dplyr::group_by(variety) %>% dplyr::summarize(count = n())
+count_petal_length
+```
+### 7. Renaming Columns
+Rename the columns sepal.length and sepal.width to sepal_length and sepal_width.
+
+```{r}
+iris <- iris %>% dplyr::rename(sepal_length=sepal.length, sepal_width=sepal.width)
+colnames(iris)
+```
+
+### 8. Filtering and Mutating
+Filter the dataset to include only the "virginica" species and ten add a column indicating whether sepal length is greater than 6.
+
+```{r}
+virginica_iris <- iris %>% dplyr::filter(variety == "virginica") %>% dplyr::mutate(sepal_length_over_6 = sepal_length > 6)
+head(virginica_iris)
+```
+### 9. Sampling Rows
+Randomly sample 10 rows from the dataset.
+
+```{r}
+sampled_iris <- iris %>% dplyr::sample_n(10)
+show(sampled_iris)
+```
+### 10. Combining Multiple dplyr Functions
+Create a new dataset that includes only the "versicolor" species, select only the petal length and petal width columns, then arrange the data by petal width in ascending order.
+
+```{r}
+versicolor_sorted <- iris %>% dplyr::filter(variety == "versicolor") %>% dplyr::select(petal.length, petal.width) %>% dplyr::arrange(petal.width)
+head(versicolor_sorted)
+```
+## Tidying data with tidyr
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(tidyr)
+```
+
+#### **Wide Format**
+In the wide format, each variable is spread out across multiple columns, and each observation (or unit) is represented by a single row.
+
+**Example with the `iris` dataset:**
+In its original wide format, the `iris` dataset looks like this:
+
+| Species    | Sepal.Length | Sepal.Width | Petal.Length | Petal.Width |
+|------------|--------------|-------------|--------------|-------------|
+| setosa     | 5.1          | 3.5         | 1.4          | 0.2         |
+| versicolor | 7.0          | 3.2         | 4.7          | 1.4         |
+| virginica  | 6.3          | 3.3         | 6.0          | 2.5         |
+
+Here, each column represents a different variable (e.g., `Sepal.Length`, `Sepal.Width`), and each row represents an observation.
+
+#### **Long Format**
+In the long format, each row corresponds to a single observation of a variable, with one column for the variable names and another for the variable values. This format is often more suitable for analysis and plotting, especially when using packages like `ggplot2`.
+
+**Example of converting the `iris` dataset to long format:**
+
+| Species    | Measurement   | Value |
+|------------|---------------|-------|
+| setosa     | Sepal.Length  | 5.1   |
+| setosa     | Sepal.Width   | 3.5   |
+| setosa     | Petal.Length  | 1.4   |
+| setosa     | Petal.Width   | 0.2   |
+| versicolor | Sepal.Length  | 7.0   |
+| versicolor | Sepal.Width   | 3.2   |
+| ...        | ...           | ...   |
+
+Here, the variables `Sepal.Length`, `Sepal.Width`, `Petal.Length`, and `Petal.Width` are consolidated into a single column called `Measurement`, with the corresponding values in another column called `Value`. Each unique combination of `Species` and `Measurement` has its own row.
+
+#### **Differences and Use Cases**
+
+- **Wide Format:**
+  - Easier to view and understand when there are a small number of variables.
+  - Each row represents a single unit or observation.
+  - Suitable for certain types of statistical modeling or when data is naturally structured this way.
+
+- **Long Format:**
+  - More efficient for data manipulation, aggregation, and visualization, especially when using tools that work well with this structure (e.g., `ggplot2` for plotting).
+  - Useful for datasets with multiple measurements per observation or when the number of variables is large.
+  - Easier to filter, group, and apply functions across different variables.
+
+### 1. Pivoting Longer
+Convert the dataset into a longer format with columns measurement and value, where measurement includes the variable names (sepal length, sepal width, petal length, petal width) and value contains the corresponding measurements.
+
+```{r}
+# unify column names
+iris <- iris %>% dplyr::rename(petal_length = petal.length, petal_width = petal.width, petal_ratio = petal.ratio)
+
+# convert to long format
+iris_long <- iris %>% tidyr::pivot_longer(cols = c(sepal_length, sepal_width, petal_length, petal_width),
+               names_to = "Measurement",
+               values_to = "Value")
+
+head(iris_long)
+```
+
+### 2. Pivoting Wider
+Take the dataset and pivot it back to original wide format.
+
+```{r}
+iris_wide <- iris_long %>% tidyr::pivot_wider(names_from = Measurement, values_from = Value)
+head(iris_wide)
+```
+
+### 3. Separating Columns
+Create a new dataset from iris where the variety column is split into two new columns: genus and species_type. Assume the first four letters represent the genus and the rest is the species type.
+
+```{r}
+iris_separated <- iris %>% tidyr::separate(variety, into = c("genus", "species_type"), sep = 4)
+head(iris_separated)
+```
+### 4. Uniting Columns
+Combine the sepal_length and sepal_width columns into a single column called sepal_dimensions with values separated by an underscore.
+
+```{r}
+iris_united <- iris %>% tidyr::unite(sepal_dimensions, sepal_length, sepal_width, sep = "_")
+head(iris_united)
+```
+
+### 5. Dropping NA values
+NA values are values missing from the dataset. Removal of NAs is a routine part of dataset pre-processing. In this exercise, we're gonna replace some values with NAs to obtain a more realistic dataset and then we're gonna remove rows with any missing values.
+
+```{r}
+set.seed(42) # for reproducibility
+
+# introduce some NA values
+iris_na <- iris %>% dplyr::mutate(sepal_length = replace(sepal_length, sample(1:n(), 10), NA))
+
+# look at the introdued NAs
+iris_na %>% dplyr::filter(is.na(sepal_length))
+```
+```{r}
+iris_no_na <- iris_na %>% tidyr::drop_na()
+
+# filter out rows with NAs in sepal_length
+iris_no_na %>% dplyr::filter(is.na(sepal_length))
+```
+
+### 6. Replacing NA Values
+In the iris_na dataset from previous example, replace the NA values in the sepal_length column with mean non-NA values of the sepal_length column.
+
+```{r}
+# calculate the man of the sepal_length column
+mean_sepal_length <- mean(iris_na$sepal_length, na.rm = TRUE)
+# replace NAs with the mean
+iris_replaced_na <- iris_na %>% tidyr::replace_na(list(sepal_length = mean_sepal_length))
+# check if NAs got replaced
+iris_replaced_na %>% dplyr::filter(is.na(sepal_length))
+```
+
+## Data visualization with ggplot2
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+library(ggplot2)
+```
+
+### 1. Basic Scatter Plot
+Create a scatter plot of sepal length vs sepal width and color the points by variety.
+
+```{r}
+ggplot(iris, aes(x = sepal_length, y = sepal_width, color = variety)) + geom_point()
+```
+
+### 2. Adding Titles and Labels
+Modify the scatter plot to include a title and x-axis and y-axis label.
+
+```{r}
+ggplot(iris, aes(x = sepal_length, y = sepal_width, color = variety)) +
+  geom_point() +
+  ggtitle("Sepal Length vs Sepal Width") +
+  xlab("Sepal Length (cm)") +
+  ylab("Sepal Width (cm)")
+```
+
+### 3. Histogram
+Create a histogram of petal length and use different colors to represent different variety.
+
+```{r}
+ggplot(iris, aes(x = petal_length, fill = variety)) +
+  geom_histogram(position = "dodge", bins = 30) +
+  xlab("Petal length (cm)") +
+  ylab("Count") +
+  ggtitle("Histogram of Petal Length by Variety")
+```
+
+### 4. Box Plot
+Create a box plot of sepal length for each variety.
+
+```{r}
+ggplot(iris, aes(x = variety, y = sepal_length, fill = variety)) +
+  geom_boxplot() +
+  ggtitle("Box Plot of Sepal Length by Variety") +
+  xlab("Variety") +
+  ylab("Sepal Length (cm)")
+```
+
+### 5. Facet Grid
+Use facetting to create separate scatter plots of petal length vs. petal width for each variety.
+
+```{r}
+ggplot(iris, aes(x = petal_length, y = petal_width)) +
+  geom_point() +
+  facet_grid(. ~ variety) +
+  ggtitle("Petal Dimensions by Variety") +
+  xlab("Petal Length (cm)") +
+  ylab("Petal Width (cm)")
+```
+
+### 6. Density Plot
+Create a density plot for sepal width for each variety, using different colors.
+
+```{r}
+ggplot(iris, aes(x = sepal_width, fill = variety)) +
+  geom_density(alpha = 0.5) + # the alpha parameter regulates color transparency and it ranges between 0.0 (fully transparent) and 1.0 (fully opaque)
+  ggtitle("Density Plot of Sepal Width by Variety") +
+  xlab("Sepal Width (cm)")
+```
+
+### 7. Line Plot
+Generate a line plot to show the average petal length by variety.
+
+```{r}
+iris_avg <- iris %>%
+  group_by(variety) %>%
+  summarize(avg_petal_length = mean(petal_length))
+
+ggplot(iris_avg, aes(x = variety, y = avg_petal_length, group = 1)) +
+  geom_line() +
+  geom_point() +
+  ggtitle("Average Petal Length by Variety") +
+  xlab("Variety") +
+  ylab("Average Petal Length (cm)")
+```
+
+### 8. Bar Chart
+Create a bar chart showing the count of observations for each variety.
+
+```{r}
+ggplot(iris, aes(x = variety, fill = variety)) +
+  geom_bar() +
+  ggtitle("Count of Observations by Variety") +
+  xlab("Variety") +
+  ylab("Count")
+```
+
+### 9. Customizing Plot Themes
+Customize a scatter plot with sepal length vs petal length to use a minimal theme and change the legend position.
+
+```{r}
+ggplot(iris, aes(x = sepal_length, y = petal_length, color = variety)) +
+  geom_point() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  ggtitle("Sepal vs. Petal Length") +
+  xlab("Sepal Length (cm)") +
+  ylab("Petal Length (cm)")
+```
+
+## Working with categorical data with `forcats`
+
+For this part we will use the `diamonds` dataset which has more columns with categorical data, namely cut, color, clarity
+
+### 1. Changing Factor Levels
+The variety names column is now of type character, change it to factor
+
+```{r}
+```
+
+### 2. Reordering Factor Levels by Alphabetical Order
+
+```{r}
+```
+
+### 3. Collapsing Factor Levels
+
+```{r}
+```
+
+### 4. Lump Factor Levels
+
+```{r}
+```
+
+### 5. Renaming Factor Levels
+
+```{r}
+```
+
+### 6. 
+
+
+
+
+
+
+
+
+
+
+
