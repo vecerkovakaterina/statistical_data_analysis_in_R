@@ -324,16 +324,114 @@ print(result)
 
 ## Concatenation
 
+The `paste` function concatenates strings with a separator, while `paste0` concatenates strings without a separator.
+
+```{r}
+str1 <- "Hello"
+str2 <- "World"
+
+# using paste
+result_paste <- paste(str1, str2, sep = " ")
+print(result_paste)
+
+# using paste0
+result_paste0 <- paste0(str1, str2)
+print(result_paste0)
+```
+
 ## Subsetting
+
+The `substr` and `substring` functions extract or replace substrings in a character vector.
+
+```{r}
+text <- "Hello World"
+
+# using substr
+sub_text <- substr(text, 1, 5)
+print(sub_text)
+
+# using substring
+sub_text2 <- substring(text, 7)
+print(sub_text2)
+```
 
 ## Length
 
+The `nchar` function returns the number of characters in a string.
+
+```{r}
+length_text <- nchar(text)
+print(length_text)
+```
+
 ## Replacement
+
+The `sub` function replaces the first instance of a pattern, while `gsub` replaces all instances.
+
+```{r}
+text <- "The rain in Spain stays mainly in the plain"
+
+# using sub
+result_sub <- sub("ain", "xxx", text)
+print(result_sub)
+
+# using gsub
+result_gsub <- gsub("ain", "xxx", text)
+print(result_gsub)
+```
 
 ## Pattern Matching
 
+The `grep` function searches for patterns and returns the indices, while `grepl` returns a logical vector indicating if a pattern was found.
+
+```{r}
+fruit <- c("apple", "banana", "cherry")
+
+# using grep
+result_grep <- grep("a", fruit)
+print(result_grep)
+
+# using grepl
+result_grepl <- grepl("a", fruit)
+print(result_grepl)
+```
+
+Functions `regexpr`, `gregexpr` and `regexc` provide more detailed pattern matching information.
+
+```{r, eval=FALSE}
+?regex
+```
+
 ## Splitting
+
+The `strsplit` function splits strings into substrings based on a delimiter.
+
+```{r}
+result_strsplit <- strsplit(text, " ")
+print(result_strsplit)
+```
 
 ## Case Conversion
 
+The `toupper` and `tolower` functions convert strings to uppercase and lowercase, respectively.
+
+```{r}
+# using toupper
+upper_text <- toupper(text)
+print(upper_text)
+
+# using tolower
+lower_text <- tolower(text)
+print(lower_text)
+```
+
 ## Trimming
+
+The `trimws` function removes leading and trailing whitespace from strings.
+
+```{r}
+text <- "   Hello World   "
+
+trimmed_text <- trimws(text)
+print(trimmed_text)
+```

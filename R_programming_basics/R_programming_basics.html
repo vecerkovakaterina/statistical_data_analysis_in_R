@@ -500,27 +500,99 @@ print(result)</code></pre>
 <h1>String operations</h1>
 <div id="concatenation" class="section level2">
 <h2>Concatenation</h2>
+<p>The <code>paste</code> function concatenates strings with a separator, while <code>paste0</code> concatenates strings without a separator.</p>
+<pre class="r"><code>str1 &lt;- &quot;Hello&quot;
+str2 &lt;- &quot;World&quot;
+
+# using paste
+result_paste &lt;- paste(str1, str2, sep = &quot; &quot;)
+print(result_paste)</code></pre>
+<pre><code>## [1] &quot;Hello World&quot;</code></pre>
+<pre class="r"><code># using paste0
+result_paste0 &lt;- paste0(str1, str2)
+print(result_paste0)</code></pre>
+<pre><code>## [1] &quot;HelloWorld&quot;</code></pre>
 </div>
 <div id="subsetting" class="section level2">
 <h2>Subsetting</h2>
+<p>The <code>substr</code> and <code>substring</code> functions extract or replace substrings in a character vector.</p>
+<pre class="r"><code>text &lt;- &quot;Hello World&quot;
+
+# using substr
+sub_text &lt;- substr(text, 1, 5)
+print(sub_text)</code></pre>
+<pre><code>## [1] &quot;Hello&quot;</code></pre>
+<pre class="r"><code># using substring
+sub_text2 &lt;- substring(text, 7)
+print(sub_text2)</code></pre>
+<pre><code>## [1] &quot;World&quot;</code></pre>
 </div>
 <div id="length" class="section level2">
 <h2>Length</h2>
+<p>The <code>nchar</code> function returns the number of characters in a string.</p>
+<pre class="r"><code>length_text &lt;- nchar(text)
+print(length_text)</code></pre>
+<pre><code>## [1] 11</code></pre>
 </div>
 <div id="replacement" class="section level2">
 <h2>Replacement</h2>
+<p>The <code>sub</code> function replaces the first instance of a pattern, while <code>gsub</code> replaces all instances.</p>
+<pre class="r"><code>text &lt;- &quot;The rain in Spain stays mainly in the plain&quot;
+
+# using sub
+result_sub &lt;- sub(&quot;ain&quot;, &quot;xxx&quot;, text)
+print(result_sub)</code></pre>
+<pre><code>## [1] &quot;The rxxx in Spain stays mainly in the plain&quot;</code></pre>
+<pre class="r"><code># using gsub
+result_gsub &lt;- gsub(&quot;ain&quot;, &quot;xxx&quot;, text)
+print(result_gsub)</code></pre>
+<pre><code>## [1] &quot;The rxxx in Spxxx stays mxxxly in the plxxx&quot;</code></pre>
 </div>
 <div id="pattern-matching" class="section level2">
 <h2>Pattern Matching</h2>
+<p>The <code>grep</code> function searches for patterns and returns the indices, while <code>grepl</code> returns a logical vector indicating if a pattern was found.</p>
+<pre class="r"><code>fruit &lt;- c(&quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot;)
+
+# using grep
+result_grep &lt;- grep(&quot;a&quot;, fruit)
+print(result_grep)</code></pre>
+<pre><code>## [1] 1 2</code></pre>
+<pre class="r"><code># using grepl
+result_grepl &lt;- grepl(&quot;a&quot;, fruit)
+print(result_grepl)</code></pre>
+<pre><code>## [1]  TRUE  TRUE FALSE</code></pre>
+<p>Functions <code>regexpr</code>, <code>gregexpr</code> and <code>regexc</code> provide more detailed pattern matching information.</p>
+<pre class="r"><code>?regex</code></pre>
 </div>
 <div id="splitting" class="section level2">
 <h2>Splitting</h2>
+<p>The <code>strsplit</code> function splits strings into substrings based on a delimiter.</p>
+<pre class="r"><code>result_strsplit &lt;- strsplit(text, &quot; &quot;)
+print(result_strsplit)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;The&quot;    &quot;rain&quot;   &quot;in&quot;     &quot;Spain&quot;  &quot;stays&quot;  &quot;mainly&quot; &quot;in&quot;     &quot;the&quot;   
+## [9] &quot;plain&quot;</code></pre>
 </div>
 <div id="case-conversion" class="section level2">
 <h2>Case Conversion</h2>
+<p>The <code>toupper</code> and <code>tolower</code> functions convert strings to uppercase and lowercase, respectively.</p>
+<pre class="r"><code># using toupper
+upper_text &lt;- toupper(text)
+print(upper_text)</code></pre>
+<pre><code>## [1] &quot;THE RAIN IN SPAIN STAYS MAINLY IN THE PLAIN&quot;</code></pre>
+<pre class="r"><code># using tolower
+lower_text &lt;- tolower(text)
+print(lower_text)</code></pre>
+<pre><code>## [1] &quot;the rain in spain stays mainly in the plain&quot;</code></pre>
 </div>
 <div id="trimming" class="section level2">
 <h2>Trimming</h2>
+<p>The <code>trimws</code> function removes leading and trailing whitespace from strings.</p>
+<pre class="r"><code>text &lt;- &quot;   Hello World   &quot;
+
+trimmed_text &lt;- trimws(text)
+print(trimmed_text)</code></pre>
+<pre><code>## [1] &quot;Hello World&quot;</code></pre>
 </div>
 </div>
 
