@@ -1,0 +1,41 @@
+---
+title: "Exploratory Data Analysis with R"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "8/15/2024"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: true
+---
+
+# Introduction to Exploratory Data Analysis (EDA)
+## What is EDA?
+## Key Steps in EDA
+# Loading and Understanding Your Data
+## Importing Data into R
+## Understanding the Structure of the Data
+## Summary Statistics
+## Inspecting Data Types
+# Data Cleaning and Preparation
+## Handling Missing Values
+## Data Transformation
+## Dealing with Outliers
+## Normalizing/Standardizing Data
+# Univariate Analysis
+## Analyzing Categorical Variables
+## Analyzing Numerical Variables
+## Exploring Distribution
+# Bivariate Analysis
+## Categorical vs. Categorical
+## Categorical vs. Numerical
+## Nuemrical vs. Numerical
+# Multivariate Analysis
+## Correlation Matrix
+## Principal Component Analysis
+## Clustering Analysis
+## Advances Visualization Techniques
+# Dealing with High-Dimensional Data
+## Dimensionality Reduction
+## Feature Selection
+# Reporting and Communicating Results
