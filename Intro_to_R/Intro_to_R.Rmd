@@ -1,12 +1,13 @@
 ---
 title: "Introduction to R"
-author: "Katerina Vecerkova vecerkok@vscht.cz"
+author: "Kateřina Večerková vecerkok@vscht.cz"
 date: "6/27/2024"
 runtime: shiny
-output:
+output: 
   html_document:
     toc: true
-    number_sections: true
+    toc_float:
+      collapsed: true
 ---
 
 # Introduction
