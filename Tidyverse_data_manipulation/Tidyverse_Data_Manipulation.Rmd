@@ -5,6 +5,8 @@ date: "8/1/2024"
 output: 
   html_document:
     toc: true
+    toc_float:
+      collapsed: true
 ---
 
 # `tidyverse` data manipulation
@@ -23,6 +25,7 @@ The `tidyverse` is a collection of R packages developed for data science. All `t
 To install the complete tidyverse, use
 ```{r, message=FALSE, warning=FALSE, results='hide'}
 install.packages("tidyverse")
+library(tidyverse)
 ```
 
 ## Loading data from files with readr
@@ -364,43 +367,596 @@ ggplot(iris, aes(x = sepal_length, y = petal_length, color = variety)) +
 
 ## Working with categorical data with `forcats`
 
-For this part we will use the `diamonds` dataset which has more columns with categorical data, namely cut, color, clarity
-
-### 1. Changing Factor Levels
-The variety names column is now of type character, change it to factor
+For this part we will use the `diamonds` dataset which has more columns with categorical data, namely cut, color, clarity.
 
 ```{r}
+library(ggplot2)
+diamonds$color
 ```
 
-### 2. Reordering Factor Levels by Alphabetical Order
+### 1. Reordering Factor Levels by Median Price
+
+Reorder the `cut` factor levels in the `diamonds` dataset by the median `price` of diamonds in each `cut` category, in descending order.
 
 ```{r}
+levels(diamonds$cut)
+
+diamonds$cut <- forcats::fct_reorder(diamonds$cut, diamonds$price, .fun = median, .desc = TRUE)
+
+levels(diamonds$cut)
 ```
 
-### 3. Collapsing Factor Levels
+### 2. Lump Rare Levels in `color`
+
+Lump the least common levels of the `color` factor into an "Other" category, keeping only the top 4 most common colors distinct.
 
 ```{r}
+levels(diamonds$color)
+
+diamonds$color <- forcats::fct_lump_n(diamonds$color, n = 4)
+
+levels(diamonds$color)
 ```
 
-### 4. Lump Factor Levels
+### 3. Collapsing Levels of `clarity`
+
+Combine the `clarity` levels into broader categories:
+
+- "Low" for I1, SI2, SI1
+- "Medium" for VS2, VS1
+- "High" for VVS2, VVS1, IF
 
 ```{r}
+levels(diamonds$clarity)
+
+diamonds$clarity <- forcats::fct_collapse(diamonds$clarity,
+                                 Low = c("I1", "SI2", "SI1"),
+                                 Medium = c("VS2", "VS1"),
+                                 High = c("VVS2", "VVS1", "IF"))
+
+levels(diamonds$clarity)
 ```
 
-### 5. Renaming Factor Levels
+### 4. Renaming Factor Levels
+
+Rename the cut factor levels to more descriptive names:
+
+- "Fair" to "Fair Cut"
+- "Good" to "Good Cut"
+- "Very Good" to "Very Good Cut"
+- "Premium" to "Premium Cut"
+- "Ideal" to "Ideal Cut"
 
 ```{r}
+diamonds$cut <- forcats::fct_recode(diamonds$cut,
+                           "Fair Cut" = "Fair",
+                           "Good Cut" = "Good",
+                           "Very Good Cut" = "Very Good",
+                           "Premium Cut" = "Premium",
+                           "Ideal Cut" = "Ideal")
+
+levels(diamonds$cut)
 ```
 
-### 6. 
+### 5. Reverse Order of Levels
 
+Reverse the order of the levels in the `clarity` factor.
 
+```{r}
+levels(diamonds$clarity)
 
+diamonds$clarity <- forcats::fct_rev(diamonds$clarity)
 
+levels(diamonds$clarity)
+```
 
+### 6. Dropping Unused Levels
 
+Create a subset of the diamonds `dataset` that only includes `Premium` and `Ideal` cuts, and then remove the unused levels from the `cut` factor.
 
+```{r}
+diamonds_subset <- diamonds %>%
+  dplyr::filter(cut %in% c("Premium", "Ideal"))
 
+diamonds_subset$cut <- forcats::fct_drop(diamonds_subset$cut)
 
+levels(diamonds_subset$cut)
+```
 
+### 7. Convert a Numeric Variable to a Factor
 
+Convert the `carat` variable into a categorical factor by binning it into intervals:
+
+- 0.0-0.5 carats
+- 0.5-1.0 carats
+- 1.0-1.5 carats
+- 1.5-2.0 carats
+- 2.0+ carats
+
+```{r}
+diamonds$carat_bin <- cut(diamonds$carat, 
+                          breaks = c(0, 0.5, 1, 1.5, 2, Inf), 
+                          labels = c("0-0.5", "0.5-1.0", "1.0-1.5", "1.5-2.0", "2.0+"))
+
+levels(diamonds$carat_bin)
+```
+
+## String Manipulation with `stringr`
+
+```{r}
+library(stringr)
+```
+
+### 1. Detecting Patterns in Strings
+
+Find all rows in the `diamonds` dataset where the `cut` contains the substring "Good"
+
+```{r}
+good_cut_diamonds <- diamonds[stringr::str_detect(diamonds$cut, "Good"), ]
+head(good_cut_diamonds)
+```
+
+### 2. Extracting Parts of a String
+
+Create a string vector of diamond IDs in the format "Diamond_ID-XXXXX", where "XXXXX" is the row number. Then, extract just the numeric ID part from these strings.
+
+```{r}
+diamond_ids <- str_c("Diamond_ID-", rownames(diamonds))
+extracted_ids <- stringr::str_extract(diamond_ids, "\\d+")
+head(extracted_ids)
+```
+
+### 3. Replacing Substring
+
+Replace all instances of "Good" in the `cut` column with "Decent"
+
+```{r}
+head(diamonds$cut)
+diamonds$cut <- stringr::str_replace(diamonds$cut, "Good", "Decent")
+head(diamonds$cut)
+```
+
+### 4. Splitting Strings
+
+Split a hypothetical column of carat weights stored as a string with a unit (e.g., "1.5 carats") into numeric and unit components.
+
+```{r}
+carat_strings <- c("1.5 carats", "2.0 carats", "0.9 carats")
+split_carat <- stringr::str_split(carat_strings, " ", simplify = TRUE)
+carat_values <- as.numeric(split_carat[, 1])
+carat_units <- split_carat[, 2]
+
+head(carat_values)
+head(carat_units)
+```
+
+### 5. String Length
+
+Calculate the number of characters in each level of the `cut` column
+
+```{r}
+cut_lengths <- stringr::str_length(diamonds$cut)
+head(cut_lengths)
+```
+
+### 6. Combining Strings
+
+Combine the `cut`, `color` and `clarity` columns into a single string, separated by hyphensm to create a unique identifier for each diamond
+
+```{r}
+diamond_id <- stringr::str_c(diamonds$cut, diamonds$color, diamonds$clarity, sep = "-")
+head(diamond_id)
+
+```
+
+### 7. Detecting Digits
+
+Create a vector of mixed strings and identify which ones contain numeric digits
+
+```{r}
+mixed_strings <- c("carat 2.5", "weight", "price $500", "value 1000")
+contains_digits <- stringr::str_detect(mixed_strings, "\\d")
+contains_digits
+```
+
+### 8. Trimming Whitespace
+
+Remove leading and trailing whitespace from a vector of strings representing diamond descriptions
+
+```{r}
+diamond_descriptions <- c("  Ideal Cut  ", "  Premium Quality ", "Fair Cut ")
+trimmed_descriptions <- stringr::str_trim(diamond_descriptions)
+trimmed_descriptions
+```
+
+### 9. Counting Substring Occurences
+
+Count how many times the letter "e" appears in the `cut` column across the entire dataset
+
+```{r}
+e_count <- stringr::str_count(diamonds$cut, "e")
+total_e_count <- sum(e_count)
+total_e_count
+```
+
+### 10. Repeating Strings
+
+Create a string that repeats the word "Diamond" five times, separated by spaces
+
+```{r}
+repeated_string <- stringr::str_dup("Diamond", 5)
+repeated_string
+```
+
+### 11. Changing Case
+
+Covert the `color` column in the `diamonds` dataset to uppercase
+
+```{r}
+head(diamonds$color)
+diamonds$color <- stringr::str_to_upper(diamonds$color)
+head(diamonds$color)
+```
+
+### 12. Subsetting Strings
+
+Taken the first three characters from each value in the `clarity` column
+
+```{r}
+clarity_subset <- stringr::str_sub(diamonds$clarity, 1, 3)
+head(clarity_subset)
+```
+
+### 13. Padding Strings
+
+Create a column of diamond IDs (like in Exercise 2) and pad them with zeros on the left so that all IDs have five digits
+
+```{r}
+diamond_ids <- stringr::str_pad(row.names(diamonds), width = 5, pad = "0")
+head(diamond_ids)
+```
+
+## Date and Time Manipualtion with `lubridate`
+
+```{r}
+library(lubridate)
+```
+
+### 1. Parsing Dates
+
+Convert the string "2023-08-15" into a date object
+
+```{r}
+date <- lubridate::ymd("2023-08-15")
+date
+```
+
+### 2. Extracting Date Components
+
+From the date "2024-12-25", extract the year, month, and day
+
+```{r}
+date <- lubridate::ymd("2024-12-25")
+year <- lubridate::year(date)
+month <- lubridate::month(date)
+day <- lubridate::day(date)
+
+year
+month
+day
+```
+
+### 3. Handling Different Date Formats
+
+Parse the date "15-August-2023" into a date object
+
+```{r}
+date <- lubridate::dmy("15-August-2023")
+date
+```
+
+### 4. Adding and Subtracting Time Intervals
+
+Add 3 months to the date "2023-01-01" and subtract 10 days from it
+
+```{r}
+date <- lubridate::ymd("2023-01-01")
+date_plus_3_months <- date %m+% months(3)
+date_minus_10_days <- date - days(10)
+
+date_plus_3_months
+date_minus_10_days
+```
+
+### 5. Calculating Time Differences
+
+Calculate the number of days between "2023-01-01" and "2024-01-01"
+
+```{r}
+date1 <- lubridate::ymd("2023-01-01")
+date2 <- lubridate::ymd("2024-01-01")
+days_diff <- as.numeric(difftime(date2, date1, units = "days"))
+
+days_diff
+```
+
+### 6. Working with Date-Time Objects
+
+Create a date-time object for "2023-08-15 12:34:56"
+
+```{r}
+datetime <- lubridate::ymd_hms("2023-08-15 12:34:56")
+datetime
+```
+
+### 7. Extracting Time Components
+
+From the date-time "2023-08-15 12:34:56", extract the hour, minute, and second
+
+```{r}
+datetime <- lubridate::ymd_hms("2023-08-15 12:34:56")
+hour <- lubridate::hour(datetime)
+minute <- lubridate::minute(datetime)
+second <- lubridate::second(datetime)
+
+hour
+minute
+second
+```
+
+### 8. Rounding Dates
+
+Round the date-time "2023-08-15 12:34:56" to the nearest hour
+
+```{r}
+datetime <- lubridate::ymd_hms("2023-08-15 12:34:56")
+rounded_datetime <- lubridate::round_date(datetime, unit = "hour")
+
+rounded_datetime
+```
+
+### 9. Finding the Day of the Week
+
+Determine the day of the week for "2023-08-15"
+
+```{r}
+date <- lubridate::ymd("2023-08-15")
+day_of_week <- lubridate::wday(date, label = TRUE)
+
+day_of_week
+```
+
+### 10. Converting Time Zones
+
+Convert the date-time "2023-08-15 12:34:56" from UTC to the "America/New_York" time zone
+
+```{r}
+datetime_utc <- lubridate::ymd_hms("2023-08-15 12:34:56", tz = "UTC")
+datetime_ny <- lubridate::with_tz(datetime_utc, tzone = "America/New_York")
+
+datetime_ny
+```
+
+## Modern reimagining of data frames with `tibble`
+
+```{r}
+library(tibble)
+```
+
+### 1. Creating a Simple Tibble
+
+Create a tibble with three columns: `Name` (character), `Age` (numeric), and `Height` (numeric)
+
+```{r}
+people <- tibble::tibble(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Height = c(160, 175, 168)
+)
+
+people
+```
+
+### 2. Adding a New Column to a Tibble
+
+Add a new column `Weight` to the `people` tibble created in Exercise 1
+
+```{r}
+people <- people %>%
+  dplyr::mutate(Weight = c(55, 70, 68))
+
+people
+```
+
+### 3. Converting a Data Frame to a Tibble
+
+Convert the built-in `mtcars` data frame to a tibble.
+
+```{r}
+mtcars_tibble <- tibble::as_tibble(mtcars)
+mtcars_tibble
+```
+
+### 4. Accessing Columns in a Tibble
+
+Access the `mpg` column of the `mtcars_tibble` created in Exercise 3 using the `$` operator.
+
+```{r}
+mpg_column <- mtcars_tibble$mpg
+mpg_column
+```
+
+### 5. Accessing Rows in a Tibble
+
+Access the first 5 rows of the `mtcars_tibble`
+
+```{r}
+first_five_rows <- mtcars_tibble[1:5, ]
+first_five_rows
+```
+
+### 6. Creating a Tibble with Different Data Types
+
+Create a tibble with a date column, a logical column, and a character column
+
+```{r}
+mixed_tibble <- tibble::tibble(
+  Date = as.Date(c("2023-01-01", "2023-01-02", "2023-01-03")),
+  Logical = c(TRUE, FALSE, TRUE),
+  Category = c("A", "B", "C")
+)
+
+mixed_tibble
+```
+
+### 7. Renaming Columns in a Tibble
+
+Rename the columns in the `people` tibble to `Full_Name`, `Age_Years`, and `Height_cm`
+
+```{r}
+people <- people %>%
+  dplyr::rename(
+    Full_Name = Name,
+    Age_Years = Age,
+    Height_cm = Height
+  )
+
+people
+```
+
+### 8. Subsetting a Tibble with `filter` and `select`
+
+Subset the `mtcars_tibble` to only include rows where `mpg` is greater than 20 and select only the `mpg`, `hp`, and `wt` columns
+
+```{r}
+filtered_tibble <- mtcars_tibble %>%
+  dplyr::filter(mpg > 20) %>%
+  dplyr::select(mpg, hp, wt)
+
+filtered_tibble
+```
+
+## Functional Programming with `purrr`
+
+```{r}
+library(purrr)
+```
+
+### 1. Applying a Function to Each Element in a List
+
+Create a list of numeric vectors and apply the `mean` function to each vector
+
+```{r}
+num_list <- list(c(1, 2, 3), c(4, 5, 6, 7), c(8, 9))
+means <- purrr::map_dbl(num_list, mean)
+
+means
+```
+
+### 2. Mapping Over Multiple Lists 
+
+Given two lists of numeric vectors, sum corresponding elements of each vector
+
+```{r}
+list1 <- list(c(1, 2, 3), c(4, 5))
+list2 <- list(c(10, 20, 30), c(40, 50))
+sums <- purrr::map2(list1, list2, ~ .x + .x)
+
+sums
+```
+
+### 3. Extracting Elements from a List of Lists
+
+Extract the first element from each sublist in a list of lists
+
+```{r}
+nested_list <- list(
+  list(a = 1, b = 2),
+  list(a = 3, b = 4),
+  list(a = 5, b = 6)
+)
+first_elements <- purrr::map(nested_list, "a")
+
+first_elements
+```
+
+### 4. Safely Applying Functions to Avoid Errors
+
+Use `safely` to apply a function that might fail (e.g., division) to a list of values, handling errors gracefully.
+
+```{r}
+safe_divide <- safely(~ 10 / .x)
+
+results <- purrr::map(list(2, 0, 5), safe_divide)
+results
+```
+
+### 5. Flattening a List of Lists
+
+Flatten a list of lists into a single list
+
+```{r}
+nested_list <- list(list(1, 2), list(3, 4), list(5, 6))
+flat_list <- purrr::flatten(nested_list)
+
+flat_list
+```
+
+### 6. Creating a tibble from a List
+
+Create a tibble from a list where each element is a vector of the same length
+
+```{r}
+list_data <- list(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 35),
+  Height = c(160, 175, 168)
+)
+
+people_tibble <- tibble::as_tibble(list_data)
+people_tibble
+```
+
+### 7. Applying a Function Over Multiple Arguments
+
+Given two numeric vectors, apply a function that calculates the maximum of each pair of elements
+
+```{r}
+vec1 <- c(1, 4, 3)
+vec2 <- c(2, 3, 5)
+
+max_values <- map2_dbl(vec1, vec2, max)
+max_values
+```
+
+### 8. Mapping Functions to Columns of a Data Frame
+
+Apply the `mean` function to each column in the `mtcars` dataset
+
+```{r}
+mtcars_means <- purrr::map_dbl(mtcars, mean)
+
+mtcars_means
+```
+
+### 9. Applying a Function Conditionally
+
+Apply a function to each element of a list only if the element meets a certain condition (e.g., is greater than 3)
+
+```{r}
+num_list <- list(1, 4, 3, 6, 2)
+
+results <- purrr::map_if(num_list, ~ .x > 3, ~ .x * 2)
+results
+```
+
+### 10. Reducing a List to a Single Value
+
+Use `reduce` to calculate the cumulative product of a list of numbers
+
+```{r}
+num_list <- list(1, 2, 3, 4, 5)
+
+product <- purrr::reduce(num_list, `*`)
+product
+```
