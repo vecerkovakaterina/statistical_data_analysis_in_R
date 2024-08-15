@@ -2,9 +2,11 @@
 title: "R programming basics"
 author: "Katerina Vecerkova"
 date: "7/11/2024"
-output:
+output: 
   html_document:
     toc: true
+    toc_float:
+      collapsed: true
 ---
 
 # Operators
