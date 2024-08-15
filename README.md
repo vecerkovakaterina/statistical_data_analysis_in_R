@@ -9,4 +9,5 @@ These tutorials are inspired by these two books:
 1. Intro to R
 2. R programming basics
 3. Data manipulation with tidyverse
-4.
+4. Exploratory Data Analysis
+5. 
