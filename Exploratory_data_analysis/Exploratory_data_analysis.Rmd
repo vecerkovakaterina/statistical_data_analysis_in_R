@@ -11,14 +11,174 @@ output:
 
 # Introduction to Exploratory Data Analysis (EDA)
 ## What is EDA?
+
+Exploratory Data Analysis (EDA) is the first and crucial step when working with any dataset. It allows us to familiarize ourselves with the data by summarizing its main characteristics, using graphs and visualizations, and forming informed hypotheses. EDA helps in driving the selection of features for modeling by understanding the data and uncovering patterns, trends, missing values, anomalies, or relationships that guide further analysis.
+
 ## Key Steps in EDA
+
+- **Understanding Variable Types:** Identify and understand the different types of variables in your dataset.
+- **Univariate Analysis:** Summarize and visualize each variable individually to understand its distribution and basic statistics using histograms, box plots, and measures of central tendency.
+- **Bivariate Analysis:** Explore the relationship between two variables at a time with scatter plots, correlation analyses, and similar techniques.
+- **Multivariate Analysis:** Investigate relationships among more than two variables using techniques such as correlation matrices, pair plots, and dimensionality reduction methods like Principal Component Analysis (PCA).
+- **Data Cleaning and Transformation:** Address missing values, transform variables, engineer new features, and select relevant features for further analysis.
+
+## Introducing the Titanic Dataset
+
+For this tutorial, we will use the Titanic dataset, a classic dataset in data science and machine learning. The Titanic dataset provides information about the passengers who were aboard the RMS Titanic, which tragically sank on its maiden voyage in 1912. 
+
+This dataset is rich in both categorical and numerical variables, making it ideal for practicing Exploratory Data Analysis (EDA). It includes information such as:
+
+- **PassengerId:** A unique identifier for each passenger.
+- **Survived:** Whether the passenger survived (1) or did not survive (0).
+- **Pclass:** The passenger's class (1st, 2nd, or 3rd).
+- **Name:** The name of the passenger.
+- **Sex:** The gender of the passenger.
+- **Age:** The age of the passenger.
+- **SibSp:** The number of siblings or spouses the passenger had aboard the Titanic.
+- **Parch:** The number of parents or children the passenger had aboard the Titanic.
+- **Ticket:** The ticket number.
+- **Fare:** The amount of money the passenger paid for the ticket.
+- **Cabin:** The cabin number (if available).
+- **Embarked:** The port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton).
+
+The Titanic dataset is widely used for tutorials because it offers a variety of data types and challenges, such as missing values, categorical data, and potential interactions between variables. It’s a great way to practice EDA techniques and gain insights that can guide more advanced analyses or predictive modeling.
+
+Throughout this tutorial, we will perform an Exploratory Data Analysis on the Titanic dataset to understand the characteristics of the passengers, explore survival rates, and identify key factors that might have influenced survival.
+
 # Loading and Understanding Your Data
+
+```{r, warning=FALSE, message=FALSE}
+install.packages("tidyverse")
+install.packages("plyr")
+library(plyr)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+```
+
 ## Importing Data into R
+
+```{r}
+library(readr)
+titanic_data <- read_csv("titanic.csv")
+head(titanic_data)
+```
+
 ## Understanding the Structure of the Data
+
+The `str()` function provides a concise summary of the dataset, showing the number of observations (rows), the number of variables (columns) and the data type for ieach variable (e.g. integer, factor, character).
+
+```{r}
+str(titanic_data)
+```
+
 ## Summary Statistics
-## Inspecting Data Types
+
+To get a quick summary of each variable including basic descriptive statistics for numerical variables and frequency counts for categorical variables, use the `summary()` function.
+
+```{r}
+summary(titanic_data)
+```
+
+## Identifying Missing Values
+
+```{r}
+colSums(is.na(titanic_data))
+```
+
+Here we can see that the columns `Age`, `Cabin`, `Embarked` contain missing values, we will need to pay attention to this during data cleaning.
+
 # Data Cleaning and Preparation
+
+Before diving deeper into analysis, it’s crucial to ensure that your data is clean, consistent, and ready for exploration. Data cleaning and preparation is a foundational step in any data analysis project, where we address issues like missing values, inconsistencies, and incorrect data types. This process not only improves the quality of your analysis but also helps in drawing more accurate and reliable conclusions.
+
+In this chapter, we will walk through the essential techniques and best practices for cleaning and preparing your dataset. By the end of this section, you'll be equipped to handle common data challenges and transform raw data into a structured format that’s ready for analysis.
+
 ## Handling Missing Values
+
+Common approaches to dealing with missing data:
+
+- remove rows with missing values entirely
+- imputing missing data with
+  - mean/median/mode
+  - neighboring values
+  - predicted values
+- leaving missing data as is (tree-based methods)
+
+What do you think are their pros & cons?
+
+### Missing values in the `Age` column
+
+```{r}
+# let's first examine the distribution of values in the Age column
+library(ggplot2)
+ggplot(titanic_data, aes(x=Age)) + geom_histogram(bins = 30)
+```
+
+Notice the warning caused by the 177 missing values.
+
+```{r}
+qqnorm(titanic_data$Age)
+qqline(titanic_data$Age, col="steelblue", lwd = 2)
+```
+
+We see that the distribution of `Age` is skewed to the left (positive skew). We will use the most common value to fill in the missing ones. Which is why we will use
+
+- the mean,
+- the mode or
+- the median?
+
+```{r}
+# create frequency table and get mode
+frequency_table <- table(titanic_data$Age)
+mode_value <- as.numeric(names(frequency_table)[which.max(frequency_table)])
+mode_value
+```
+
+Unfortunately there is no implemented function for `mode` in R, so we will create a frequency table for all the values in the `Age` column and pick the most frequent one, which in this case is 24.
+
+```{r}
+# replace missing values in the Age column with the mode
+titanic_data <- titanic_data %>% mutate(Age = replace_na(Age, mode_value))
+sum(is.na(titanic_data$Age))
+```
+
+```{r}
+ggplot(titanic_data, aes(x=Age)) + geom_histogram(bins = 30)
+```
+
+From the histogram after imputation we can see that we modified the distribution significantly. It is a compromise that we need to take because in this case our best guess is the mode.
+
+### Missing values in the Cabin column
+
+687 out of 891 of the values in the Cabin column are missing which tells us that this column is not very informative or the survival probability. For this specific case, we will remove the column from the dataset entirely.
+
+```{r}
+# drop the Cabin column
+titanic_data <- titanic_data %>% select(-Cabin)
+head(titanic_data)
+```
+
+### Missing values in the Embarked column
+
+The Embarked column is a categorical one with three possible values: S, C or Q. The most frequent one is S (644 occurrences out of 889). We will replace the missing values with the most frequent one.
+
+```{r}
+ggplot(titanic_data, aes(x = Embarked)) + geom_bar()
+```
+
+```{r}
+# replace the missing values in the Embarked column
+count_table <- titanic_data %>% plyr::count("Embarked")
+most_frequent <- count_table %>% filter(freq == max(freq)) %>% pull("Embarked")
+titanic_data <- titanic_data %>% mutate(Embarked = replace_na(Embarked, most_frequent))
+sum(is.na(titanic_data$Embarked))
+```
+
+```{r}
+ggplot(titanic_data, aes(x = Embarked)) + geom_bar()
+```
+
 ## Data Transformation
 ## Dealing with Outliers
 ## Normalizing/Standardizing Data
@@ -29,7 +189,7 @@ output:
 # Bivariate Analysis
 ## Categorical vs. Categorical
 ## Categorical vs. Numerical
-## Nuemrical vs. Numerical
+## Numerical vs. Numerical
 # Multivariate Analysis
 ## Correlation Matrix
 ## Principal Component Analysis
