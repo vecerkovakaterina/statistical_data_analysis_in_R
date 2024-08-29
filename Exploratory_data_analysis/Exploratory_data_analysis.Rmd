@@ -50,10 +50,14 @@ Throughout this tutorial, we will perform an Exploratory Data Analysis on the Ti
 ```{r, warning=FALSE, message=FALSE}
 install.packages("tidyverse")
 install.packages("plyr")
+install.packages("patchwork")
+install.packages("reshape2")
+library(patchwork)
 library(plyr)
 library(tidyverse)
 library(dplyr)
 library(tidyr)
+library(reshape2)
 ```
 
 ## Importing Data into R
@@ -178,18 +182,184 @@ sum(is.na(titanic_data$Embarked))
 ```{r}
 ggplot(titanic_data, aes(x = Embarked)) + geom_bar()
 ```
+Finally let's convert the column type to categorical.
+
+```{r}
+titanic_data$Embarked <- as.factor(titanic_data$Embarked)
+```
 
 ## Data Transformation
+
+Data transformation is a crucial step in data preparation and analysis. It involves modifying, reshaping, or aggregating your data to make it more suitable for analysis. This process allows you to derive new insights, prepare data for modeling, and ensure that the dataset is in the right format for visualization or further processing.
+
+### Column names
+
+```{r}
+# check if columns are named consistently
+colnames(titanic_data)
+# some of the column names are not self-explanatory, some are also shortened, let's unify them
+titanic_data <- titanic_data %>% rename(passenger_id = PassengerId, survived = Survived, passenger_class = Pclass, name = Name, sex = Sex, age = Age, siblings_spouses = SibSp, parents_children = Parch, ticket = Ticket, fare = Fare, embarked = Embarked)
+colnames(titanic_data)
+```
+
+### Changing column data types
+
+```{r}
+# the intention here is to minimize the number of unique values in each column to reduce dimensionality
+lapply(titanic_data %>% select(-passenger_id, -name, -ticket), unique) # exclude columns that obviously have a unique value in each row
+```
+
+```{r}
+# even though the data type of the age column is float, most values in the age column are an integer, let's convert the values to the closest integer
+titanic_data <- titanic_data %>% mutate(age = round(age))
+```
+
+```{r}
+unique(titanic_data$age)
+```
+
+We reduced the number of unique values in the `age` column from 88 to 71. Another float column with a lot of unique values if the `fare` column. Let's try to see if the correlation with the `survived` column changes if we round these values.
+
+```{r}
+titanic_data <- titanic_data %>% mutate(fare_rounded = round(fare))
+cor(titanic_data$fare, titanic_data$survived)
+cor(titanic_data$fare_rounded, titanic_data$survived)
+```
+
+```{r}
+titanic_data <- titanic_data %>% select(-fare) %>% rename(fare = fare_rounded)
+length(unique(titanic_data$fare))
+```
+
+The correlation coefficient doesn't get affected much and we reduced the number of unique values from 248 to 90!
+
+The next step is to convert the `sex` column to categorical.
+
+```{r}
+titanic_data$sex <- as.factor(titanic_data$sex)
+```
+
+### Creating new columns
+
+Here we will focus on creating new columns. Is there a column that combines more pieces information that could be split into more columns? Let's look at the `name` column. What can we extract from it?
+
+#### Extracting title from `name`
+
+```{r}
+head(titanic_data$name)
+```
+
+It seems that the `name` column follows the format: last_name, title first_name(s) "nickname" (more_first_names?).
+
+```{r}
+# first we split the last name from the title and the last name separated by ","
+titanic_data <- titanic_data %>% mutate(title_and_first_names = (str_split(name, ", ", simplify = TRUE))[,2])
+titanic_data <- titanic_data %>% mutate(title = str_split(title_and_first_names, " ", simplify = TRUE)[, 1])
+titanic_data <- titanic_data %>% select(-title_and_first_names)
+head(titanic_data$title)
+```
+
+```{r}
+ggplot(titanic_data, aes(x = title)) + geom_bar()
+```
+
+Now that we successfuly extracted the title, let's look at the values. We see that there are some dominant titles like Mr., Mrs., Miss., Master and maybe even Dr. and Rev. The remaining titles are rare. To reduce the number of unique values let's classify these rare titles into Other.
+
+```{r}
+titanic_data <- titanic_data %>% mutate(
+    title = if_else(title %in% c("Mr.", "Mrs.", "Miss.", "Master.", "Dr.", "Rev."), 
+                    title, 
+                    "Other")
+  )
+```
+
+```{r}
+ggplot(titanic_data, aes(x = title)) + geom_bar()
+```
+
+```{r}
+# finally let's convert the title column to categorical
+titanic_data$title <- as.factor(titanic_data$title)
+```
+
+```{r}
+str(titanic_data)
+```
+
 ## Dealing with Outliers
+
+```{r}
+# let's identify outliers of the numerical columns
+
+p1 <- ggplot(titanic_data, aes(x = age)) + geom_boxplot() + coord_flip()
+p2 <- ggplot(titanic_data, aes(x = siblings_spouses)) + geom_boxplot() + coord_flip()
+p3 <- ggplot(titanic_data, aes(x = parents_children)) + geom_boxplot() + coord_flip()
+p4 <- ggplot(titanic_data, aes(x = fare)) + geom_boxplot() + coord_flip()
+
+combined_plot <- p1 + p2 + p3 + p4 + plot_layout(ncol = 4)
+
+combined_plot
+```
+Discussion: how would you treat these outliers?
+
 ## Normalizing/Standardizing Data
-# Univariate Analysis
-## Analyzing Categorical Variables
-## Analyzing Numerical Variables
-## Exploring Distribution
+
+### Introduction to Normalization and Standardization
+
+- **Normalization**: Scaling features to a fixed range, typically [0, 1]. Useful when you need features to be on a similar scale, especially for algorithms that are sensitive to the magnitude of features, like neural networks. Many algorithms perform better when features are on a similar scale. Features with larger scaled can dominate distance metrics and gradient-based methods.
+- **Standardization**: Transforming features to have a mean of 0 and a standard deviation of 1. Useful when data needs to have the properties of a standard normal distribution, which is important for algorithms that assume normally distributed data, like linear regression.
+
+### Some Exaplmes of Methods for Normalizing/Standardizing Data
+
+- **Min-Max Normalization** `(x - min(x)) / (max(x) - min(x))`
+- **Z-Score Standardization** `(x - mean(x)) / sd(x)`
+- **Robust Scaling** `(x - median(x)) / IQR(x)`
+
+We have 4 numerical columns: `siblings_spouses`, `parents_children`, `age` and `fare`. When it comes to the first two, even though they are quantitative, they have specific interpretations in their raw form so we won't normalize/standardize them. The `age` and `fare` column however we'll normalize.
+
+```{r}
+# min-max normalization of the age column
+normalize <- function(x) {
+  (x - min(x)) / (max(x) - min(x))
+}
+
+titanic_data <- titanic_data %>%
+  mutate(
+    age = normalize(age)
+  )
+
+ggplot(titanic_data, aes(x = age)) + geom_histogram(bins = 30)
+```
+
+```{r}
+# robust scaling of the fare column
+robust_scale <- function(x) {
+  (x - median(x, na.rm = TRUE)) / IQR(x, na.rm = TRUE)
+}
+
+titanic_data <- titanic_data %>%
+  mutate(
+    fare = robust_scale(fare)
+  )
+
+ggplot(titanic_data, aes(x = fare)) + geom_histogram(bins = 30)
+```
+
+
 # Bivariate Analysis
-## Categorical vs. Categorical
-## Categorical vs. Numerical
-## Numerical vs. Numerical
+
+## Correlation Analysis
+
+```{r}
+correlation_matrix <- round(cor(titanic_data %>% select(survived, passenger_class, age, siblings_spouses, parents_children, fare)), 2) # considering only numerical columns
+melted_correlation_matrix <- melt(correlation_matrix)
+ggplot(data = melted_correlation_matrix, aes(x = Var1, y = Var2, fill = value)) + geom_tile()
+```
+
+## Scatter Plots
+## Box Plots
+## Bar Plots
+
 # Multivariate Analysis
 ## Correlation Matrix
 ## Principal Component Analysis
