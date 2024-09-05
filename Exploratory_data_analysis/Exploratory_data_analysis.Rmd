@@ -52,12 +52,16 @@ install.packages("tidyverse")
 install.packages("plyr")
 install.packages("patchwork")
 install.packages("reshape2")
+install.packages("GGally")
+install.packages("factoextra")
 library(patchwork)
 library(plyr)
 library(tidyverse)
 library(dplyr)
 library(tidyr)
 library(reshape2)
+library(GGally)
+library(factoextra)
 ```
 
 ## Importing Data into R
@@ -221,14 +225,14 @@ unique(titanic_data$age)
 We reduced the number of unique values in the `age` column from 88 to 71. Another float column with a lot of unique values if the `fare` column. Let's try to see if the correlation with the `survived` column changes if we round these values.
 
 ```{r}
-titanic_data <- titanic_data %>% mutate(fare_rounded = round(fare))
-cor(titanic_data$fare, titanic_data$survived)
-cor(titanic_data$fare_rounded, titanic_data$survived)
+# titanic_data <- titanic_data %>% mutate(fare_rounded = round(fare))
+# cor(titanic_data$fare, titanic_data$survived)
+# cor(titanic_data$fare_rounded, titanic_data$survived)
 ```
 
 ```{r}
-titanic_data <- titanic_data %>% select(-fare) %>% rename(fare = fare_rounded)
-length(unique(titanic_data$fare))
+# titanic_data <- titanic_data %>% select(-fare) %>% rename(fare = fare_rounded)
+# length(unique(titanic_data$fare))
 ```
 
 The correlation coefficient doesn't get affected much and we reduced the number of unique values from 248 to 90!
@@ -357,14 +361,140 @@ ggplot(data = melted_correlation_matrix, aes(x = Var1, y = Var2, fill = value)) 
 ```
 
 ## Scatter Plots
-## Box Plots
-## Bar Plots
+
+```{r}
+p1 <- ggplot(titanic_data, aes(x = passenger_class, y = survived)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Passenger class vs Survived")
+
+p2 <- ggplot(titanic_data, aes(x = age, y = survived)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Age vs Survived")
+
+p3 <- ggplot(titanic_data, aes(x = siblings_spouses, y = survived)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Number of siblings and spouses vs Survived")
+
+p4 <- ggplot(titanic_data, aes(x = parents_children, y = survived)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Number of parents and children vs Survived")
+
+p5 <- ggplot(titanic_data, aes(x = fare, y = survived)) +
+  geom_point(alpha = 0.5) +
+  labs(title = "Fare vs Survived")
+
+# combine individual plots with patchwork
+(p1 | p2 | p3) / (p4 | p5)
+```
+
+## Pair Plots
+
+```{r}
+# select relevant columns
+numeric_columns <- titanic_data %>% dplyr::select(age, fare, siblings_spouses, parents_children, survived)
+
+# create a pair plot
+ggpairs(numeric_columns) +
+  labs(title = "Pair Plot of Selected Titanic Dataset Variables")
+```
 
 # Multivariate Analysis
-## Correlation Matrix
+
+Multivariate analysis enables you to uncover more complex patterns in your data by exploring relationships between multiple variables simultaneously.
+
 ## Principal Component Analysis
+
+```{r}
+# select numeric columns for PCA
+numeric_columns <- titanic_data %>%
+  dplyr::select(age, fare, siblings_spouses, parents_children, survived) %>%
+  na.omit()  # remove rows with missing values
+
+# perform PCA
+pca_result <- prcomp(numeric_columns, scale. = TRUE)
+pca_scores <- as.data.frame(pca_result$x)
+
+# add the survived column to the pca scores
+pca_scores$survived <- numeric_columns$survived
+```
+
+```{r}
+ggplot(pca_scores, aes(x = PC1, y = PC2)) +
+  geom_point(alpha = 0.7, aes(color = survived)) +
+  labs(title = "PC1 vs PC2", x = "PC1", y = "PC2") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(pca_scores, aes(x = PC2, y = PC3)) +
+  geom_point(alpha = 0.7, aes(color = survived)) +
+  labs(title = "PC2 vs PC3", x = "PC2", y = "PC3") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(pca_scores, aes(x = PC1, y = PC3)) +
+  geom_point(alpha = 0.7, aes(color = survived)) +
+  labs(title = "PC1 vs PC3", x = "PC1", y = "PC3") +
+  theme_minimal()
+```
+
 ## Clustering Analysis
-## Advances Visualization Techniques
+
+```{r}
+# standardize or normalize the numerical features to ensure they are on a similar scale
+scaled_data <- scale(numeric_columns)
+```
+
+### K-means clustering
+
+```{r}
+# use methods like Elbow Method or Silhouette Analysis to decide the optimal number of clusters
+fviz_nbclust(scaled_data, kmeans, method = "wss")
+```
+
+```{r}
+set.seed(123)  # for reproducibility
+
+# perform k-means clustering
+kmeans_result <- kmeans(scaled_data, centers = 3, nstart = 25)
+
+# add cluster assignments to the original data
+titanic_data$cluster <- kmeans_result$cluster
+
+# visualize clusters
+ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster))) +
+  geom_point(alpha = 0.6) +
+  labs(title = "K-means Clustering", color = "Cluster") +
+  theme_minimal()
+```
+
+### Hierarchical clustering
+
+```{r}
+# compute distance matrix
+dist_matrix <- dist(scaled_data)
+
+# perform hierarchnical clustering
+hclust_result <- hclust(dist_matrix, method = "ward.D2")
+
+# cut tree to get clusters
+clusters_hc <- cutree(hclust_result, k = 3)
+
+# add cluster assignments to the original data
+titanic_data$cluster_hc <- clusters_hc
+
+# plot dendrogram
+plot(hclust_result, main = "Hierarchical Clustering Dendrogram") # TODO fix
+```
+
+```{r}
+ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster_hc))) +
+  geom_point(alpha = 0.6) +
+  labs(title = "Hierarchical Clustering", color = "Cluster") +
+  theme_minimal()
+```
+
 # Dealing with High-Dimensional Data
 ## Dimensionality Reduction
 ## Feature Selection
