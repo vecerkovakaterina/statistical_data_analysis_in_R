@@ -1,0 +1,91 @@
+---
+title: "Parameter Estimation"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "9/12/2024"
+output: html_document
+---
+
+# Introduction to Point Estimation
+
+Point estimation is a statistical method used to estimate an unknown population parameter based on sample data. A point estimator provides a single value as an estimate of a parameter. This value is called a point estimate.
+
+## Key Concepts
+
+1. **Population Parameter**: A value that describes a characteristic of a population, such as the mean or variance. It is usually unknown.
+2. **Sample Statistic**: A value calculated from sample data that serves as an estimate of the population parameter.
+3. **Point Estimator**: A rule or formula used to calculate the sample statistic that estimates the population parameter.
+
+Common point estimators include:
+- **Sample Mean**: An estimate of the population mean.
+- **Sample Variance**: An estimate of the population variance.
+
+In this tutorial, we will explore how to calculate and interpret these common point estimators using R.
+
+# Examples of Point Estimation
+
+We will use the built-in `mtcars` dataset in R for our examples. This dataset contains information about various car models, including miles per gallon (mpg), number of cylinders, horsepower, and more.
+
+## Setting Up
+
+```{r setup, include=FALSE}
+# load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# load the mtcars dataset
+data(mtcars)
+```
+
+## Estimating the Population Mean
+
+The sample mean is a point estimate of the population mean. It is calculated by summing all sample values and dividing by the number of values.
+
+### Example
+
+Calculate the sample mean of the `mpg` (miles per gallon) variable.
+
+```{r}
+# calculate sample mean of the 'mpg' variable
+mean_mpg <- mean(mtcars$mpg)
+mean_mpg
+```
+
+### Exercise 1
+
+Calculate the sample mean of the `hp` (horsepower) variable in the `mtcars` dataset.
+
+```{r}
+# TODO your code here
+```
+
+## Estimating the Population Variance
+
+The sample variance is a point estimate of the population variance. It measures the dispersion of the sample values from the sample mean.
+
+### Example
+
+Calculate the sample variance of the `mpg` variable.
+
+```{r}
+# calculate sample variance of the 'mpg' variable
+var_mpg <- var(mtcars$mpg)
+var_mpg
+```
+
+### Exercise 2
+
+Calculate the sample variance of the `wt` (weight) variable in the `mtcars` dataset.
+
+```{r}
+# TODO your code here
+```
+
+### Exercise 3
+
+Calculate the sample mean and sample variance of the `qsec` (1/4 mile time) variable in the `mtcars` dataset.
+
+```{r}
+# calculate sample mean and variance of the 'qsec' variable
+# TODO your code here
+```
+
