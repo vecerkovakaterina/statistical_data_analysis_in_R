@@ -352,7 +352,11 @@ ggplot(titanic_data, aes(x = fare)) + geom_histogram(bins = 30)
 
 # Bivariate Analysis
 
+Bivariate Analysis examines the relationship between two variables to understand their interactions and correlations. Techniques used include scatter plots, which visually depict the relationship between two variables, and correlation coefficients, which quantify the strength and direction of their linear relationship. Bivariate analysis helps in identifying patterns, associations, and potential predictive relationships between variables.
+
 ## Correlation Analysis
+
+Correlation Analysis evaluates the strength and direction of the linear relationship between two variables. It is quantified using the correlation coefficient, which ranges from -1 to 1. A coefficient close to 1 indicates a strong positive relationship, close to -1 indicates a strong negative relationship, and around 0 suggests no linear relationship. Correlation analysis helps in understanding how changes in one variable might be associated with changes in another.
 
 ```{r}
 correlation_matrix <- round(cor(titanic_data %>% select(survived, passenger_class, age, siblings_spouses, parents_children, fare)), 2) # considering only numerical columns
@@ -361,6 +365,8 @@ ggplot(data = melted_correlation_matrix, aes(x = Var1, y = Var2, fill = value)) 
 ```
 
 ## Scatter Plots
+
+Scatter Plot is a graphical representation that displays the relationship between two continuous variables. Each point on the plot represents an observation, with its position determined by the values of the two variables. Scatter plots help visualize trends, correlations, and the distribution of data, making it easier to identify patterns, clusters, or outliers.
 
 ```{r}
 p1 <- ggplot(titanic_data, aes(x = passenger_class, y = survived)) +
@@ -389,6 +395,8 @@ p5 <- ggplot(titanic_data, aes(x = fare, y = survived)) +
 
 ## Pair Plots
 
+Pair Plot (or scatterplot matrix) is a grid of scatter plots that shows the relationships between all pairs of variables in a dataset. Each cell in the matrix is a scatter plot of two variables, while the diagonal typically shows the distribution of each variable. Pair plots provide a comprehensive view of the interactions between variables, helping to identify correlations and patterns across multiple dimensions.
+
 ```{r}
 # select relevant columns
 numeric_columns <- titanic_data %>% dplyr::select(age, fare, siblings_spouses, parents_children, survived)
@@ -403,6 +411,8 @@ ggpairs(numeric_columns) +
 Multivariate analysis enables you to uncover more complex patterns in your data by exploring relationships between multiple variables simultaneously.
 
 ## Principal Component Analysis
+
+Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms data into a set of orthogonal components (principal components) that capture the most variance in the data. By projecting the data onto these components, PCA reduces the number of variables while preserving as much of the original variability as possible. This is useful for simplifying datasets, revealing underlying structures, and visualizing high-dimensional data in lower dimensions.
 
 ```{r}
 # select numeric columns for PCA
@@ -441,12 +451,16 @@ ggplot(pca_scores, aes(x = PC1, y = PC3)) +
 
 ## Clustering Analysis
 
+Clustering Analysis involves grouping data points into clusters such that points within the same cluster are more similar to each other than to those in other clusters. The goal is to identify natural groupings in the data. Common methods include k-means clustering, which partitions data into a predefined number of clusters by minimizing the distance between points and their cluster centroids, and hierarchical clustering, which builds a hierarchy of clusters through either iterative merging (agglomerative) or splitting (divisive). Clustering helps in discovering patterns and segmenting data for further analysis.
+
 ```{r}
 # standardize or normalize the numerical features to ensure they are on a similar scale
 scaled_data <- scale(numeric_columns)
 ```
 
 ### K-means clustering
+
+K-means clustering partitions a dataset into *k* clusters by iteratively assigning data points to the nearest centroid and updating the centroids based on the mean of assigned points. The process continues until the centroids stabilize or a set number of iterations is reached. It is efficient for large datasets but requires specifying *k* and can be sensitive to initial centroid placement and outliers.
 
 ```{r}
 # use methods like Elbow Method or Silhouette Analysis to decide the optimal number of clusters
@@ -471,6 +485,8 @@ ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster))) +
 
 ### Hierarchical clustering
 
+Hierarchical clustering creates a tree-like structure of clusters called a dendrogram. Agglomerative hierarchical clustering starts with each point as its own cluster and merges the closest clusters iteratively. Divisive hierarchical clustering starts with one large cluster and splits it iteratively. It doesn’t require specifying the number of clusters beforehand but can be computationally intensive for large datasets and does not allow for reassigning data points once clusters are formed.
+
 ```{r}
 # compute distance matrix
 dist_matrix <- dist(scaled_data)
@@ -485,7 +501,7 @@ clusters_hc <- cutree(hclust_result, k = 3)
 titanic_data$cluster_hc <- clusters_hc
 
 # plot dendrogram
-plot(hclust_result, main = "Hierarchical Clustering Dendrogram") # TODO fix
+plot(hclust_result, main = "Hierarchical Clustering Dendrogram", labels = FALSE)
 ```
 
 ```{r}
@@ -496,6 +512,15 @@ ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster_hc))) +
 ```
 
 # Dealing with High-Dimensional Data
-## Dimensionality Reduction
-## Feature Selection
-# Reporting and Communicating Results
+
+## PCA
+We have already covered principal component analysis above.
+
+```{r}
+ggplot(pca_scores, aes(x = PC1, y = PC2)) +
+  geom_point(alpha = 0.7, aes(color = survived)) +
+  labs(title = "PC1 vs PC2", x = "PC1", y = "PC2") +
+  theme_minimal()
+```
+
+Other options for dimensionality reduction are t-SNE, UMAP or MDS.
