@@ -1,0 +1,206 @@
+---
+title: 'R programming basic: Exercises'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "9/12/2024"
+output: html_document
+---
+
+# Exercises
+
+## Arithmetic Operators
+
+1. **Addition Exercise**
+   - Calculate the result of adding 12 and 8.
+
+```{r}
+# TODO your code here
+```
+
+2. **Modulus Exercise**
+   - Find the remainder when 29 is divided by 6.
+
+```{r}
+# TODO your code here
+```
+
+## Logical Operators
+
+1. **Logical AND Exercise**
+   - Evaluate the result of `TRUE & FALSE`.
+
+```{r}
+# TODO your code here
+```
+
+2. **Logical OR Exercise**
+   - Determine the result of `TRUE | FALSE`.
+
+```{r}
+# TODO your code here
+```
+
+## Relational Operators
+
+1. **Equality Check**
+   - Check if `7` is equal to `5`.
+   
+```{r}
+# TODO your code here
+```
+
+2. **Greater Than Check**
+   - Verify if `10` is greater than `3`.
+
+```{r}
+# TODO your code here
+```
+
+## Assignment Operators
+
+1. **Left Assignment**
+   - Assign the value `15` to a variable named `x` using the left assignment operator `<-`.
+
+```{r}
+# TODO your code here
+```
+
+2. **Right Assignment**
+   - Assign the value `20` to a variable named `y` using the right assignment operator `->`.
+
+```{r}
+# TODO your code here
+```
+
+## Miscellaneous Operators
+
+1. **Sequence Creation**
+   - Create a sequence from 1 to 10 using the `:` operator.
+   
+```{r}
+# TODO your code here
+```
+
+2. **List Subsetting**
+   - Access the first column of a data frame `df` where `df` is created with `a = 1:3` and `b = 4:6`.
+
+```{r}
+   df <- data.frame(a = 1:3, b = 4:6)
+# TODO your code here
+```
+
+## Variables
+
+1. **Variable Assignment**
+   - Assign the value `7` to a variable named `result` and then print it.
+
+```{r}
+# TODO your code here
+```
+
+2. **Variable Re-assignment**
+   - Reassign the value `10` to the variable `result` and print the updated value.
+
+```{r}
+# TODO your code here
+```
+
+## Data Types
+
+1. **Identify Data Type**
+   - Check the type of the variable `num` which is assigned the value `3.14`.
+   - Hint: Use `typeof()`.
+
+```{r}
+num <- 3.14
+# TODO your code here
+```
+
+2. **Create a Factor**
+   - Create a factor variable `fact` with levels `male` and `female`, and assign it the value `female`.
+
+```{r}
+# TODO your code here
+```
+
+## Functions
+
+1. **Create a Function**
+   - Define a function `multiply` that takes two arguments and returns their product.
+   - Hint: Use `function()` to define the function.
+
+```{r}
+multiply <- function(a, b) {
+# TODO your code here
+}
+```
+
+2. **Function with Default Argument**
+   - Define a function `subtract` with default argument value `10`. It should subtract a given number from this default value.
+   - Hint: Provide a default value for the argument in the function definition.
+
+```{r}
+subtract <- function(x = 10) {
+ # TODO your code here
+}
+```
+
+## Control Structures
+
+1. **If-Else Statement**
+   - Write an `if` statement to check if `x` is less than `10`, and print "x is less than 10" if true, otherwise print "x is 10 or more".
+   - Hint: Use `if` and `else`.
+
+```{r}
+x <- 8
+# TODO your code here
+```
+
+2. **For Loop**
+   - Write a `for` loop to print numbers from `1` to `3`.
+
+```{r}
+# TODO your code here
+```
+
+## String Operations
+
+1. **String Concatenation**
+   - Concatenate the strings `"Data"` and `"Science"` with a space in between.
+
+```{r}
+str1 <- "Data"
+str2 <- "Science"
+# TODO your code here
+```
+
+2. **Substring Extraction**
+   - Extract the substring from position `1` to `4` of the string `"Programming"`.
+
+```{r}
+text <- "Programming"
+# TODO your code here
+```
+
+3. **String Replacement**
+   - Replace all occurrences of `"the"` with `"a"` in the string `"The quick brown fox jumps over the lazy dog"`.
+
+```{r}
+text <- "The quick brown fox jumps over the lazy dog"
+# TODO your code here
+```
+
+4. **Case Conversion**
+   - Convert the string `"hello world"` to uppercase.
+
+```{r}
+text <- "hello world"
+# TODO your code here
+```
+
+5. **String Splitting**
+   - Split the string `"apple,banana,cherry"` by commas.
+
+```{r}
+text <- "apple,banana,cherry"
+# TODO your code here
+```
