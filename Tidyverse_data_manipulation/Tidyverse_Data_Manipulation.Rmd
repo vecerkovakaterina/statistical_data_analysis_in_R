@@ -960,3 +960,89 @@ num_list <- list(1, 2, 3, 4, 5)
 product <- purrr::reduce(num_list, `*`)
 product
 ```
+
+## Functional Programming with `purrr`
+
+```{r}
+library(purrr)
+```
+
+### 1. Applying a Function to Each Element in a List
+
+Create a list of numeric vectors and apply the `mean` function to each vector.
+
+```{r}
+# TODO your code here
+```
+
+### 2. Mapping Over Multiple Lists
+
+Given two lists of numeric vectors, sum corresponding elements of each vector.
+
+```{r}
+# TODO your code here
+```
+
+### 3. Extracting Elements from a List of Lists
+
+Extract the first element from each sublist in a list of lists.
+
+```{r}
+# TODO your code here
+```
+
+### 4. Safely Applying Functions to Avoid Errors
+
+Use `safely` to apply a function that might fail (e.g., division) to a list of values, handling errors gracefully.
+
+```{r}
+# TODO your code here
+```
+
+### 5. Flattening a List of Lists
+
+Flatten a list of lists into a single list.
+
+```{r}
+# TODO your code here
+```
+
+### 6. Creating a tibble from a List
+
+Create a tibble from a list where each element is a vector of the same length.
+
+```{r}
+# TODO your code here
+```
+
+### 7. Applying a Function Over Multiple Arguments
+
+Given two numeric vectors, apply a function that calculates the maximum of each pair of elements.
+
+```{r}
+# TODO your code here
+```
+
+### 8. Mapping Functions to Columns of a Data Frame
+
+Apply the `mean` function to each column in the `mtcars` dataset.
+
+```{r}
+# TODO your code here
+```
+
+### 9. Applying a Function Conditionally
+
+Apply a function to each element of a list only if the element meets a certain condition (e.g., is greater than 3).
+
+```{r}
+# TODO your code here
+```
+
+### 10. Reducing a List to a Single Value
+
+Use `reduce` to calculate the cumulative product of a list of numbers.
+
+```{r}
+# TODO your code here
+```
