@@ -1,0 +1,96 @@
+---
+title: 'Intro to R: Exercises'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "9/12/2024"
+output: html_document
+---
+
+Great, thanks for sharing your R Markdown content! I'll create exercises based on the various sections of your tutorial. Here they are:
+
+---
+
+# R Markdown Tutorial Exercises
+
+## Exercise 1: Installing and Loading Packages
+
+### Task:
+1. **Install the `ggplot2` and `dplyr` packages**
+2. **Load these packages**
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 2: Navigating RStudio
+
+### Task:
+1. **Run the following command in RStudio** to access the documentation for the `nrow` function:
+
+```{r}
+# TODO your code here
+```
+
+2. **Create a new R script** in RStudio and run the entire script using the Run All option.
+
+## Exercise 3: Working with R Projects and `renv`
+
+### Task:
+1. **Initialize a new project with a `renv` environment**
+
+   **Hint:** Use `renv::init()` to initialize a new environment or check the box in the dialog window when creating new R project.
+
+2. **Install the `ggplot2` and `dplyr` packages** within this `renv` environment.
+
+3. **Take a snapshot of the current environment** to create an `renv.lock` file:
+
+```{r}
+# TODO your code here
+```
+
+4. **Restore the environment** from the `renv.lock` file to ensure consistency.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 4: Creating an R Markdown Document
+
+### Task:
+1. **Write a simple R Markdown document** that includes:
+   - A title and author in the YAML header.
+   - A section with a heading and a paragraph describing what R is.
+   - An R code chunk that calculates and displays the mean of a numeric vector.
+
+   **Hint:** Use `rmarkdown::render()` to generate the document from your R Markdown file.
+
+   ```markdown
+   ---
+   title: "Simple Report"
+   author: "Your Name"
+   output: html_document
+   ---
+
+   ## Introduction to R
+
+   R is a programming language used for statistical analysis.
+
+   ```{r}
+   # Numeric vector
+   numbers <- c(1, 2, 3, 4, 5)
+   
+   # Calculate mean
+   mean_value <- mean(numbers)
+   mean_value
+   ```
+   ```
+
+## Exercise 5: Building a Shiny App
+
+### Task:
+1. **Create a basic Shiny app** with a slider input to select a range and a plot output that displays a line plot based on the selected range.
+
+   **Hint:** Define `ui` for the user interface and `server` for server-side logic. Use `shinyApp()` to run the app.
+
+```{r}
+# TODO your code here
+```
