@@ -5,10 +5,6 @@ date: "9/12/2024"
 output: html_document
 ---
 
-Great, thanks for sharing your R Markdown content! I'll create exercises based on the various sections of your tutorial. Here they are:
-
----
-
 # R Markdown Tutorial Exercises
 
 ## Exercise 1: Installing and Loading Packages
