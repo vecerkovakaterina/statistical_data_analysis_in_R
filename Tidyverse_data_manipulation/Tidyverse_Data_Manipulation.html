@@ -410,18 +410,18 @@ head(virginica_iris)</code></pre>
 <pre class="r"><code>sampled_iris &lt;- iris %&gt;% dplyr::sample_n(10)
 show(sampled_iris)</code></pre>
 <pre><code>## # A tibble: 10 × 6
-##    sepal_length sepal_width petal.length petal.width variety    petal.ratio
-##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;
-##  1          6.9         3.2          5.7         2.3 virginica         2.48
-##  2          5.1         3.5          1.4         0.2 setosa            7   
-##  3          5.6         3            4.5         1.5 versicolor        3   
-##  4          6.1         2.8          4.7         1.2 versicolor        3.92
-##  5          5.1         3.8          1.5         0.3 setosa            5   
-##  6          6           2.7          5.1         1.6 versicolor        3.19
-##  7          5.7         3            4.2         1.2 versicolor        3.5 
-##  8          5.5         3.5          1.3         0.2 setosa            6.5 
-##  9          6           2.2          4           1   versicolor        4   
-## 10          5.2         2.7          3.9         1.4 versicolor        2.79</code></pre>
+##    sepal_length sepal_width petal.length petal.width variety   petal.ratio
+##           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;           &lt;dbl&gt;
+##  1          6.3         3.3          6           2.5 virginica        2.4 
+##  2          5.3         3.7          1.5         0.2 setosa           7.5 
+##  3          4.3         3            1.1         0.1 setosa          11   
+##  4          6.7         3.3          5.7         2.1 virginica        2.71
+##  5          6.7         3.1          5.6         2.4 virginica        2.33
+##  6          6           2.2          5           1.5 virginica        3.33
+##  7          5.4         3.9          1.3         0.4 setosa           3.25
+##  8          4.9         3.1          1.5         0.1 setosa          15   
+##  9          6.3         3.4          5.6         2.4 virginica        2.33
+## 10          4.9         2.5          4.5         1.7 virginica        2.65</code></pre>
 </div>
 <div id="combining-multiple-dplyr-functions" class="section level3">
 <h3>10. Combining Multiple dplyr Functions</h3>
@@ -2909,6 +2909,60 @@ results</code></pre>
 product &lt;- purrr::reduce(num_list, `*`)
 product</code></pre>
 <pre><code>## [1] 120</code></pre>
+</div>
+</div>
+<div id="functional-programming-with-purrr-1" class="section level2">
+<h2>Functional Programming with <code>purrr</code></h2>
+<pre class="r"><code>library(purrr)</code></pre>
+<div id="applying-a-function-to-each-element-in-a-list-1" class="section level3">
+<h3>1. Applying a Function to Each Element in a List</h3>
+<p>Create a list of numeric vectors and apply the <code>mean</code> function to each vector.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="mapping-over-multiple-lists-1" class="section level3">
+<h3>2. Mapping Over Multiple Lists</h3>
+<p>Given two lists of numeric vectors, sum corresponding elements of each vector.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="extracting-elements-from-a-list-of-lists-1" class="section level3">
+<h3>3. Extracting Elements from a List of Lists</h3>
+<p>Extract the first element from each sublist in a list of lists.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="safely-applying-functions-to-avoid-errors-1" class="section level3">
+<h3>4. Safely Applying Functions to Avoid Errors</h3>
+<p>Use <code>safely</code> to apply a function that might fail (e.g., division) to a list of values, handling errors gracefully.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="flattening-a-list-of-lists-1" class="section level3">
+<h3>5. Flattening a List of Lists</h3>
+<p>Flatten a list of lists into a single list.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="creating-a-tibble-from-a-list-1" class="section level3">
+<h3>6. Creating a tibble from a List</h3>
+<p>Create a tibble from a list where each element is a vector of the same length.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="applying-a-function-over-multiple-arguments-1" class="section level3">
+<h3>7. Applying a Function Over Multiple Arguments</h3>
+<p>Given two numeric vectors, apply a function that calculates the maximum of each pair of elements.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="mapping-functions-to-columns-of-a-data-frame-1" class="section level3">
+<h3>8. Mapping Functions to Columns of a Data Frame</h3>
+<p>Apply the <code>mean</code> function to each column in the <code>mtcars</code> dataset.</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="applying-a-function-conditionally-1" class="section level3">
+<h3>9. Applying a Function Conditionally</h3>
+<p>Apply a function to each element of a list only if the element meets a certain condition (e.g., is greater than 3).</p>
+<pre class="r"><code># TODO your code here</code></pre>
+</div>
+<div id="reducing-a-list-to-a-single-value-1" class="section level3">
+<h3>10. Reducing a List to a Single Value</h3>
+<p>Use <code>reduce</code> to calculate the cumulative product of a list of numbers.</p>
+<pre class="r"><code># TODO your code here</code></pre>
 </div>
 </div>
 </div>
