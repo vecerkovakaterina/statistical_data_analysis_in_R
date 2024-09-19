@@ -1,0 +1,136 @@
+---
+title: "Random Variable"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "9/12/2024"
+output: html_document
+---
+
+```{r, message=FALSE, warning=FALSE, results='hide'}
+install.packages("ggplot2")
+install.packages("dplyr")
+library(ggplot2)
+library(dplyr)
+```
+
+# Random Variable, PMF, PDF, and CDF
+
+## Introduction
+In this tutorial, we will explore the concept of a random variable in statistics, understand its types, and see how to work with random variables in R. By the end of this session, you should be able to define random variables, differentiate between discrete and continuous types, and model probability distributions using R.
+
+## What is a Random Variable?
+A random variable is a numerical outcome of a random process. For example, when you toss a coin, the outcome (heads or tails) can be assigned numerical values.
+
+- **Discrete Random Variable:** A variable that can take on a finite or countable number of values (e.g., number of heads in 5 coin tosses).
+- **Continuous Random Variable:** A variable that can take on an infinite number of values within a given range (e.g., the height of students in a class).
+
+## Discrete Random Variables
+
+Discrete random variables can take on a finite set of possible values. For example, rolling a die can result in one of the numbers 1 through 6.
+
+```{r}
+# simulate a die roll
+set.seed(42) # fix randomisation seed so that we'll all get the same result
+rolls <- sample(1:6, size = 1000, replace = TRUE)
+table(rolls)
+```
+
+### **Probability Mass Function (PMF) (Pravděpodobnostní funkce)**
+   - **Definition:** Probability mass function is the probability distribution of a discrete random variable, and provides the possible values and their associated probabilities. Simply said it's a function that gives the probability that a discrete random variable is exactly equal to some value.
+   - **Properties:** PMFs are non-negative for every possible outcome and the probabilities sum to one.
+
+```{r}
+# plot the PMF of the die rolls above
+rolls_data <- as.data.frame(table(rolls))
+colnames(rolls_data) <- c("roll", "frequency")
+rolls_data$roll <- as.factor(rolls_data$roll)
+rolls_data$probability <- rolls_data$frequency / sum(rolls_data$frequency)
+
+ggplot(rolls_data, aes(x = roll, y = probability)) +
+  geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+  labs(title = "Probability Mass Function of Dice Rolls",
+       x = "Roll Outcome",
+       y = "Probability") +
+  theme_minimal()
+```
+
+### **Cumulative Distribution Function (CDF) for Discrete Variables**
+   - **Definition:** Cumulative Distribution Function (CDF) for Discrete Variables
+   - **Relationship to PMF:** The CDF is derived from the PMF by summation.
+   - **Properties:** CDF is right-continuous non-decreasing, the values range between 0 and 1, in minus inf it limits to 0 and in plus inf to 1.
+
+```{r}
+# calculate the cumulative probabilities (CDF)
+rolls_data$cumulative_probability <- cumsum(rolls_data$probability)
+
+# plot the CDF using a step plot
+ggplot(rolls_data, aes(x = as.numeric(as.character(roll)), y = cumulative_probability)) +
+  geom_step(color = 'blue', size = 1) +
+  labs(title = "Cumulative Distribution Function (CDF) of Dice Rolls",
+       x = "Roll Outcome",
+       y = "Cumulative Probability") +
+  scale_x_continuous(breaks = 1:6) +  # Ensure x-axis only shows discrete values from 1 to 6
+  theme_minimal()
+```
+Warning! The plot above is not completely accurate, can you tell why?
+
+## Continuous Random Variables
+
+Continuous random variables can take on any value within a range. For example, the height of students in a class.
+
+```{r}
+# simulate heights of students in a class
+heights <- rnorm(1000, mean=170, sd=10)
+heights[1:10] # look at first ten values
+```
+
+### **Probability Density Function (PDF) (Hustota pravděpodobnosti)**
+   - **Definition:** The Probability Density Function (PDF) describes the probability distribution of a continuous random variable by indicating how the probabilities are distributed over the values of the variable. Unlike the PMF, the PDF does not give probabilities directly; instead, the probability that the variable falls within a certain interval is found by calculating the area under the curve of the PDF over that interval. The probability at any single exact point is zero, continuous random variables are calculated over intervals, which involved finding the area under the curve of the PDF across that range.
+   - **Properties:** PDF is always non-negative for all possible values, the total area equals 1.
+
+```{r}
+# plotting the PDF of the height of students above
+ggplot(data.frame(heights = heights), aes(x = heights)) +
+  geom_density(color = 'blue', fill = 'lightblue', alpha = 0.5) +  # Density plot for the PDF
+  labs(title = "PDF of Heights (mean = 170, sd = 10)",
+       x = "Height (cm)", y = "Density") +
+  theme_minimal()
+```
+
+### **Cumulative Distribution Function (CDF) for Continuous Variables**
+   - **Definition:** The Cumulative Distribution Function (CDF) for continuous random variables is a function that gives the probability that the random variable X takes a value less than or equal to x.
+   - **Relationship to PDF:** The CDF is derived from the PDF by integration.
+   - **Properties:** CDF is right-continuous non-decreasing, the values range between 0 and 1, in minus inf it limits to 0 and in plus inf to 1.
+
+```{r}
+# calculate the CDF
+heights_data <- data.frame(heights = heights)
+heights_data <- heights_data %>% arrange(heights)
+heights_data$cdf <- (1:nrow(heights_data)) / nrow(heights_data)
+
+# plot the CDF
+ggplot(heights_data, aes(x = heights, y = cdf)) +
+  geom_step(color = 'blue', size = 1) +
+  labs(title = "Cumulative Distribution Function (CDF) of Heights",
+       x = "Height",
+       y = "Cumulative Probability") +
+  theme_minimal()
+```
+
+
+
+## Examples and Exercises
+
+### 6. **Discrete Random Variable Example**
+   - **Example:** Use a specific discrete random variable (e.g., the number of heads in a coin toss) to illustrate PMF and CDF calculations.
+   - **Exercise:** Calculate and plot the PMF and CDF for this example.
+
+### 7. **Continuous Random Variable Example**
+   - **Example:** Use a specific continuous random variable (e.g., the height of individuals) to illustrate PDF and CDF calculations.
+   - **Exercise:** Calculate and plot the PDF and CDF for this example.
+
+### 8. **Advanced Exercises**
+   - **Exercise 1:** Calculate the PMF and CDF for a custom discrete random variable.
+   - **Exercise 2:** Calculate the PDF and CDF for a custom continuous random variable.
+   - **Exercise 3:** Compare and contrast the PMF/PDF and their corresponding CDFs.
+   
+# TODOs pnorm, qnorm
