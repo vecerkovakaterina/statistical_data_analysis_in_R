@@ -1,0 +1,76 @@
+---
+title: 'Central Limit Theorem: Exercises'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-09-26"
+output: html_document
+---
+
+# Central Limit Theorem Exercises
+
+## Exercise 1: Simulating a Population Distribution
+Create a population distribution using a non-normal distribution (e.g., exponential or uniform). 
+- Simulate a population of 10,000 values.
+- Plot the population distribution.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 2: Sampling from the Population
+Take random samples from the population you created in Exercise 1.
+- Draw 30 random samples, each containing 50 observations.
+- Calculate and store the means of these samples.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 3: Distribution of Sample Means
+Plot the distribution of the sample means you calculated in Exercise 2.
+- Use a histogram or density plot to visualize the distribution of sample means.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 4: Verifying the CLT
+- Create a function to simulate sampling from the population and plotting the distribution of sample means.
+- Test the function with different sample sizes (e.g., 10, 30, 100) and observe how the distribution of the sample means changes.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 5: Standard Error of the Mean
+- Calculate the standard error of the mean (SEM) for your sample means from Exercise 2.
+- Explain how SEM relates to the sample size and the variability of the population.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 6: Confidence Intervals
+Using the sample means calculated in Exercise 2:
+- Calculate a 95% confidence interval for the population mean based on your sample means.
+- Interpret what this interval means in the context of your simulation.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 7: Real-World Application
+Research a dataset (e.g., heights of individuals, test scores) and:
+- Load the dataset into R and explore its distribution.
+- Use the CLT to take samples and demonstrate the theorem by comparing the sample means distribution to the population distribution.
+
+```{r}
+# TODO your code here
+```
+
+## Exercise 8: Reflection
+Write a brief reflection on how understanding the Central Limit Theorem is beneficial in real-world data analysis situations.
+
+```{r}
+# TODO your reflections here
+```
+
