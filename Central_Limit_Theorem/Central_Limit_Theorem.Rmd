@@ -1,0 +1,144 @@
+---
+title: "Central Limit Theorem"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-09-26"
+output: html_document
+---
+
+# Central Limit Theorem
+
+## 1. Introduction to the Central Limit Theorem
+
+In this tutorial, we will introduce the concept of the Central Limit Theorem (CLT), why is it important, and how it forms the foundation of many statistical techniques, including hypothesis testing and constructing confidence intervals.
+
+### What is the Central Limit Theorem (CLT)?
+
+The Central Limit Theorem states that the distribution of the sample mean of a sufficientry large sample, drawn from any population, **approaches a normal distribution**.
+
+**In simpler terms:** When we take the mean of different random samples from a population, those sample means will tend to follow a normal distribution as the sample size increases, no matter how the original data is distributed.
+
+### Key Components of the CLT
+
+1. **Independence**: The samples must be drawn independently from the population. This means that the selection of one sample does not influence the selection of another sample.
+2. **Sample Size**: While the theorem holds true for any sample size, a larger sample size (typically n ≥ 30) will yield a distribution of sample means that more closely resembles a normal distribution.
+3. **Finite Mean and Variance**: The population from which the samples are drawn must have a finite mean and finite variance.
+
+### Demonstrating the CLT
+
+```{r}
+# set seed for reproducibility
+set.seed(123)
+
+# generate data from different population distributions
+normal_dist <- rnorm(1000, mean = 50, sd = 10)   # normal distribution
+exponential_dist <- rexp(1000, rate = 0.1)       # exponential distribution
+uniform_dist <- runif(1000, min = 20, max = 80)  # uniform distribution
+
+# function to take samples and calculate sample means
+sample_means <- function(data, sample_size, num_samples) {
+  means <- replicate(num_samples, mean(sample(data, size = sample_size, replace = TRUE)))
+  return(means)
+}
+
+# set parameters for sampling
+sample_size <- 30      # sample size
+num_samples <- 1000    # number of samples
+
+# calculate sample means for each distribution
+normal_means <- sample_means(normal_dist, sample_size, num_samples)
+exponential_means <- sample_means(exponential_dist, sample_size, num_samples)
+uniform_means <- sample_means(uniform_dist, sample_size, num_samples)
+
+# plotting histograms to visualize the distributions and sample means
+par(mfrow = c(2, 3))  # set up a plotting grid of two rows and three columns
+
+# plot normal distribution
+hist(normal_dist, main = "Normal Distribution", 
+     xlab = "Value", col = "skyblue", border = "white", freq = FALSE)
+lines(density(normal_dist), col = "blue", lwd = 2)
+
+# plot exponential distribution
+hist(exponential_dist, main = "Exponential Distribution", 
+     xlab = "Value", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(exponential_dist), col = "green", lwd = 2)
+
+# plot uniform distribution
+hist(uniform_dist, main = "Uniform Distribution", 
+     xlab = "Value", col = "orange", border = "white", freq = FALSE)
+lines(density(uniform_dist), col = "red", lwd = 2)
+
+# plot sample means for normal distribution
+hist(normal_means, main = "Sample Means", 
+     xlab = "Sample Mean", col = "lightblue", border = "white", freq = FALSE)
+lines(density(normal_means), col = "blue", lwd = 2)
+
+# plot sample means for exponential distribution
+hist(exponential_means, main = "Sample Means", 
+     xlab = "Sample Mean", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(exponential_means), col = "green", lwd = 2)
+
+# plot sample means for uniform distribution
+hist(uniform_means, main = "Sample Means", 
+     xlab = "Sample Mean", col = "orange", border = "white", freq = FALSE)
+lines(density(uniform_means), col = "red", lwd = 2)
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))
+```
+## 2. Sampling from Populations
+
+Sampling is a fundamental process in statistics that involves selecting a subset of individuals, items, or observations from a larger population to estimate characteristics of that population. The method of sampling and the size of the sample play crucial roles in the validity and reliability of the conclusions drawn from statistical analysis.
+
+### Types of Sampling Methods
+
+- **Random Sampling**: Every member of the population has an equal change of being selected. This method minimizes selection bias and ensures that the sample is representative of the population.
+- **Stratified Sampling**: The population is divided into distinct subgroups of strata (e.g., age, gender, income) and random samples are taken from each stratum. This ensures representation from all segments of the population.
+- **Systematic Sampling**: A sample is selected using a fixed interval (e.g., every 10th individual from a list). This approach is useful when a complete list of the population is available and sorted.
+
+### Sampling in the Context of the Central Limit Theorem
+
+To demonstrate the Central Limit Theorem, we can take samples from different population distributions and calculate the sample means. As we draw larger samples, the distribution of the sample means should converge to a normal distribution, regardless of the shape of the distribution of the population.
+
+## 3. Importance of Sample Size
+
+```{r}
+# set seed for reproducibility
+set.seed(123)
+
+# for this code example, we will reuse the exponential distribution
+
+# calculate sample means for each sample size
+small_sample_size <- sample_means(exponential_dist, 15, num_samples)
+medium_sample_size <- sample_means(exponential_dist, 30, num_samples)
+large_sample_size <- sample_means(exponential_dist, 60, num_samples)
+
+# plotting histograms to visualize the distributions and sample means
+par(mfrow = c(1, 4))  # set up a plotting grid of two rows and three columns
+
+# plot exponential distribution
+hist(exponential_dist, main = "Exponential Distribution", 
+     xlab = "Value", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(exponential_dist), col = "green", lwd = 2)
+
+# plot sample means for small sample size
+hist(small_sample_size, main = "Sample Means (15)", 
+     xlab = "Sample Mean", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(small_sample_size), col = "green", lwd = 2)
+
+# plot sample means for medium sample size
+hist(medium_sample_size, main = "Sample Means (30)", 
+     xlab = "Sample Mean", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(medium_sample_size), col = "green", lwd = 2)
+
+# plot sample means for large sample size
+hist(large_sample_size, main = "Sample Means (60)", 
+     xlab = "Sample Mean", col = "lightgreen", border = "white", freq = FALSE)
+lines(density(large_sample_size), col = "green", lwd = 2)
+
+# Reset plotting parameters
+par(mfrow = c(1, 1))
+```
+
+## 4. Standard Error of the Mean
+
+## 5. Practical Applications of the CLT
