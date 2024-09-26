@@ -10,5 +10,7 @@ These tutorials are inspired by these two books:
 2. R programming basics
 3. Data manipulation with tidyverse
 4. Exploratory Data Analysis
-5. Parameter Estiomation
-6. 
+5. Parameter Estimation
+6. Random Variable 
+7. Central Limit Theorem
+8. 
