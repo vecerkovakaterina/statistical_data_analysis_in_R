@@ -5,3 +5,115 @@ date: "2024-10-17"
 output: html_document
 ---
 
+# Confidence Intervals
+
+## 1. **Introduction to Confidence Intervals**
+- **What is a Confidence Interval (CI)?**
+  - A confidence interval gives a range of values that is likely to contain a population parameter (like the mean) with a certain level of confidence (e.g., 95%).
+  - Instead of giving a single estimate (point estimate), the CI provides an interval estimate.
+
+- **Why are Confidence Intervals Useful?**
+  - They account for sampling variability.
+  - Provide more information than a point estimate by showing the precision of the estimate.
+  - The wider the interval, the less precise the estimate but also the more confident; the narrower the interval, the more precise but less confident.
+
+## 2. **Confidence Intervals for the Mean**
+- **Case 1: Large Samples (n > 30, Z-statistic)**
+  - When the sample size is large (n > 30), the **Z-statistic** is used to calculate the CI for the mean.
+  - **Formula**:  
+   \[
+   CI = \bar{x} \pm Z_{\alpha/2} \times \left(\frac{s}{\sqrt{n}}\right)
+   \]
+    - \( \bar{x} \) = sample mean (průměr výběru)
+    - \( Z_{\alpha/2} \) = Z-critical value for the desired confidence level (e.g., 1.96 for 95% CI) (kritická hodnota Z pro požadovanou úroveň spolehlivosti)
+    - \( s \) = sample standard deviation (směrodatná odchylka výběru)
+    - \( n \) = sample size (velikost výběru)
+
+  - **Example in R:**
+     
+```{r}
+# Confidence Interval for n > 30
+x <- rnorm(100, mean = 100, sd = 15)
+n <- length(x)
+x_bar <- mean(x)
+z <- qnorm(0.975)  # for 95% confidence level
+se <- sd(x) / sqrt(n)
+lower <- x_bar - z * se
+upper <- x_bar + z * se
+c(lower, upper)
+```
+  - **Case 2: Small Samples (n < 30, t-statistic)**
+    - For small sample sizes (n < 30), we use the **t-statistic** instead of the Z-statistic.
+    - **Formula**:  
+   \[
+   CI = \bar{x} \pm t_{\alpha/2, df} \times \left(\frac{s}{\sqrt{n}}\right)
+   \]
+    - \( t_{\alpha/2, df} \) = t-critical value (depends on confidence level and degrees of freedom, df = n - 1) (kritická hodnota t závislá na stupních volnosti)
+    - All other terms are the same as for large samples.
+
+  - **Example in R:**
+     
+```{r}
+# Confidence Interval for n < 30
+x <- rnorm(20, mean = 100, sd = 15)
+n <- length(x)
+x_bar <- mean(x)
+t_stat <- qt(0.975, df = n - 1)
+se <- sd(x) / sqrt(n)
+lower <- x_bar - t_stat * se
+upper <- x_bar + t_stat * se
+c(lower, upper)
+```
+
+## 3. **Interpreting Confidence Intervals**
+  - **How to Interpret a Confidence Interval**:
+    - A 95% confidence interval means: "We are 95% confident that the true population mean lies within this interval."
+     - **Czech Translation**: „S 95% jistotou můžeme říci, že skutečný populační průměr leží v tomto intervalu.“
+    - Example: If the CI for the mean height of a population is [165, 175], it means we are 95% confident that the true average height is between 165 and 175 cm.
+
+  - **Key Considerations**:
+    - **Wider intervals** indicate more uncertainty (širší intervaly značí větší nejistotu).
+    - **Narrower intervals** indicate more precision (užší intervaly značí větší přesnost).
+
+## 4. **Visualizing Confidence Intervals**
+  - **Plotting CIs using R**:
+    - It's often useful to visualize CIs to understand the uncertainty around point estimates.
+    - Example: Bootstrapped confidence intervals for sample means.
+
+```{r}
+library(ggplot2, quiet=TRUE)
+# Sample data and CI calculation
+x <- rnorm(100, mean = 100, sd = 15)
+boot_means <- replicate(1000, mean(sample(x, size = 100, replace = TRUE)))
+ci <- quantile(boot_means, c(0.025, 0.975))
+
+# Visualizing CI
+ggplot(data.frame(x = boot_means), aes(x = x)) +
+ geom_histogram(binwidth = 1, fill = "lightblue", color = "black") +
+ geom_vline(xintercept = ci, color = "red", linetype = "dashed") +
+ labs(title = "Bootstrap Distribution with 95% Confidence Interval", x = "Sample Means")
+```
+
+## 5. **Term Vocabulary (Slovník pojmů)**
+
+| **English Term**              | **Czech Translation**                        | **Explanation**                                                                            |
+|-------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------|
+| Confidence Interval (CI)       | Interval spolehlivosti                      | A range of values that is likely to contain the true population parameter (mean, proportion). |
+| Confidence Level               | Úroveň spolehlivosti                        | The percentage that indicates how often the true parameter will lie within the interval (e.g., 95%). |
+| Significance Level (\( \alpha \)) | Hladina významnosti (\( \alpha \))   | The probability of rejecting the null hypothesis when it is true. For confidence intervals, \( \alpha \) is \( 1 - \text{confidence level} \). |
+| Sample Mean (\( \bar{x} \))    | Průměr výběru                               | The average of sample data, used as a point estimate for the population mean.               |
+| Standard Error (SE)            | Standardní chyba                            | The standard deviation of the sampling distribution of the sample mean.                     |
+| Z-statistic                    | Z-statistika                                | The statistic used for large sample sizes (n > 30) to calculate the confidence interval.    |
+| t-statistic                    | t-statistika                                | The statistic used for small sample sizes (n < 30) to calculate the confidence interval.    |
+| Sample Size (n)                | Velikost výběru                             | The number of observations in the sample.                                                  |
+| Population Parameter           | Populační parametr                          | The value (like the mean) that we are trying to estimate from the sample.                   |
+| Margin of Error                | Chyba odhadu                                | The amount added and subtracted from the point estimate to create the confidence interval.  |
+| Degrees of Freedom (df)        | Stupně volnosti                             | In a t-distribution, df = n - 1, where n is the sample size.                               |
+| Critical Value                 | Kritická hodnota                            | The value from the Z or t-distribution that defines the margin of error for the interval.   |
+
+---
+
+# Conclusion
+  - Confidence intervals give us a range where the true population parameter is likely to be found.
+  - For large samples, we use the Z-statistic, and for small samples, we use the t-statistic.
+  - The width of the interval depends on the sample size, confidence level, and variability of the data.
