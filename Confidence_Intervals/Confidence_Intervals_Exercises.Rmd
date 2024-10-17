@@ -1,0 +1,78 @@
+---
+title: "Confidence Intervals: Exercises"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# Exercises
+
+## **Exercise 1: Confidence Interval for the Mean (Large Sample, Z-statistic)**
+
+1. Given a sample of 50 randomly generated data points from a normal distribution with a mean of 65 and a standard deviation of 10, calculate the 95% confidence interval for the mean using the Z-statistic (assume n > 30).  
+   
+```{r}
+set.seed(123)
+sample_data <- rnorm(50, mean = 65, sd = 10)
+# Calculate 95% CI using Z-statistic
+# TODO Your code here
+```
+
+## **Exercise 2: Confidence Interval for the Mean (Small Sample, t-statistic)**
+
+2. You have a small sample of 15 measurements from a population with an unknown mean and standard deviation. The sample values are:  
+   `c(12, 15, 14, 11, 15, 18, 16, 14, 13, 19, 21, 16, 14, 12, 20)`.  
+   Calculate the 95% confidence interval for the mean using the t-statistic (since n < 30).  
+   
+```{r}
+sample_data <- c(12, 15, 14, 11, 15, 18, 16, 14, 13, 19, 21, 16, 14, 12, 20)
+# Calculate 95% CI using t-statistic
+# TODO Your code here
+```
+
+## **Exercise 3: Effect of Sample Size on Confidence Interval**
+
+3. Generate two samples, one of size 20 and another of size 100, from a normal distribution with a mean of 50 and a standard deviation of 8. Calculate the 95% confidence interval for the mean of both samples.  
+   Compare the widths of the two intervals and explain how sample size affects the confidence interval.
+
+```{r}
+set.seed(456)
+sample_20 <- rnorm(20, mean = 50, sd = 8)
+sample_100 <- rnorm(100, mean = 50, sd = 8)
+# Calculate 95% CI for both sample_20 and sample_100
+# TODO Your code here
+```
+
+## **Exercise 4: Visualizing Confidence Intervals with ggplot2**
+
+4. Using a sample of 100 data points generated from a normal distribution (mean = 70, sd = 12), generate 1000 bootstrapped samples of the mean and create a histogram. Plot the 95% confidence interval for the bootstrapped means on the histogram using `ggplot2`.
+
+```{r}
+library(ggplot2)
+set.seed(789)
+sample_data <- rnorm(100, mean = 70, sd = 12)
+# Bootstrap and plot 95% CI for the means
+# TODO Your code here
+```
+
+## **Exercise 5: Interpretation of Confidence Intervals**
+
+5. You calculated a 95% confidence interval for the mean of a dataset and obtained the interval [40.5, 49.5].  
+   a. Interpret this result in the context of confidence intervals.  
+   b. If the confidence level is increased to 99%, what do you expect will happen to the width of the interval?
+
+```{r}
+# TODO Your interpretation here
+```
+
+## **Exercise 6: Calculating Confidence Intervals with Built-in Functions**
+
+6. Use R's built-in `t.test()` function to calculate the confidence interval for the following dataset:  
+   `c(5.1, 5.4, 5.9, 6.2, 5.8, 5.7, 6.1, 5.6, 5.5, 6.3)`.  
+   Calculate the 99% confidence interval for the mean of the data. 
+
+```{r}
+data <- c(5.1, 5.4, 5.9, 6.2, 5.8, 5.7, 6.1, 5.6, 5.5, 6.3)
+# Calculate 99% CI using t.test()
+# TODO Your code here
+```
