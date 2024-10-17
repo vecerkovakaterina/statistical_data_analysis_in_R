@@ -14,4 +14,7 @@ These tutorials are inspired by these two books:
 6. Random Variable 
 7. Central Limit Theorem
 8. Confidence Intervals
-9.
+9. Hypothesis Testing, z-test
+10. t-Tests
+11. ANOVA
+12. Correlation, regression
