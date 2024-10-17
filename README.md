@@ -13,4 +13,5 @@ These tutorials are inspired by these two books:
 5. Parameter Estimation
 6. Random Variable 
 7. Central Limit Theorem
-8. 
+8. Confidence Intervals
+9.
