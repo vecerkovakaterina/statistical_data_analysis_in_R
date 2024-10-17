@@ -1,0 +1,124 @@
+---
+title: "Hypothesis testing, z-test"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# Hypothesis testing, z-test
+
+## 1. **Introduction to Hypothesis Testing**
+  - **What is Hypothesis Testing?**
+    - Hypothesis testing is a method used to make decisions or inferences about population parameters based on sample data.
+    - It involves **comparing an observed statistic** (like a sample mean) with a hypothesized population parameter.
+
+  - **Two Competing Hypotheses**:
+    - **Null Hypothesis (\( H_0 \))**: The hypothesis that there is **no effect** or **no difference**. We test this assumption.
+     - Example: \( H_0 \): The mean height of a population is 170 cm.
+    - **Alternative Hypothesis (\( H_a \))**: The hypothesis that there **is an effect** or **a difference**.
+     - Example: \( H_a \): The mean height of a population is not 170 cm.
+
+  - **Key Terms**:
+    - **Significance Level (\( \alpha \))**: The probability of rejecting the null hypothesis when it is actually true (commonly set to 0.05 or 5%).
+    - **p-value**: The probability of observing the sample data, or something more extreme, if the null hypothesis is true. If p-value < \( \alpha \), we reject \( H_0 \).
+
+## 2. **The Z-Test**
+
+  - The **Z-test** is used when:
+    - The sample size is large (\( n > 30 \)) OR
+    - The population variance (or standard deviation) is known.
+
+  - **Types of Z-tests**:
+    1. **One-Sample Z-test**: Used to compare the sample mean to a known population mean.
+    2. **Two-Sample Z-test**: Used to compare the means of two independent samples (requires knowing or assuming population variances).
+
+## 3. **Steps for a One-Sample Z-Test**
+
+  1. **State the Hypotheses**:
+    - Null hypothesis (\( H_0 \)): \( \mu = \mu_0 \) (the population mean is equal to some value).
+    - Alternative hypothesis (\( H_a \)): \( \mu \neq \mu_0 \) (two-tailed), \( \mu > \mu_0 \) (right-tailed), or \( \mu < \mu_0 \) (left-tailed).
+
+  2. **Calculate the Z-Statistic**:
+    - Formula:
+    \[
+    Z = \frac{\bar{x} - \mu_0}{\frac{\sigma}{\sqrt{n}}}
+    \]
+      - \( \bar{x} \): sample mean (průměr výběru)
+      - \( \mu_0 \): population mean (populační průměr)
+      - \( \sigma \): population standard deviation (populační směrodatná odchylka)
+      - \( n \): sample size (velikost výběru)
+
+  3. **Find the Critical Value** (or p-value):
+    - Use `qnorm()` to get the critical value based on the significance level \( \alpha \).
+    - Alternatively, calculate the p-value using `pnorm()`.
+
+  4. **Make a Decision**:
+    - Compare the Z-statistic with the critical value or compare the p-value with \( \alpha \).
+    - If \( |Z| \) is greater than the critical value or p-value < \( \alpha \), **reject** the null hypothesis.
+    - Otherwise, **fail to reject** the null hypothesis.
+
+## 4. **Example: One-Sample Z-Test in R**
+
+Suppose we have a sample of 50 students with an average height of 172 cm, and we know the population standard deviation is 10 cm. We want to test if the average height is different from 170 cm at the 5% significance level.
+
+  1. **Hypotheses**:
+    - \( H_0 \): The mean height is 170 cm (\( \mu = 170 \)).
+    - \( H_a \): The mean height is different from 170 cm (\( \mu \neq 170 \)).
+
+  2. **Calculate the Z-statistic**:
+```{r}
+# Sample data
+x_bar <- 172  # Sample mean
+mu_0 <- 170   # Population mean under null hypothesis
+sigma <- 10   # Population standard deviation
+n <- 50       # Sample size
+
+# Z-statistic
+z <- (x_bar - mu_0) / (sigma / sqrt(n))
+z
+```
+
+  3. **Find the Critical Value and Make a Decision**:
+```{r}
+# Critical value for 95% confidence level (alpha = 0.05, two-tailed test)
+z_critical <- qnorm(0.975)  # Two-tailed, so we use 0.975
+z_critical
+
+# Alternatively, calculate the p-value
+p_value <- 2 * (1 - pnorm(abs(z)))  # Multiply by 2 for two-tailed test
+p_value
+
+# Decision: reject or fail to reject H0
+if (abs(z) > z_critical) {
+ print("Reject H0: There is a significant difference.")
+} else {
+ print("Fail to reject H0: There is no significant difference.")
+}
+```
+
+## 5. **Interpreting the Results**
+  - If the Z-statistic is larger than the critical value (or if the p-value is smaller than \( \alpha \)):
+    - **Reject \( H_0 \)**: This means there is evidence to suggest that the population mean is **different** from the hypothesized value.
+    - **Czech Translation**: Zamítáme nulovou hypotézu – existuje důkaz, že populační průměr je odlišný od předpokládané hodnoty.
+   
+  - If the Z-statistic is smaller than the critical value (or if the p-value is larger than \( \alpha \)):
+    - **Fail to reject \( H_0 \)**: This means there is **not enough evidence** to suggest that the population mean is different from the hypothesized value.
+    - **Czech Translation**: Nezamítáme nulovou hypotézu – neexistuje dostatečný důkaz, že populační průměr je odlišný.
+
+## 6. **Term Vocabulary (Slovník pojmů)**
+
+| **English Term**              | **Czech Translation**                        | **Explanation**                                                                            |
+|-------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------|
+| Null Hypothesis (\( H_0 \))    | Nulová hypotéza                             | The hypothesis that there is no effect or no difference.                                   |
+| Alternative Hypothesis (\( H_a \)) | Alternativní hypotéza                  | The hypothesis that there is an effect or a difference.                                    |
+| Z-statistic                    | Z-statistika                                | The test statistic used in a Z-test.                                                       |
+| Significance Level (\( \alpha \)) | Hladina významnosti (\( \alpha \))        | The probability of rejecting the null hypothesis when it is true (Type I error).            |
+| p-value                        | p-hodnota                                   | The probability of obtaining the observed results, or more extreme ones, under \( H_0 \).   |
+| Critical Value                 | Kritická hodnota                            | The threshold value that the test statistic is compared to, based on the significance level.|
+| Two-tailed Test                | Oboustranný test                           | A test that considers extreme values in both tails of the distribution (e.g., \( H_a: \mu \neq \mu_0 \)). |
+| One-tailed Test                | Jednostranný test                           | A test that considers extreme values in only one tail (e.g., \( H_a: \mu > \mu_0 \)).       |
+
+## Conclusion
+  - **Hypothesis Testing** allows us to test claims about population parameters using sample data.
+  - The **Z-test** is appropriate for large samples or when the population standard deviation is known.
+  - The decision to reject or fail to reject the null hypothesis is based on comparing the **Z-statistic** to the **critical value** or the **p-value** to \( \alpha \).
