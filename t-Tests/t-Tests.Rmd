@@ -1,0 +1,109 @@
+---
+title: "t-Tests"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# t-Tests, one- and two-sample t-test
+
+## 1. **Introduction to t-Tests**
+  - **What is a t-Test?**
+    - A t-test is a statistical test used to determine whether there is a significant difference between the means of two groups or whether the mean of a single group is significantly different from a known value.
+    - It is particularly useful when the sample size is small (\( n < 30 \)) and/or the population standard deviation is unknown.
+
+  - **Types of t-Tests**:
+    1. **One-Sample t-Test**: Compares the mean of a single sample to a known value (population mean).
+    2. **Independent Two-Sample t-Test**: Compares the means of two independent groups.
+    3. **Paired t-Test**: Compares means from the same group at different times (e.g., before and after treatment).
+
+## 2. **Steps for a One-Sample t-Test**
+
+1. **State the Hypotheses**:
+    - **Null Hypothesis (\( H_0 \))**: The population mean is equal to a specific value.
+    - Example: \( H_0 \): The mean height of a population is 170 cm.
+    - **Alternative Hypothesis (\( H_a \))**: The population mean is not equal to that value (two-tailed), or it is greater or less than that value (one-tailed).
+
+2. **Calculate the t-Statistic**:
+    - Formula:
+      \[
+      t = \frac{\bar{x} - \mu_0}{\frac{s}{\sqrt{n}}}
+      \]
+      - \( \bar{x} \): sample mean
+      - \( \mu_0 \): population mean (hypothesized)
+      - \( s \): sample standard deviation
+      - \( n \): sample size
+
+3. **Find the Critical Value** (or p-value):
+    - Use the `qt()` function to get the critical value based on the significance level \( \alpha \) and the degrees of freedom \( df = n - 1 \).
+    - Alternatively, calculate the p-value using the `pt()` function.
+
+4. **Make a Decision**:
+    - Compare the t-statistic with the critical value or the p-value with \( \alpha \).
+    - If \( |t| \) is greater than the critical value or p-value < \( \alpha \), **reject** the null hypothesis.
+    - Otherwise, **fail to reject** the null hypothesis.
+
+## 3. **Example: One-Sample t-Test in R**
+
+Suppose we have a sample of 25 students with an average height of 172 cm. We want to test if the average height is different from 170 cm at a 5% significance level.
+
+1. **Hypotheses**:
+    - \( H_0 \): The mean height is 170 cm (\( \mu = 170 \)).
+    - \( H_a \): The mean height is different from 170 cm (\( \mu \neq 170 \)).
+
+2. **Calculate the t-statistic**:
+```{r}
+# Sample data
+x_bar <- 172  # Sample mean
+mu_0 <- 170   # Population mean under null hypothesis
+s <- 8        # Sample standard deviation
+n <- 25       # Sample size
+alpha <- 0.05 # Significance level
+
+# t-statistic
+t <- (x_bar - mu_0) / (s / sqrt(n))
+t
+```
+
+3. **Find the Critical Value and Make a Decision**:
+```{r}
+# Critical value for 95% confidence level (alpha = 0.05)
+df <- n - 1  # Degrees of freedom
+t_critical <- qt(1 - alpha/2, df)  # Two-tailed test
+p_value <- 2 * (1 - pt(abs(t), df))
+t_critical
+p_value
+
+# Decision: reject or fail to reject H0
+if (abs(t) > t_critical) {
+ print("Reject H0: There is a significant difference.")
+} else {
+ print("Fail to reject H0: There is no significant difference.")
+}
+```
+
+## 4. **Interpreting the Results**
+  - If the t-statistic is larger than the critical value (or if the p-value is smaller than \( \alpha \)):
+    - **Reject \( H_0 \)**: This means there is evidence to suggest that the population mean is **different** from the hypothesized value.
+    - **Czech Translation**: Zamítáme nulovou hypotézu – existuje důkaz, že populační průměr je odlišný od předpokládané hodnoty.
+   
+  - If the t-statistic is smaller than the critical value (or if the p-value is larger than \( \alpha \)):
+    - **Fail to reject \( H_0 \)**: This means there is **not enough evidence** to suggest that the population mean is different from the hypothesized value.
+    - **Czech Translation**: Nezamítáme nulovou hypotézu – neexistuje dostatečný důkaz, že populační průměr je odlišný.
+
+## 5. **Term Vocabulary (Slovník pojmů)**
+
+| **English Term**              | **Czech Translation**                        | **Explanation**                                                                            |
+|-------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------|
+| One-Sample t-Test             | Jednovýběrový t-test                        | A test that compares the mean of a single sample to a known population mean.             |
+| Null Hypothesis (\( H_0 \))    | Nulová hypotéza                             | The hypothesis that there is no effect or no difference.                                   |
+| Alternative Hypothesis (\( H_a \)) | Alternativní hypotéza                  | The hypothesis that there is an effect or a difference.                                    |
+| t-statistic                   | t-statistika                                | The test statistic used in a t-test.                                                       |
+| Significance Level (\( \alpha \)) | Hladina významnosti (\( \alpha \))        | The probability of rejecting the null hypothesis when it is true (Type I error).            |
+| p-value                       | p-hodnota                                   | The probability of obtaining the observed results, or more extreme ones, under \( H_0 \).   |
+| Critical Value                | Kritická hodnota                            | The threshold value that the test statistic is compared to, based on the significance level.|
+| Degrees of Freedom (df)       | Stupně volnosti (df)                       | The number of independent values that can vary in an analysis; for a one-sample t-test, \( df = n - 1 \).|
+
+## Conclusion
+  - The **t-test** is a powerful tool for comparing means, especially with small sample sizes.
+  - By following the outlined steps, students will be able to conduct a one-sample t-test and interpret the results effectively.
