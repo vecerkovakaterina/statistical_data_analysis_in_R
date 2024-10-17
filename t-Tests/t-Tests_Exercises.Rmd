@@ -5,26 +5,100 @@ date: "2024-10-17"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Exercises
+
+## **Exercise 1: One-Sample t-Test**
+1. A nutritionist claims that the average daily calorie intake of adults is 2,500 calories. A random sample of 30 adults shows an average intake of 2,450 calories with a standard deviation of 300 calories. Test the nutritionist's claim at the 5% significance level.
+    - State the hypotheses.
+    - Perform the one-sample t-test and make a decision.
+
+```{r}
+x_bar <- 2450  # Sample mean
+mu_0 <- 2500   # Population mean under null hypothesis
+s <- 300       # Sample standard deviation
+n <- 30        # Sample size
+alpha <- 0.05  # Significance level
+
+# TODO Your code here
+# t-statistic
+# Critical value and p-value
+# Decision
 ```
 
-## R Markdown
+## **Exercise 2: Independent Two-Sample t-Test**
+2. A researcher is investigating the effect of two different teaching methods on students' performance. Group A (30 students) has an average score of 85 with a standard deviation of 5, while Group B (35 students) has an average score of 80 with a standard deviation of 6. Test whether there is a significant difference between the two groups at a 5% significance level.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+x_bar_A <- 85   # Sample mean for Group A
+s_A <- 5        # Sample standard deviation for Group A
+n_A <- 30       # Sample size for Group A
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+x_bar_B <- 80   # Sample mean for Group B
+s_B <- 6        # Sample standard deviation for Group B
+n_B <- 35       # Sample size for Group B
+alpha <- 0.05   # Significance level
 
-```{r cars}
-summary(cars)
+# TODO Your code here
+# t-test for two independent samples
+# Critical value and p-value
+# Decision
 ```
 
-## Including Plots
+## **Exercise 3: Paired t-Test**
+3. A psychologist wants to evaluate the effectiveness of a new therapy on anxiety levels. She measures the anxiety levels of 20 patients before and after the therapy. The differences in scores (after - before) are as follows: 5, 3, 8, 7, 2, 4, 6, 1, 9, 4, 2, 3, 5, 6, 7, 8, 4, 3, 5, 2. Test whether the therapy has a significant effect at a 1% significance level.
 
-You can also embed plots, for example:
+```{r}
+differences <- c(5, 3, 8, 7, 2, 4, 6, 1, 9, 4, 2, 3, 5, 6, 7, 8, 4, 3, 5, 2)
+n <- length(differences)  # Sample size
+alpha <- 0.01  # Significance level
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# TODO Your code here
+# t-statistic for paired t-test
+# Critical value and p-value
+# Decision
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## **Exercise 4: Interpretation of p-value**
+4. In a study comparing the effects of two diets, a two-sample t-test yields a t-statistic of 2.45 and a p-value of 0.022. 
+    - Based on a 5% significance level, would you reject or fail to reject the null hypothesis?
+    - What would be your conclusion at a 1% significance level?
+
+```{r}
+t <- 2.45
+p_value <- 0.022
+alpha_5 <- 0.05
+alpha_1 <- 0.01
+
+# TODO Your interpretation here
+# Decision at 5% significance level
+# Decision at 1% significance level
+```
+
+## **Exercise 5: Visualizing the t-Distribution**
+5. Create a plot of the t-distribution with 10 degrees of freedom and shade the area corresponding to a t-critical value of ±2.228 for a two-tailed test at a 5% significance level. Highlight the rejection regions.
+
+```{r}
+library(ggplot2)
+
+# TODO Your code here
+# Create a sequence of t values
+# Plot the t-distribution
+```
+
+## **Exercise 6: Comparing Means of Three Groups**
+6. A researcher is interested in comparing the average test scores of three different teaching methods (A, B, C). The scores for each method are as follows:  
+    - Method A: 88, 90, 92, 87, 85  
+    - Method B: 78, 82, 80, 79, 81  
+    - Method C: 85, 86, 84, 88, 87  
+Conduct an ANOVA test (which uses t-tests in its underlying mechanics) to determine if there are significant differences in the average test scores among the three teaching methods at a 5% significance level.
+
+```{r}
+scores_A <- c(88, 90, 92, 87, 85)
+scores_B <- c(78, 82, 80, 79, 81)
+scores_C <- c(85, 86, 84, 88, 87)
+
+# TODO Your code here
+# Combine into a data frame
+# ANOVA test
+# Decision
+```
