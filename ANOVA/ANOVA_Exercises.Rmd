@@ -1,0 +1,118 @@
+---
+title: "ANOVA: Exercises"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# Exercises
+
+## **Exercise 1: One-Way ANOVA**
+1. A researcher is studying the effect of three different diets on weight loss. The weights lost (in kg) by individuals on the three diets are as follows:
+    - **Diet A**: 3, 4, 5, 6, 4  
+    - **Diet B**: 2, 3, 4, 3, 2  
+    - **Diet C**: 6, 7, 8, 7, 6  
+    Test whether there is a significant difference in the average weight loss between the three diets at the 5% significance level.
+
+```{r}
+diet_A <- c(3, 4, 5, 6, 4)
+diet_B <- c(2, 3, 4, 3, 2)
+diet_C <- c(6, 7, 8, 7, 6)
+
+# TODO Your code here
+# Combine into a data frame
+# Perform one-way ANOVA
+```
+
+## **Exercise 2: Tukey’s HSD Post-Hoc Test**
+2. Continuing from the previous exercise, if the ANOVA result shows a significant difference, perform Tukey’s HSD post-hoc test to determine which diets differ from each other.
+
+```{r}
+# TODO Your code here
+# Perform Tukey's HSD post-hoc test
+```
+
+## **Exercise 3: Two-Way ANOVA (Factorial Design)**
+3. A researcher is investigating the effect of two factors on exam scores: **study method** (A, B, C) and **gender** (male, female). The exam scores are recorded as follows:
+    - **Study Method A (Male)**: 75, 80, 85  
+    - **Study Method A (Female)**: 78, 82, 86  
+    - **Study Method B (Male)**: 72, 76, 79  
+    - **Study Method B (Female)**: 74, 79, 81  
+    - **Study Method C (Male)**: 70, 73, 77  
+    - **Study Method C (Female)**: 72, 74, 78  
+   
+    Perform a two-way ANOVA to test if there is a significant effect of study method, gender, or their interaction on exam scores.
+
+```{r}
+study_method <- factor(rep(c("A", "B", "C"), each = 6))
+gender <- factor(rep(c("Male", "Female"), each = 3, times = 3))
+exam_scores <- c(75, 80, 85, 78, 82, 86, 
+                72, 76, 79, 74, 79, 81,
+                70, 73, 77, 72, 74, 78)
+
+# TODO Your code here
+# Combine into a data frame
+# Perform two-way ANOVA
+```
+
+## **Exercise 4: Plotting the Interaction Effect**
+4. Based on the results of the two-way ANOVA from the previous exercise, create an interaction plot to visualize the effect of **study method** and **gender** on **exam scores**.
+
+```{r}
+# TODO Your code here
+```
+
+## **Exercise 5: Checking Assumptions (Homogeneity of Variance)**
+5. For the ANOVA in **Exercise 1**, check the assumption of homogeneity of variances using **Levene’s Test**. You will need to install and load the `car` package for this.
+
+```{r}
+# TODO Your code here
+# Perform Levene's Test for homogeneity of variances
+```
+
+## **Exercise 6: ANOVA Interpretation**
+6. In an ANOVA experiment, the following results were obtained:
+    - **F-statistic** = 4.56  
+    - **p-value** = 0.015  
+    - **Significance level** = 0.05  
+    
+    Based on these results:
+    - What is your decision regarding the null hypothesis?
+    - Would you perform a post-hoc test? Why or why not?
+
+```{r}
+f_statistic <- 4.56
+p_value <- 0.015
+alpha <- 0.05
+
+# TODO Your interpretation here
+# Decision
+```
+
+## **Exercise 7: Visualizing ANOVA Results**
+7. Using the data from **Exercise 1**, create a boxplot to visualize the weight loss distribution for each diet group.
+
+```{r}
+# TODO Your code here
+# Boxplot for weight loss by diet
+```
+
+## **Exercise 8: ANOVA with More Groups**
+8. A company tests four different types of fertilizers (A, B, C, and D) on crop yields (in kg) over five fields. The yields are as follows:
+    - **Fertilizer A**: 100, 110, 115, 120, 105  
+    - **Fertilizer B**: 90, 95, 100, 85, 92  
+    - **Fertilizer C**: 130, 135, 140, 132, 137  
+    - **Fertilizer D**: 80, 85, 78, 82, 83  
+    
+    Test if there is a significant difference in the average crop yield for the four fertilizers using one-way ANOVA at a 5% significance level.
+
+```{r}
+fertilizer_A <- c(100, 110, 115, 120, 105)
+fertilizer_B <- c(90, 95, 100, 85, 92)
+fertilizer_C <- c(130, 135, 140, 132, 137)
+fertilizer_D <- c(80, 85, 78, 82, 83)
+
+# TODO Your code here
+# Combine into a data frame
+# Perform one-way ANOVA
+```

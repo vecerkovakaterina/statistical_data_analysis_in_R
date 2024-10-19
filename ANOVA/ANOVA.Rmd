@@ -1,0 +1,130 @@
+---
+title: "ANOVA"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# ANOVA
+
+## 1. **Introduction to ANOVA**
+  - **What is ANOVA?**
+    - ANOVA (Analysis of Variance) is a statistical method used to compare the means of **three or more groups** to determine if they are statistically different from each other.
+    - It helps answer the question: "Do the groups come from populations with the same mean?"
+
+  - **When to Use ANOVA?**
+    - When comparing the means of **three or more independent groups**.
+    - If there are only two groups, a **t-test** is sufficient, but for three or more, ANOVA is the appropriate method.
+    - The assumption is that the data is normally distributed and that the groups have **homogeneity of variance** (similar variances).
+
+## 2. **ANOVA Hypotheses**
+  - **Null Hypothesis (\( H_0 \))**:
+    - All group means are equal.
+    - Example: \( H_0 \): The means of groups A, B, and C are the same.
+   
+  - **Alternative Hypothesis (\( H_a \))**:
+    - At least one group mean is different from the others.
+
+## 3. **ANOVA Test Statistic**
+  - ANOVA uses the **F-statistic** to compare the variance between the groups (treatment variance) to the variance within the groups (error variance).
+   
+    - **Formula for F-statistic**:
+    \[
+    F = \frac{\text{Between-group variance}}{\text{Within-group variance}}
+    \]
+    - A large F value indicates that the between-group variance is greater than the within-group variance, which suggests that at least one group mean is different from the others.
+
+## 4. **Steps in ANOVA**
+
+1. **Calculate the Group Means**:
+    - Compute the mean for each group.
+
+2. **Calculate the Total Mean**:
+    - The overall mean for all the data combined.
+
+3. **Partition the Total Variance**:
+    - **Between-group variance**: How much the group means differ from the total mean.
+    - **Within-group variance**: How much the data points within each group differ from their respective group mean.
+
+4. **Compute the F-statistic**:
+    - The F-statistic is calculated using the ratio of the between-group variance to the within-group variance.
+
+5. **Make a Decision**:
+    - Compare the F-statistic to the critical F-value (from an F-distribution table based on the degrees of freedom) or use the p-value.
+    - If \( F \) is greater than the critical value or the p-value is less than the significance level (\( \alpha \)), **reject** the null hypothesis.
+
+## 5. **ANOVA Example in R**
+
+**Example**: A researcher is testing the effects of three different fertilizers on plant growth. She has three groups of plants (one for each fertilizer), and the heights (in cm) of the plants are recorded. The data is as follows:
+
+- **Group A**: 18, 20, 22, 21, 19  
+- **Group B**: 25, 26, 28, 27, 30  
+- **Group C**: 30, 31, 29, 32, 33  
+
+1. **State the Hypotheses**:
+    - \( H_0 \): The mean plant heights are the same across the three groups.
+    - \( H_a \): At least one group has a different mean plant height.
+
+2. **Perform the ANOVA in R**:
+```{r}
+# Sample data
+group_A <- c(18, 20, 22, 21, 19)
+group_B <- c(25, 26, 28, 27, 30)
+group_C <- c(30, 31, 29, 32, 33)
+
+# Combine data into a data frame
+data <- data.frame(
+ height = c(group_A, group_B, group_C),
+ group = factor(rep(c("A", "B", "C"), each = 5))
+)
+
+# Perform one-way ANOVA
+anova_result <- aov(height ~ group, data = data)
+summary(anova_result)
+```
+
+3. **Interpreting the Output**:
+    - The output of `summary(anova_result)` will provide the **F-statistic** and **p-value**.
+    - If the p-value is less than \( \alpha \) (usually 0.05), **reject** the null hypothesis, indicating that at least one group has a different mean.
+    - If the p-value is greater than \( \alpha \), **fail to reject** the null hypothesis.
+
+## 6. **Post-Hoc Tests (if necessary)**
+  - **What are Post-Hoc Tests?**
+    - If ANOVA shows that at least one group mean is different, post-hoc tests (such as Tukey’s HSD) are used to determine **which** groups are different.
+
+  - **Performing Tukey’s HSD in R**:
+```{r}
+# Perform Tukey's HSD post-hoc test
+tukey_result <- TukeyHSD(anova_result)
+tukey_result
+```
+
+  - **Interpreting Tukey’s HSD Output**:
+    - The output will show which pairs of group means are significantly different.
+
+## 7. **Interpreting ANOVA Results**
+  - If the F-statistic is **greater than** the critical value (or if the p-value is **less than** the significance level \( \alpha \)):
+    - **Reject \( H_0 \)**: At least one group mean is different.
+    - **Czech Translation**: Zamítáme nulovou hypotézu – alespoň jedna skupina má odlišný průměr.
+   
+  - If the F-statistic is **less than** the critical value (or if the p-value is **greater than** \( \alpha \)):
+    - **Fail to reject \( H_0 \)**: The group means are not significantly different.
+    - **Czech Translation**: Nezamítáme nulovou hypotézu – průměry skupin nejsou významně odlišné.
+
+## 8. **Term Vocabulary (Slovník pojmů)**
+
+| **English Term**              | **Czech Translation**                        | **Explanation**                                                                            |
+|-------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------|
+| ANOVA                         | Analýza rozptylu                             | A test used to compare the means of three or more groups.                                   |
+| Between-group variance         | Mezi-skupinová rozptylová složka             | Variance due to the differences between the group means.                                    |
+| Within-group variance          | Vnitro-skupinová rozptylová složka           | Variance within the groups due to individual differences.                                   |
+| F-statistic                   | F-statistika                                 | The ratio of between-group variance to within-group variance.                               |
+| p-value                       | p-hodnota                                   | The probability of obtaining the observed results under the null hypothesis.                |
+| Tukey’s HSD                   | Tukeyho HSD                                  | A post-hoc test to find which group means are significantly different.                      |
+| Post-hoc test                 | Post-hoc test                                | A test performed after ANOVA to find specific differences between group means.              |
+| Significance Level (\( \alpha \)) | Hladina významnosti (\( \alpha \))        | The threshold probability for rejecting the null hypothesis.                                |
+
+## Conclusion
+  - ANOVA is a powerful technique for comparing the means of three or more groups.
+  - By following the steps outlined, students will be able to perform and interpret the results of ANOVA tests effectively in R.
+   
