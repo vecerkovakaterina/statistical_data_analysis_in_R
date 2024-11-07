@@ -9,8 +9,9 @@ output: html_document
 
 ## Loading Data
 
-Use read_csv to load the dataset from a file named penguins.csv.
-Display the first 6 rows of the dataset.
+### Exercise 1: Load the Data
+
+**Task:** Use `read_csv()` to load the dataset from a file named `penguins.csv` and display the first 6 rows.
 
 ```{r}
 # TODO your code here
@@ -24,85 +25,57 @@ Display the first 6 rows of the dataset.
 
 ## Manipulating Data with dplyr
 
-```{r}
-library(dplyr)
-```
+### Exercise 2: Filter Rows by Species
 
-### 1. Filtering Rows
-
-Filter the dataset to include only rows where the species is "Adelie".
+**Task:** Filter the dataset to include only rows where the species is "Adelie".
 
 ```{r}
 # TODO your code here
 ```
 
-### 2. Selecting Columns
+### Exercise 3: Select Relevant Columns
 
-Select only the columns for `island`, `bill_length_mm`, and `flipper_length_mm`.
-
-```{r}
-# TODO your code here
-```
-
-### 3. Adding New Columns
-
-Create a new column that calculates the ratio of `bill_length_mm` to `flipper_length_mm`.
+**Task:** Select the columns `island`, `bill_length_mm`, and `flipper_length_mm` from the dataset.
 
 ```{r}
 # TODO your code here
 ```
 
-### 4. Summarizing Data
+### Exercise 4: Add a New Column
 
-Calculate the mean and standard deviation of `flipper_length_mm` for each species.
-
-```{r}
-# TODO your code here
-```
-
-### 5. Arranging Rows
-
-Arrange the dataset by `bill_length_mm` in descending order.
+**Task:** Create a new column that calculates the ratio of `bill_length_mm` to `flipper_length_mm`.
 
 ```{r}
 # TODO your code here
 ```
 
-### 6. Grouping and Summarizing
+### Exercise 5: Summarize Data by Species
 
-For each species, count the number of instances where `bill_length_mm` is greater than 40.
-
-```{r}
-# TODO your code here
-```
-
-### 7. Renaming Columns
-
-Rename the columns `bill_length_mm` and `flipper_length_mm` to `bill_length` and `flipper_length`.
+**Task:** Calculate the mean and standard deviation of `flipper_length_mm` for each species.
 
 ```{r}
 # TODO your code here
 ```
 
-### 8. Filtering and Mutating
+### Exercise 6: Arrange Data by Bill Length
 
-Filter the dataset to include only the "Chinstrap" species and add a column indicating whether `flipper_length_mm` is greater than 200.
-
-```{r}
-# TODO your code here
-```
-
-### 9. Sampling Rows
-
-Randomly sample 15 rows from the dataset.
+**Task:** Arrange the dataset by `bill_length_mm` in descending order.
 
 ```{r}
 # TODO your code here
 ```
 
-### 10. Combining Multiple dplyr Functions
+### Exercise 7: Group and Summarize by Species
 
-Create a new dataset that includes only the "Gentoo" species, select only the `bill_length_mm` and `flipper_length_mm` columns, then arrange the data by `bill_length_mm` in ascending order.
+**Task:** For each species, count how many instances have `bill_length_mm` greater than 40.
+
+```{r}
+# TODO your code here
+```
+
+### Exercise 8: Rename Columns
+
+**Task:** Rename the columns `bill_length_mm` and `flipper_length_mm` to `bill_length` and `flipper_length`.
 
 ```{r}
 # TODO your code here
@@ -110,123 +83,33 @@ Create a new dataset that includes only the "Gentoo" species, select only the `b
 
 ## Tidying Data with tidyr
 
-### 1. Pivoting Longer
+### Exercise 9: Pivoting Longer
 
-Convert the dataset into a longer format with columns `measurement` and `value`, where `measurement` includes the variable names (`bill_length_mm`, `flipper_length_mm`) and `value` contains the corresponding measurements.
-
-```{r}
-# TODO your code here
-```
-
-### 2. Pivoting Wider
-
-Take the dataset and pivot it back to the original wide format.
+**Task:** Convert the dataset into a longer format with columns `measurement` and `value`, where `measurement` includes the variable names (`bill_length_mm`, `flipper_length_mm`) and `value` contains the corresponding measurements.
 
 ```{r}
 # TODO your code here
 ```
 
-### 3. Separating Columns
+### Exercise 10: Pivoting Wider
 
-Create a new dataset where the `species` column is split into two new columns: `genus` and `species_type`. Assume the first three letters represent the genus and the rest is the species type.
-
-```{r}
-# TODO your code here
-```
-
-### 4. Uniting Columns
-
-Combine the `island` and `species` columns into a single column called `location_species` with values separated by an underscore.
+**Task:** Pivot the dataset back to the original wide format.
 
 ```{r}
 # TODO your code here
 ```
 
-### 5. Dropping NA Values
+### Exercise 11: Separate a Column
 
-Remove rows with any missing values from the dataset.
-
-```{r}
-# TODO your code here
-```
-
-### 6. Replacing NA Values
-
-In the dataset from the previous example, replace the NA values in `bill_length_mm` with the mean non-NA values of the `bill_length_mm` column.
+**Task:** Split the `species` column into two new columns: `genus` and `species_type`.
 
 ```{r}
 # TODO your code here
 ```
 
-## Data Visualization with ggplot2
+### Exercise 12: Drop NA Values
 
-### 1. Basic Scatter Plot
-
-Create a scatter plot of `bill_length_mm` vs `flipper_length_mm` and color the points by species.
-
-```{r}
-# TODO your code here
-```
-
-### 2. Adding Titles and Labels
-
-Modify the scatter plot to include a title and x-axis and y-axis label.
-
-```{r}
-# TODO your code here
-```
-
-### 3. Histogram
-
-Create a histogram of `bill_length_mm` and use different colors to represent different species.
-
-```{r}
-# TODO your code here
-```
-
-### 4. Box Plot
-
-Create a box plot of `bill_length_mm` for each species.
-
-```{r}
-# TODO your code here
-```
-
-### 5. Facet Grid
-
-Use facetting to create separate scatter plots of `bill_length_mm` vs. `flipper_length_mm` for each species.
-
-```{r}
-# TODO your code here
-```
-
-### 6. Density Plot
-
-Create a density plot for `bill_length_mm` for each species, using different colors.
-
-```{r}
-# TODO your code here
-```
-
-### 7. Line Plot
-
-Generate a line plot to show the average `bill_length_mm` by species.
-
-```{r}
-# TODO your code here
-```
-
-### 8. Bar Chart
-
-Create a bar chart showing the count of observations for each species.
-
-```{r}
-# TODO your code here
-```
-
-### 9. Customizing Plot Themes
-
-Customize a scatter plot with `bill_length_mm` vs `flipper_length_mm` to use a minimal theme and change the legend position.
+**Task:** Remove rows with missing values from the dataset.
 
 ```{r}
 # TODO your code here
@@ -234,66 +117,25 @@ Customize a scatter plot with `bill_length_mm` vs `flipper_length_mm` to use a m
 
 ## Working with Categorical Data with `forcats`
 
-### 1. Reordering Factor Levels by Mean Bill Length
+### Exercise 13: Lump Rare Species into "Other"
 
-Reorder the `species` factor levels in the `penguins` dataset by the mean `bill_length_mm` of each species, in descending order.
-
-```{r}
-# TODO your code here
-```
-
-### 2. Lump Rare Levels in Species
-
-Lump the least common species into an "Other" category, keeping only the top 3 most common species distinct.
+**Task:** Lump the least common species into an "Other" category, keeping only the top 3 most common species distinct.
 
 ```{r}
 # TODO your code here
 ```
 
-### 3. Collapsing Levels of Island
+### Exercise 14: Reorder Factor Levels
 
-Combine the `island` levels into broader categories:
-
-- "Group1" for Dream and Biscoe
-- "Group2" for Torgersen
+**Task:** Reorder the `species` factor by the mean `bill_length_mm` of each species in descending order.
 
 ```{r}
 # TODO your code here
 ```
 
-### 4. Renaming Factor Levels
+### Exercise 15: Reverse the Factor Levels Order
 
-Rename the factor levels in `species` to more descriptive names, if necessary.
-
-```{r}
-# TODO your code here
-```
-
-### 5. Reverse Order of Levels
-
-Reverse the order of the levels in the `species` factor.
-
-```{r}
-# TODO your code here
-```
-
-### 6. Dropping Unused Levels
-
-Create a subset of the penguins dataset that only includes `Adelie` and `Chinstrap` species, and then remove the unused levels from the `species` factor.
-
-```{r}
-# TODO your code here
-```
-
-### 7. Convert a Numeric Variable to a Factor
-
-Convert the `bill_length_mm` variable into a categorical factor by binning it into intervals:
-
-- 30-35 mm
-- 35-40 mm
-- 40-45 mm
-- 45-50 mm
-- 50+ mm
+**Task:** Reverse the order of the levels in the `species` factor.
 
 ```{r}
 # TODO your code here
@@ -301,53 +143,17 @@ Convert the `bill_length_mm` variable into a categorical factor by binning it in
 
 ## String Manipulation with `stringr`
 
-```{r}
-library(stringr)
-```
+### Exercise 16: Detecting Substrings
 
-### 1. Detecting Patterns in Strings
-
-Find all rows in the `penguins` dataset where the `species` contains the substring "Adel".
+**Task:** Find all rows in the `penguins` dataset where the `species` contains the substring "Adel".
 
 ```{r}
 # TODO your code here
 ```
 
-### 2. Extracting Parts of a String
+### Exercise 17: Extract Numeric ID from String
 
-Create a string vector of penguin IDs in the format "Penguin_ID-XXXXX", where "XXXXX" is the row number. Then, extract just the numeric ID part from these strings.
-
-```{r}
-# TODO your code here
-```
-
-### 3. Replacing Substring
-
-Replace all instances of "Adelie" in the `species` column with "Adelie Penguin".
-
-```{r}
-# TODO your code here
-```
-
-### 4. Splitting Strings
-
-Split a hypothetical column of `island` names stored as a string with a suffix (e.g., "Island_A") into the base name and suffix components.
-
-```{r}
-# TODO your code here
-```
-
-### 5. String Length
-
-Calculate the number of characters in each level of the `species` column.
-
-```{r}
-# TODO your code here
-```
-
-### 6. Combining Strings
-
-Combine the `island` and `species` columns into a single string, separated by hyphens, to create a unique identifier for each penguin.
+**Task:** Create a string vector of penguin IDs in the format "Penguin_ID-XXXXX", where "XXXXX" is the row number. Extract just the numeric part of these IDs.
 
 ```{r}
 # TODO your code here
@@ -355,85 +161,17 @@ Combine the `island` and `species` columns into a single string, separated by hy
 
 ## Date and Time Manipulation with `lubridate`
 
-```{r}
-library(lubridate)
-```
+### Exercise 18: Parsing and Manipulating Dates
 
-### 1. Parsing Dates
-
-Convert the string "2023-08-15" into a date object.
+**Task:** Convert the string `"2023-08-15"` into a date object and extract the year, month, and day components.
 
 ```{r}
 # TODO your code here
 ```
 
-### 2. Extracting Date Components
+### Exercise 19: Add and Subtract Time Intervals
 
-From the date "2024-12-25", extract the year, month, and day.
-
-```{r}
-# TODO your code here
-```
-
-### 3. Handling Different Date Formats
-
-Parse the date "15-August-2023" into a date object.
-
-```{r}
-# TODO your code here
-```
-
-### 4. Adding and Subtracting Time Intervals
-
-Add 3 months to the date "2023-01-01" and subtract 10 days from it.
-
-```{r}
-# TODO your code here
-```
-
-### 5. Calculating Time Differences
-
-Calculate the number of days between "2023-01-01" and "2024-01-01".
-
-```{r}
-# TODO your code here
-```
-
-### 6. Working with Date-Time Objects
-
-Create a date-time object for "2023-08-15 12:34:56".
-
-```{r}
-# TODO your code here
-```
-
-### 7. Extracting Time Components
-
-From the date-time "2023-08-15 12:34:56", extract the hour, minute, and second.
-
-```{r}
-# TODO your code here
-```
-
-### 8. Rounding Dates
-
-Round the date-time "2023-08-15 12:34:56" to the nearest hour.
-
-```{r}
-# TODO your code here
-```
-
-### 9. Finding the Day of the Week
-
-Determine the day of the week for "2023-08-15".
-
-```{r}
-# TODO your code here
-```
-
-### 10. Converting Time Zones
-
-Convert the date-time "2023-08-15 12:34:56" from UTC to the "America/New_York" time zone.
+**Task:** Add 3 months to the date `"2023-01-01"` and subtract 10 days from it.
 
 ```{r}
 # TODO your code here
@@ -441,71 +179,18 @@ Convert the date-time "2023-08-15 12:34:56" from UTC to the "America/New_York" t
 
 ## Modern Reimagining of Data Frames with `tibble`
 
-```{r}
-library(tibble)
-```
+### Exercise 20: Create and Modify a Tibble
 
-### 1. Creating a Simple Tibble
-
-Create a tibble with three columns: `Name` (character), `Age` (numeric), and `Height` (numeric).
+**Task:** Create a tibble with three columns: `Name` (character), `Age` (numeric), and `Height` (numeric). Then, add a new column `Weight`.
 
 ```{r}
 # TODO your code here
 ```
 
-### 2. Adding a New Column to a Tibble
+### Exercise 21: Convert a Data Frame to Tibble
 
-Add a new column `Weight` to the `people` tibble created in Exercise 1.
-
-```{r}
-# TODO your code here
-```
-
-### 3. Converting a Data Frame to a Tibble
-
-Convert the built-in `mtcars` data frame to a tibble.
+**Task:** Convert the built-in `mtcars` data frame to a tibble.
 
 ```{r}
 # TODO your code here
 ```
-
-### 4. Accessing Columns in a Tibble
-
-Access the `mpg` column of the `mtcars_tibble` created in Exercise 3 using the `$` operator.
-
-```{r}
-# TODO your code here
-```
-
-### 5. Accessing Rows in a Tibble
-
-Access the first 5 rows of the `mtcars_tibble`.
-
-```{r}
-# TODO your code here
-```
-
-### 6. Creating a Tibble with Different Data Types
-
-Create a tibble with a date column, a logical column, and a character column.
-
-```{r}
-# TODO your code here
-```
-
-### 7. Renaming Columns in a Tibble
-
-Rename the columns in the `people` tibble to `Full_Name`, `Age_Years`, and `Height_cm`.
-
-```{r}
-# TODO your code here
-```
-
-### 8. Subsetting a Tibble with `filter` and `select`
-
-Subset the `mtcars_tibble` to only include rows where `mpg` is greater than 20 and select only the `mpg`, `hp`, and `wt` columns.
-
-```{r}
-# TODO your code here
-```
-
