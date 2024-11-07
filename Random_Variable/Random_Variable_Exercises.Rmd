@@ -1,7 +1,7 @@
 ---
-title: "Random Variable: Exercises"
+title: "Random Variable: Exercises Solved"
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-09-26"
+date: "2024-30-10"
 output: html_document
 ---
 
@@ -9,19 +9,16 @@ output: html_document
 Simulate 1000 tosses of a biased coin where the probability of getting heads is 0.7. Calculate and plot the Probability Mass Function (PMF) for the number of heads.
 
 ```{r}
-# TODO: Simulate 1000 biased coin tosses
-# Probability of heads = 0.7
-# Calculate the PMF
-# hint: Use sample() with prob parameter
+set.seed(42)
+library(ggplot2)
+# plot PMF
 ```
 
 ### **Exercise 2: CDF of a Biased Coin Toss**
 Using the result from Exercise 1, calculate and plot the Cumulative Distribution Function (CDF) of the number of heads in 1000 tosses of the biased coin.
 
 ```{r}
-# TODO: Calculate and plot the CDF of the biased coin toss
-# hint: Use cumsum() for cumulative probability
-# Plot: Use ggplot2 and geom_step() to plot the CDF
+# plot the CDF using a step plot
 ```
 
 ### **Exercise 3: Custom Discrete Random Variable - Number of Goals in a Soccer Match**
@@ -35,11 +32,8 @@ Suppose a soccer team scores between 0 and 4 goals per match, with the following
 Write code to represent this custom discrete random variable. Then, calculate and plot its PMF and CDF.
 
 ```{r}
-# TODO: Define a custom discrete random variable for number of goals
-# Values: 0 to 4, with corresponding probabilities
-# Calculate the PMF and CDF
-# Plot both the PMF and CDF
-# hint: Use ggplot2 for visualization
+# plot PMF
+# plot CDF
 ```
 
 ### **Exercise 4: Simulating Normally Distributed Test Scores**
@@ -48,8 +42,7 @@ Simulate the scores of 500 students on an exam. The test scores are normally dis
 2. Plot the Probability Density Function (PDF) of the scores.
 
 ```{r}
-# TODO: Simulate test scores for 500 students
-# Distribution: mean = 75, sd = 10
+test_scores <- rnorm(500, mean = 75, sd = 10)
 # Calculate the probability of scoring above 90
 # Plot the PDF of the test scores
 ```
@@ -58,9 +51,7 @@ Simulate the scores of 500 students on an exam. The test scores are normally dis
 Using the test scores simulated in Exercise 4, calculate and plot the empirical Cumulative Distribution Function (CDF). Estimate the probability that a student scores less than 60.
 
 ```{r}
-# TODO: Calculate and plot the empirical CDF for the test scores
-# Estimate the probability of scoring less than 60
-# hint: Use ecdf() to create an empirical CDF function
+# TODO your code here
 ```
 
 ### **Exercise 6: Exploring the Relationship Between PMF and Expected Value**
@@ -70,10 +61,18 @@ A company sells a product for $5. Each sale has a probability of 0.1, and they c
 3. Plot the PMF of the number of sales.
 
 ```{r}
-# TODO: Simulate the number of sales out of 100 customers
-# Probability of sale = 0.1
-# Calculate the expected revenue (revenue = 5 * number of sales)
-# Plot the PMF for the number of sales
+# parameters
+n_customers <- 100    # Number of customers contacted
+p_sale <- 0.1         # Probability of a sale
+
+# sales range (0 to 100 possible sales)
+# compute the PMF for each possible number of sales
+# display the PMF values
+# check that the probabilities sum to 1 (as they should)
+# calculate the expected revenue (revenue = 5 * number of sales)
+# plot the PMF for the number of sales
+# plot the PMF
+# find the number of sales with the highest probability (most likely outcome)
 ```
 
 ### **Exercise 7: Comparing Two Continuous Random Variables**
@@ -85,11 +84,16 @@ Simulate two continuous random variables:
 2. Calculate the probability that X is greater than Y.
 
 ```{r}
-# TODO: Simulate X and Y from normal distributions
+library(dplyr)
+library(tidyr)
+
 # X ~ N(0, 1) and Y ~ N(3, 1.5)
-# Plot the PDFs of X and Y on the same plot
-# Calculate the probability that X > Y
+# plot the PDFs of X and Y on the same plot
+# calculate the probability that X > Y
+# we need to find the distribution of the difference Z = X - Y and calculate P(Z > 0)
+# P(Z > 0)
 ```
+
 
 ### **Exercise 8: Uniform Distribution - Random Walk**
 Generate 1000 steps of a random walk, where each step is a draw from a uniform distribution between -1 and 1.  
@@ -97,7 +101,7 @@ Generate 1000 steps of a random walk, where each step is a draw from a uniform d
 2. Calculate the cumulative sum of the walk and plot it.
 
 ```{r}
-# TODO: Simulate a random walk of 1000 steps (Uniform distribution U(-1, 1))
-# Plot the random walk trajectory
-# Calculate and plot the cumulative sum of the walk
+n_steps <- 1000
+steps <- runif(n_steps, min = -1, max = 1)
+# calculate the cumulative sum for the random walk trajectory
 ```

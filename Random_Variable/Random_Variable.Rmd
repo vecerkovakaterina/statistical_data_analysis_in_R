@@ -71,7 +71,8 @@ ggplot(rolls_data, aes(x = as.numeric(as.character(roll)), y = cumulative_probab
   scale_x_continuous(breaks = 1:6) +  # Ensure x-axis only shows discrete values from 1 to 6
   theme_minimal()
 ```
-Warning! The plot above is not completely accurate, can you tell why?
+
+**Warning! The plot above is not completely accurate, can you tell why?**
 
 ## Continuous Random Variables
 

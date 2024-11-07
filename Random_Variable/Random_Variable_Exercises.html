@@ -11,9 +11,8 @@
 
 <meta name="author" content="Kateřina Večerková vecerkok@vscht.cz" />
 
-<meta name="date" content="2024-09-26" />
 
-<title>Random Variable: Exercises</title>
+<title>Random Variable: Exercises Solved</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -350,9 +349,9 @@ display: none;
 
 
 
-<h1 class="title toc-ignore">Random Variable: Exercises</h1>
+<h1 class="title toc-ignore">Random Variable: Exercises Solved</h1>
 <h4 class="author">Kateřina Večerková <a href="mailto:vecerkok@vscht.cz" class="email">vecerkok@vscht.cz</a></h4>
-<h4 class="date">2024-09-26</h4>
+<h4 class="date">2024-30-10</h4>
 
 </div>
 
@@ -362,19 +361,16 @@ display: none;
 <p>Simulate 1000 tosses of a biased coin where the probability of
 getting heads is 0.7. Calculate and plot the Probability Mass Function
 (PMF) for the number of heads.</p>
-<pre class="r"><code># TODO: Simulate 1000 biased coin tosses
-# Probability of heads = 0.7
-# Calculate the PMF
-# hint: Use sample() with prob parameter</code></pre>
+<pre class="r"><code>set.seed(42)
+library(ggplot2)
+# plot PMF</code></pre>
 </div>
 <div id="exercise-2-cdf-of-a-biased-coin-toss" class="section level3">
 <h3><strong>Exercise 2: CDF of a Biased Coin Toss</strong></h3>
 <p>Using the result from Exercise 1, calculate and plot the Cumulative
 Distribution Function (CDF) of the number of heads in 1000 tosses of the
 biased coin.</p>
-<pre class="r"><code># TODO: Calculate and plot the CDF of the biased coin toss
-# hint: Use cumsum() for cumulative probability
-# Plot: Use ggplot2 and geom_step() to plot the CDF</code></pre>
+<pre class="r"><code># plot the CDF using a step plot</code></pre>
 </div>
 <div id="exercise-3-custom-discrete-random-variable---number-of-goals-in-a-soccer-match" class="section level3">
 <h3><strong>Exercise 3: Custom Discrete Random Variable - Number of
@@ -388,11 +384,8 @@ the following probabilities:<br />
 - 4 goals: 0.1</p>
 <p>Write code to represent this custom discrete random variable. Then,
 calculate and plot its PMF and CDF.</p>
-<pre class="r"><code># TODO: Define a custom discrete random variable for number of goals
-# Values: 0 to 4, with corresponding probabilities
-# Calculate the PMF and CDF
-# Plot both the PMF and CDF
-# hint: Use ggplot2 for visualization</code></pre>
+<pre class="r"><code># plot PMF
+# plot CDF</code></pre>
 </div>
 <div id="exercise-4-simulating-normally-distributed-test-scores" class="section level3">
 <h3><strong>Exercise 4: Simulating Normally Distributed Test
@@ -402,8 +395,7 @@ normally distributed with a mean of 75 and a standard deviation of
 10.<br />
 1. Calculate the probability of a student scoring above 90.<br />
 2. Plot the Probability Density Function (PDF) of the scores.</p>
-<pre class="r"><code># TODO: Simulate test scores for 500 students
-# Distribution: mean = 75, sd = 10
+<pre class="r"><code>test_scores &lt;- rnorm(500, mean = 75, sd = 10)
 # Calculate the probability of scoring above 90
 # Plot the PDF of the test scores</code></pre>
 </div>
@@ -412,9 +404,7 @@ normally distributed with a mean of 75 and a standard deviation of
 <p>Using the test scores simulated in Exercise 4, calculate and plot the
 empirical Cumulative Distribution Function (CDF). Estimate the
 probability that a student scores less than 60.</p>
-<pre class="r"><code># TODO: Calculate and plot the empirical CDF for the test scores
-# Estimate the probability of scoring less than 60
-# hint: Use ecdf() to create an empirical CDF function</code></pre>
+<pre class="r"><code># TODO your code here</code></pre>
 </div>
 <div id="exercise-6-exploring-the-relationship-between-pmf-and-expected-value" class="section level3">
 <h3><strong>Exercise 6: Exploring the Relationship Between PMF and
@@ -424,10 +414,18 @@ and they contact 100 customers.<br />
 1. Simulate the number of sales made out of 100 customers. 2. Calculate
 the expected revenue from these sales. 3. Plot the PMF of the number of
 sales.</p>
-<pre class="r"><code># TODO: Simulate the number of sales out of 100 customers
-# Probability of sale = 0.1
-# Calculate the expected revenue (revenue = 5 * number of sales)
-# Plot the PMF for the number of sales</code></pre>
+<pre class="r"><code># parameters
+n_customers &lt;- 100    # Number of customers contacted
+p_sale &lt;- 0.1         # Probability of a sale
+
+# sales range (0 to 100 possible sales)
+# compute the PMF for each possible number of sales
+# display the PMF values
+# check that the probabilities sum to 1 (as they should)
+# calculate the expected revenue (revenue = 5 * number of sales)
+# plot the PMF for the number of sales
+# plot the PMF
+# find the number of sales with the highest probability (most likely outcome)</code></pre>
 </div>
 <div id="exercise-7-comparing-two-continuous-random-variables" class="section level3">
 <h3><strong>Exercise 7: Comparing Two Continuous Random
@@ -440,10 +438,22 @@ Variables</strong></h3>
 the same graph.</li>
 <li>Calculate the probability that X is greater than Y.</li>
 </ol>
-<pre class="r"><code># TODO: Simulate X and Y from normal distributions
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)
+
 # X ~ N(0, 1) and Y ~ N(3, 1.5)
-# Plot the PDFs of X and Y on the same plot
-# Calculate the probability that X &gt; Y</code></pre>
+# plot the PDFs of X and Y on the same plot
+# calculate the probability that X &gt; Y
+# we need to find the distribution of the difference Z = X - Y and calculate P(Z &gt; 0)
+# P(Z &gt; 0)</code></pre>
 </div>
 <div id="exercise-8-uniform-distribution---random-walk" class="section level3">
 <h3><strong>Exercise 8: Uniform Distribution - Random Walk</strong></h3>
@@ -451,9 +461,9 @@ the same graph.</li>
 a uniform distribution between -1 and 1.<br />
 1. Plot the trajectory of the random walk. 2. Calculate the cumulative
 sum of the walk and plot it.</p>
-<pre class="r"><code># TODO: Simulate a random walk of 1000 steps (Uniform distribution U(-1, 1))
-# Plot the random walk trajectory
-# Calculate and plot the cumulative sum of the walk</code></pre>
+<pre class="r"><code>n_steps &lt;- 1000
+steps &lt;- runif(n_steps, min = -1, max = 1)
+# calculate the cumulative sum for the random walk trajectory</code></pre>
 </div>
 
 
