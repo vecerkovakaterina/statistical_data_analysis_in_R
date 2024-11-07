@@ -7,9 +7,9 @@ output: html_document
 
 # Exercises
 
-## Understanding the structure of the data
+## Understanding and Summarizing the Data
 
-### Exercise 1: Load and Preview the Dataset
+### Exercise 1: Load and Preview the Data
 
 **Task:** Load the Titanic dataset from a CSV file and display the first 10 rows to familiarize yourself with the data.
 
@@ -17,341 +17,110 @@ output: html_document
 # TODO your code here
 ```
 
-### Exercise 2: Data Structure
+### Exercise 2: Data Structure and Summary Statistics
 
-**Task:** Examine the structure of the Titanic dataset using the `str()` function. Identify the data types of each column.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 3: Summary Statistics
-
-**Task:** Use the `summary()` function to obtain basic descriptive statistics for the Titanic dataset. Focus on both numerical and categorical variables.
+**Task:** 
+1. Use the `str()` function to examine the data structure, identifying data types for each column.
+2. Obtain a summary of all variables using `summary()`. Identify any interesting values or outliers.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 4: Check for Missing Values
+### Exercise 3: Checking for Missing Values
 
-**Task:** Identify any missing values in the Titanic dataset by using the `is.na()` function. Summarize which columns contain missing values.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 5: Visualizing the Distribution of Age
-
-**Task:** Create a histogram to visualize the distribution of the `Age` column. Choose an appropriate number of bins (e.g., 20, 30, etc.) and label your axes.
+**Task:** Use the `is.na()` function to check for missing values. Summarize which columns contain missing values and their frequency.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 6: Visualizing Survival Rates by Gender
+## Visualizing Key Variables
 
-**Task:** Create a bar plot that shows the survival rates (`Survived`) split by gender (`Sex`). This will help in understanding the impact of gender on survival.
+### Exercise 4: Age Distribution
+
+**Task:** Create a histogram of the `Age` column to understand its distribution. Choose an appropriate number of bins (e.g., 20) and label your axes.
 
 ```{r}
 # TODO your code here
 ```
+
+### Exercise 5: Survival Rates by Gender
+
+**Task:** Create a bar plot showing the survival rates (`Survived`) by gender (`Sex`). This will help in understanding the impact of gender on survival.
+
+```{r}
+# TODO your code here
+```
+
+### Exercise 6: Fare Distribution by Passenger Class
+
+**Task:** Create a boxplot showing the distribution of `Fare` by passenger class (`Pclass`). Interpret whether fare distributions differ across classes.
+
+```{r}
+# TODO your code here
+```
+
+## Handling Missing Data
 
 ### Exercise 7: Imputing Missing Age Values
 
-**Task:** Impute the missing values in the `Age` column using the median value instead of the mode. Verify that no missing values remain after imputation.
+**Task:** Fill missing values in the `Age` column with the median age. Confirm that there are no remaining missing values.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 8: Handling Missing Cabin Data
+### Exercise 8: Dealing with Missing Embarked Data
 
-**Task:** Since the `Cabin` column contains many missing values, decide whether to drop this column or impute its missing values in a meaningful way. Justify your decision.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 9: Handling Missing Embarked Data
-
-**Task:** For the `Embarked` column, replace any missing values with the most frequent port of embarkation. Display the updated data to confirm the change.
+**Task:** Replace missing values in the `Embarked` column with the most common embarkation port. Display the column to confirm the change.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 10: Convert Categorical Variables
+## Basic Bivariate Analysis
 
-**Task:** Convert the `Pclass` and `Embarked` columns to factors to better reflect their categorical nature. Use `as.factor()` and check the structure of the data afterward.
+### Exercise 9: Exploring Fare and Survival Relationship
 
-```{r}
-# TODO your code here
-```
-
-### Exercise 11: Bivariate Analysis - Fare vs Survival
-
-**Task:** Create a boxplot to explore the relationship between `Fare` and `Survived`. What does this visualization tell you about fare and survival?
+**Task:** Create a boxplot to examine the relationship between `Fare` and `Survived`. What does this visualization suggest about the effect of fare on survival?
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 12: Correlation Matrix
+### Exercise 10: Correlation Analysis
 
-**Task:** Create a correlation matrix for the numerical variables in the Titanic dataset. Use the `cor()` function and visualize it with a heatmap. What relationships can you observe?
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 13: Feature Engineering - Family Size
-
-**Task:** Create a new feature called `FamilySize`, which combines the `SibSp` and `Parch` columns to represent the total number of family members a passenger had on board.
+**Task:** Create a correlation matrix for the numerical columns (e.g., `Age`, `Fare`, `SibSp`, and `Parch`). Interpret any strong positive or negative correlations.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 14: Visualizing Passenger Class Distribution
+## Feature Engineering
 
-**Task:** Create a bar plot to visualize the distribution of passengers across the different classes (`Pclass`). Add appropriate axis labels and a title.
+### Exercise 11: Extracting Title from Name
 
-```{r}
-# TODO your code here
-```
-
-## Data Transformation and Outliers Exercises
-
-### Exercise 1: Renaming Columns
-
-**Task:** Rename the columns in the Titanic dataset to make them more consistent and self-explanatory, just like in the tutorial. Use more descriptive names where needed.
+**Task:** Extract the title (e.g., Mr., Mrs., Miss.) from the `Name` column and create a new `Title` column. Group rare titles (those that appear less than 5 times) into an "Other" category. Display a summary of the new `Title` column.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 2: Converting Age to Integers
+### Exercise 12: Creating a Family Size Variable
 
-**Task:** Round the values in the `age` column to the nearest integer to reduce the number of unique values. Confirm the reduction in unique values after rounding.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 3: Rounding Fare Values
-
-**Task:** Round the values in the `fare` column and compare the correlation between the original `fare` and `survived` vs. the rounded `fare` and `survived`. Which version of the `fare` column would you choose for further analysis, and why?
+**Task:** Create a new feature called `FamilySize` by combining `SibSp` (siblings/spouses) and `Parch` (parents/children) to represent the total family size onboard. Display a summary of the new column.
 
 ```{r}
 # TODO your code here
 ```
 
-### Exercise 4: Converting Categorical Columns
+## Discussion
 
-**Task:** Convert the `sex` and `title` columns to factors. Display the structure of the data afterward to verify that the conversion was successful.
+### Exercise 13: Observations and Summary
 
-```{r}
-# TODO your code here
-```
-
-### Exercise 5: Extracting Titles from Name
-
-**Task:** Extract the title from the `name` column and create a new `title` column. Group less frequent titles into a category called "Other." Visualize the distribution of titles using a bar plot.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 6: Dealing with Rare Titles
-
-**Task:** After extracting and categorizing the titles as "Mr.", "Mrs.", "Miss.", "Master.", "Dr.", "Rev.", and "Other", convert the `title` column to a factor. Verify the changes using the `str()` function.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 7: Identifying and Visualizing Outliers
-
-**Task:** Create box plots for the numerical columns: `age`, `siblings_spouses`, `parents_children`, and `fare` to identify potential outliers. Combine these plots into a single visualization.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 8: Handling Outliers
-
-**Task:** After identifying outliers in the numerical columns, choose one method to handle these outliers (e.g., capping, removing, or transforming). Apply the chosen method to one column of your choice and visualize the result.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 9: Creating New Features
-
-**Task:** Besides extracting the `title` from the `name` column, think of another feature you could create from existing data (e.g., a family size column from `siblings_spouses` and `parents_children`). Create this new feature and add it to the dataset.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 10: Discussion on Outliers
-
-**Task:** After visualizing the outliers, discuss in a brief comment what approach you would take to handle outliers in each column. Would you remove, cap, or transform them? Justify your decision.
+**Task:** Briefly summarize your observations from the EDA. Consider any notable patterns, potential outliers, or areas for further investigation.
 
 ```{r}
 # TODO your discussion here
-```
-
-## Normalizing/Standardizing Data Exercises
-
-### Exercise 1: Min-Max Normalization
-
-**Task:** Apply Min-Max Normalization to the `fare` column instead of `age` and create a histogram to visualize the transformed values.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 2: Z-Score Standardization
-
-**Task:** Standardize the `age` column using Z-Score standardization `(x - mean(x)) / sd(x)` and visualize the result with a histogram. Compare the distribution before and after standardization.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 3: Robust Scaling
-
-**Task:** Use Robust Scaling `(x - median(x)) / IQR(x)` to standardize the `age` column instead of `fare`. Compare the distribution with the Z-Score standardized version and explain which method might be more appropriate for this dataset and why.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 4: Comparing Normalization Techniques
-
-**Task:** Normalize the `age` column using both Min-Max Normalization and Z-Score Standardization. Compare the histograms of the two methods and discuss which one seems more appropriate given the distribution of the data.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 5: Standardization of Multiple Columns
-
-**Task:** Apply Z-Score Standardization to both the `age` and `fare` columns. Plot the histograms of both columns before and after standardization to observe the change in their distributions.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 6: Handling Missing Values Before Normalization
-
-**Task:** Some normalization and standardization methods are sensitive to missing values. Ensure there are no missing values in the `age` or `fare` columns before applying any transformations. If missing values are present, fill them using an appropriate imputation method.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 7: Discussion on Scaling Techniques
-
-**Task:** Discuss the advantages and disadvantages of using Min-Max Normalization versus Z-Score Standardization for this Titanic dataset. In which situations would one method be preferable over the other?
-
-```{r}
-# TODO your discussion here
-```
-
-### Exercise 8: Visualizing the Effect of Normalization
-
-**Task:** Create a side-by-side boxplot comparing the distributions of the original `age` and `fare` columns with their normalized versions. Comment on how normalization changes the distribution of the data.
-
-```{r}
-# TODO your code here
-```
-
-## Bivariate and Multivariate Analysis Exercises
-
-### Exercise 1: Correlation Analysis
-
-**Task:** Calculate the correlation matrix for the following variables: `age`, `fare`, `siblings_spouses`, and `parents_children`. Create a heatmap to visualize the correlation matrix.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 2: Scatter Plots
-
-**Task:** Create scatter plots to visualize the relationships between:
-1. `fare` and `passenger_class`
-2. `siblings_spouses` and `fare`
-3. `age` and `fare`
-
-Use `ggplot2` and add appropriate titles to each plot.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 3: Pair Plots
-
-**Task:** Create a pair plot (scatterplot matrix) for the following numerical variables: `age`, `fare`, `siblings_spouses`, and `parents_children`. Use `GGally::ggpairs` to generate the plot and include a title.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 4: Principal Component Analysis (PCA)
-
-**Task:** Perform PCA on the numerical columns `age`, `fare`, `siblings_spouses`, and `parents_children`. Plot the first two principal components and color the points based on the `survived` column.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 5: K-means Clustering
-
-**Task:** Perform K-means clustering on the standardized numerical columns. Use the Elbow Method to determine the optimal number of clusters. Visualize the clusters using a scatter plot with `age` and `fare`, coloring by the cluster assignment.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 6: Hierarchical Clustering
-
-**Task:** Perform hierarchical clustering on the standardized numerical columns. Create a dendrogram to visualize the clustering process. Cut the tree to obtain three clusters and add the cluster assignments to your dataset. Plot a scatter plot with `age` and `fare`, coloring by the hierarchical cluster assignment.
-
-```{r}
-# TODO your code here
-```
-
-### Exercise 7: Interpretation of PCA
-
-**Task:** Examine the PCA results and interpret the meaning of the principal components. Discuss what kind of patterns or relationships between the original variables are captured by the principal components.
-
-```{r}
-# TODO your interpretation here
-```
-
-### Exercise 8: Comparing Clustering Methods
-
-**Task:** Compare the results of K-means and hierarchical clustering. Discuss how the two methods differ in terms of cluster assignment and what this implies about the structure of the dataset. Use scatter plots to visualize the clusters formed by each method.
-
-```{r}
-# TODO your comparison here
-```
-
-### Exercise 9: Exploring High-Dimensional Data
-
-**Task:** Discuss other techniques for dimensionality reduction besides PCA, such as t-SNE, UMAP, or MDS. Explain when each technique might be preferable and how they can be used to explore high-dimensional data.
-
-```{r}
-# TODO your discussion here
-```
-
-### Exercise 10: Advanced Visualization
-
-**Task:** Create a comprehensive visualization that includes PCA results, K-means clusters, and hierarchical clusters. Use a combination of plots to provide a clear view of how different methods of analysis reveal the structure of the data.
-
-```{r}
-# TODO your code here
 ```
