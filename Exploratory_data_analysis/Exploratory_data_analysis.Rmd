@@ -1,526 +1,120 @@
 ---
-title: "Exploratory Data Analysis with R"
+title: "Exploratory Data Analysis"
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "8/15/2024"
-output: 
-  html_document:
-    toc: true
-    toc_float:
-      collapsed: true
+date: "2024-10-31"
+output: html_document
 ---
 
-# Introduction to Exploratory Data Analysis (EDA)
-## What is EDA?
+# Exploratory Data Analysis
 
-Exploratory Data Analysis (EDA) is the first and crucial step when working with any dataset. It allows us to familiarize ourselves with the data by summarizing its main characteristics, using graphs and visualizations, and forming informed hypotheses. EDA helps in driving the selection of features for modeling by understanding the data and uncovering patterns, trends, missing values, anomalies, or relationships that guide further analysis.
+## **1. What is Exploratory Data Analysis (EDA)?**
+   - **Definition**: EDA is an approach to analyzing data sets to summarize their main characteristics, often using visual methods.
+   - **Purpose**: Understand the data structure, detect outliers or anomalies, recognize patterns, and generate hypotheses.
+   - **Importance**: Before performing more complex statistical analysis, EDA helps ensure data quality and identify assumptions that may impact later stages of analysis.
 
-## Key Steps in EDA
+#### **2. Steps in EDA**
 
-- **Understanding Variable Types:** Identify and understand the different types of variables in your dataset.
-- **Univariate Analysis:** Summarize and visualize each variable individually to understand its distribution and basic statistics using histograms, box plots, and measures of central tendency.
-- **Bivariate Analysis:** Explore the relationship between two variables at a time with scatter plots, correlation analyses, and similar techniques.
-- **Multivariate Analysis:** Investigate relationships among more than two variables using techniques such as correlation matrices, pair plots, and dimensionality reduction methods like Principal Component Analysis (PCA).
-- **Data Cleaning and Transformation:** Address missing values, transform variables, engineer new features, and select relevant features for further analysis.
-
-## Introducing the Titanic Dataset
-
-For this tutorial, we will use the Titanic dataset, a classic dataset in data science and machine learning. The Titanic dataset provides information about the passengers who were aboard the RMS Titanic, which tragically sank on its maiden voyage in 1912. 
-
-This dataset is rich in both categorical and numerical variables, making it ideal for practicing Exploratory Data Analysis (EDA). It includes information such as:
-
-- **PassengerId:** A unique identifier for each passenger.
-- **Survived:** Whether the passenger survived (1) or did not survive (0).
-- **Pclass:** The passenger's class (1st, 2nd, or 3rd).
-- **Name:** The name of the passenger.
-- **Sex:** The gender of the passenger.
-- **Age:** The age of the passenger.
-- **SibSp:** The number of siblings or spouses the passenger had aboard the Titanic.
-- **Parch:** The number of parents or children the passenger had aboard the Titanic.
-- **Ticket:** The ticket number.
-- **Fare:** The amount of money the passenger paid for the ticket.
-- **Cabin:** The cabin number (if available).
-- **Embarked:** The port of embarkation (C = Cherbourg, Q = Queenstown, S = Southampton).
-
-The Titanic dataset is widely used for tutorials because it offers a variety of data types and challenges, such as missing values, categorical data, and potential interactions between variables. It’s a great way to practice EDA techniques and gain insights that can guide more advanced analyses or predictive modeling.
-
-Throughout this tutorial, we will perform an Exploratory Data Analysis on the Titanic dataset to understand the characteristics of the passengers, explore survival rates, and identify key factors that might have influenced survival.
-
-# Loading and Understanding Your Data
-
-```{r, warning=FALSE, message=FALSE}
-install.packages("tidyverse")
-install.packages("plyr")
-install.packages("patchwork")
-install.packages("reshape2")
-install.packages("GGally")
-install.packages("factoextra")
-library(patchwork)
-library(plyr)
-library(tidyverse)
-library(dplyr)
-library(tidyr)
-library(reshape2)
-library(GGally)
-library(factoextra)
-```
-
-## Importing Data into R
+1. **Understanding Data Types and Structure**
+   - **Types of Data**: Categorical (nominal, ordinal) vs. Numeric (continuous, discrete).
+   - **Data Structure in R**: Briefly cover data frames, factors, lists, and numerical data types (integers, doubles).
 
 ```{r}
-library(readr)
-titanic_data <- read_csv("titanic.csv")
-head(titanic_data)
+# Example: Loading and viewing data structure
+data <- read.csv("titanic.csv")
+str(data)
+summary(data)
 ```
 
-## Understanding the Structure of the Data
-
-The `str()` function provides a concise summary of the dataset, showing the number of observations (rows), the number of variables (columns) and the data type for ieach variable (e.g. integer, factor, character).
+2. **Summary Statistics**
+   - **Numerical Variables**:
+      - Mean, Median, Standard Deviation, Range, Minimum, Maximum, Quartiles.
+      - Useful functions: `mean()`, `median()`, `sd()`, `range()`, `summary()`.
 
 ```{r}
-str(titanic_data)
+# Example: Summary statistics
+summary(data$Fare)
+mean(data$Fare, na.rm = TRUE)
 ```
 
-## Summary Statistics
-
-To get a quick summary of each variable including basic descriptive statistics for numerical variables and frequency counts for categorical variables, use the `summary()` function.
+   - **Categorical Variables**:
+      - Frequency counts and proportions.
+      - Useful functions: `table()`, `prop.table()`.
 
 ```{r}
-summary(titanic_data)
+# Example: Frequency table
+table(data$Cabin)
 ```
 
-## Identifying Missing Values
-
+3. **Data Visualization Techniques**
+   - **Histogram**: Visualize the distribution of a single continuous variable.
 ```{r}
-colSums(is.na(titanic_data))
-```
-
-Here we can see that the columns `Age`, `Cabin`, `Embarked` contain missing values, we will need to pay attention to this during data cleaning.
-
-# Data Cleaning and Preparation
-
-Before diving deeper into analysis, it’s crucial to ensure that your data is clean, consistent, and ready for exploration. Data cleaning and preparation is a foundational step in any data analysis project, where we address issues like missing values, inconsistencies, and incorrect data types. This process not only improves the quality of your analysis but also helps in drawing more accurate and reliable conclusions.
-
-In this chapter, we will walk through the essential techniques and best practices for cleaning and preparing your dataset. By the end of this section, you'll be equipped to handle common data challenges and transform raw data into a structured format that’s ready for analysis.
-
-## Handling Missing Values
-
-Common approaches to dealing with missing data:
-
-- remove rows with missing values entirely
-- imputing missing data with
-  - mean/median/mode
-  - neighboring values
-  - predicted values
-- leaving missing data as is (tree-based methods)
-
-What do you think are their pros & cons?
-
-### Missing values in the `Age` column
-
-```{r}
-# let's first examine the distribution of values in the Age column
 library(ggplot2)
-ggplot(titanic_data, aes(x=Age)) + geom_histogram(bins = 30)
+
+ggplot(data, aes(x = Age)) +
+  geom_histogram(binwidth = 15, fill = "lightblue", color = "black") +
+  labs(title = "Histogram of Variable", x = "Values", y = "Frequency")
 ```
-
-Notice the warning caused by the 177 missing values.
-
+   - **Box Plot**: Identify the distribution, central tendency, and potential outliers for a variable, often grouped by category.
 ```{r}
-qqnorm(titanic_data$Age)
-qqline(titanic_data$Age, col="steelblue", lwd = 2)
+ggplot(data, aes(x = factor(Survived), y = Age)) +
+  geom_boxplot(fill = "lightblue") +
+  labs(title = "Boxplot of Age by Survived", x = "Survived", y = "Age")
 ```
-
-We see that the distribution of `Age` is skewed to the left (positive skew). We will use the most common value to fill in the missing ones. Which is why we will use
-
-- the mean,
-- the mode or
-- the median?
-
+   - **Bar Plot**: Display frequencies of categorical variables.
 ```{r}
-# create frequency table and get mode
-frequency_table <- table(titanic_data$Age)
-mode_value <- as.numeric(names(frequency_table)[which.max(frequency_table)])
-mode_value
+ggplot(data, aes(x = Embarked)) +
+  geom_bar(fill = "lightcoral") +
+  labs(title = "Bar Plot of Embarked", x = "Embarked", y = "Count")
 ```
-
-Unfortunately there is no implemented function for `mode` in R, so we will create a frequency table for all the values in the `Age` column and pick the most frequent one, which in this case is 24.
-
+   - **Scatter Plot**: Show the relationship between two continuous variables.
 ```{r}
-# replace missing values in the Age column with the mode
-titanic_data <- titanic_data %>% mutate(Age = replace_na(Age, mode_value))
-sum(is.na(titanic_data$Age))
+ggplot(data, aes(x = Age, y = Fare)) +
+  geom_point(color = "steelblue") +
+  labs(title = "Scatter Plot of Age vs Fare", x = "Age", y = "Fare")
 ```
 
+4. **Detecting Outliers**
+   - **Outliers**: Data points significantly different from others in the dataset.
+   - **Identification Methods**: Boxplots, z-scores (standardization), and IQR method.
 ```{r}
-ggplot(titanic_data, aes(x=Age)) + geom_histogram(bins = 30)
+# Example: Identifying outliers using IQR
+Q1 <- quantile(data$Age, 0.25, na.rm=TRUE)
+Q3 <- quantile(data$Age, 0.75, na.rm=TRUE)
+IQR <- Q3 - Q1
+outliers <- data$Age[data$Age < (Q1 - 1.5 * IQR) | data$Age > (Q3 + 1.5 * IQR)]
+outliers <- outliers[!is.na(outliers)] # remove NAs
+outliers
 ```
 
-From the histogram after imputation we can see that we modified the distribution significantly. It is a compromise that we need to take because in this case our best guess is the mode.
-
-### Missing values in the Cabin column
-
-687 out of 891 of the values in the Cabin column are missing which tells us that this column is not very informative or the survival probability. For this specific case, we will remove the column from the dataset entirely.
-
+5. **Handling Missing Values**
+   - **Assess Missingness**: Check for any missing values in the data and the proportion of missingness.
 ```{r}
-# drop the Cabin column
-titanic_data <- titanic_data %>% select(-Cabin)
-head(titanic_data)
+# Example: Check for missing values
+colSums(is.na(data))
 ```
+   - **Dealing with Missing Values**: Common approaches include removing or imputing (mean/median) missing values.
 
-### Missing values in the Embarked column
-
-The Embarked column is a categorical one with three possible values: S, C or Q. The most frequent one is S (644 occurrences out of 889). We will replace the missing values with the most frequent one.
-
+6. **Exploring Relationships Between Variables**
+   - **Correlation Matrix**: Identify linear relationships between pairs of continuous variables.
 ```{r}
-ggplot(titanic_data, aes(x = Embarked)) + geom_bar()
+# Example: Calculate correlation matrix
+library(reshape2)
+cor_matrix <- cor(data[, sapply(data, is.numeric)], use = "complete.obs")
+cor_data <- melt(cor_matrix) # reshape the matrix for ggplot2
+ggplot(cor_data, aes(x = Var1, y = Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", mid = "white", high = "red", midpoint = 0) +
+  labs(title = "Heatmap of Correlation Matrix", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
+   - **Cross-tabulation**: Analyze the relationship between two categorical variables.
 ```{r}
-# replace the missing values in the Embarked column
-count_table <- titanic_data %>% plyr::count("Embarked")
-most_frequent <- count_table %>% filter(freq == max(freq)) %>% pull("Embarked")
-titanic_data <- titanic_data %>% mutate(Embarked = replace_na(Embarked, most_frequent))
-sum(is.na(titanic_data$Embarked))
+# Example: Cross-tabulation
+table(data$Survived, data$Sex)
 ```
 
-```{r}
-ggplot(titanic_data, aes(x = Embarked)) + geom_bar()
-```
-Finally let's convert the column type to categorical.
+#### **3. Key Insights and Next Steps**
+   - **Summarizing Findings**: Briefly describe key insights, unusual patterns, or any issues like skewness or high missingness.
+   - **Generating Hypotheses**: Based on EDA, suggest potential hypotheses or questions for further analysis.
 
-```{r}
-titanic_data$Embarked <- as.factor(titanic_data$Embarked)
-```
-
-## Data Transformation
-
-Data transformation is a crucial step in data preparation and analysis. It involves modifying, reshaping, or aggregating your data to make it more suitable for analysis. This process allows you to derive new insights, prepare data for modeling, and ensure that the dataset is in the right format for visualization or further processing.
-
-### Column names
-
-```{r}
-# check if columns are named consistently
-colnames(titanic_data)
-# some of the column names are not self-explanatory, some are also shortened, let's unify them
-titanic_data <- titanic_data %>% rename(passenger_id = PassengerId, survived = Survived, passenger_class = Pclass, name = Name, sex = Sex, age = Age, siblings_spouses = SibSp, parents_children = Parch, ticket = Ticket, fare = Fare, embarked = Embarked)
-colnames(titanic_data)
-```
-
-### Changing column data types
-
-```{r}
-# the intention here is to minimize the number of unique values in each column to reduce dimensionality
-lapply(titanic_data %>% select(-passenger_id, -name, -ticket), unique) # exclude columns that obviously have a unique value in each row
-```
-
-```{r}
-# even though the data type of the age column is float, most values in the age column are an integer, let's convert the values to the closest integer
-titanic_data <- titanic_data %>% mutate(age = round(age))
-```
-
-```{r}
-unique(titanic_data$age)
-```
-
-We reduced the number of unique values in the `age` column from 88 to 71. Another float column with a lot of unique values if the `fare` column. Let's try to see if the correlation with the `survived` column changes if we round these values.
-
-```{r}
-# titanic_data <- titanic_data %>% mutate(fare_rounded = round(fare))
-# cor(titanic_data$fare, titanic_data$survived)
-# cor(titanic_data$fare_rounded, titanic_data$survived)
-```
-
-```{r}
-# titanic_data <- titanic_data %>% select(-fare) %>% rename(fare = fare_rounded)
-# length(unique(titanic_data$fare))
-```
-
-The correlation coefficient doesn't get affected much and we reduced the number of unique values from 248 to 90!
-
-The next step is to convert the `sex` column to categorical.
-
-```{r}
-titanic_data$sex <- as.factor(titanic_data$sex)
-```
-
-### Creating new columns
-
-Here we will focus on creating new columns. Is there a column that combines more pieces information that could be split into more columns? Let's look at the `name` column. What can we extract from it?
-
-#### Extracting title from `name`
-
-```{r}
-head(titanic_data$name)
-```
-
-It seems that the `name` column follows the format: last_name, title first_name(s) "nickname" (more_first_names?).
-
-```{r}
-# first we split the last name from the title and the last name separated by ","
-titanic_data <- titanic_data %>% mutate(title_and_first_names = (str_split(name, ", ", simplify = TRUE))[,2])
-titanic_data <- titanic_data %>% mutate(title = str_split(title_and_first_names, " ", simplify = TRUE)[, 1])
-titanic_data <- titanic_data %>% select(-title_and_first_names)
-head(titanic_data$title)
-```
-
-```{r}
-ggplot(titanic_data, aes(x = title)) + geom_bar()
-```
-
-Now that we successfuly extracted the title, let's look at the values. We see that there are some dominant titles like Mr., Mrs., Miss., Master and maybe even Dr. and Rev. The remaining titles are rare. To reduce the number of unique values let's classify these rare titles into Other.
-
-```{r}
-titanic_data <- titanic_data %>% mutate(
-    title = if_else(title %in% c("Mr.", "Mrs.", "Miss.", "Master.", "Dr.", "Rev."), 
-                    title, 
-                    "Other")
-  )
-```
-
-```{r}
-ggplot(titanic_data, aes(x = title)) + geom_bar()
-```
-
-```{r}
-# finally let's convert the title column to categorical
-titanic_data$title <- as.factor(titanic_data$title)
-```
-
-```{r}
-str(titanic_data)
-```
-
-## Dealing with Outliers
-
-```{r}
-# let's identify outliers of the numerical columns
-
-p1 <- ggplot(titanic_data, aes(x = age)) + geom_boxplot() + coord_flip()
-p2 <- ggplot(titanic_data, aes(x = siblings_spouses)) + geom_boxplot() + coord_flip()
-p3 <- ggplot(titanic_data, aes(x = parents_children)) + geom_boxplot() + coord_flip()
-p4 <- ggplot(titanic_data, aes(x = fare)) + geom_boxplot() + coord_flip()
-
-combined_plot <- p1 + p2 + p3 + p4 + plot_layout(ncol = 4)
-
-combined_plot
-```
-Discussion: how would you treat these outliers?
-
-## Normalizing/Standardizing Data
-
-### Introduction to Normalization and Standardization
-
-- **Normalization**: Scaling features to a fixed range, typically [0, 1]. Useful when you need features to be on a similar scale, especially for algorithms that are sensitive to the magnitude of features, like neural networks. Many algorithms perform better when features are on a similar scale. Features with larger scaled can dominate distance metrics and gradient-based methods.
-- **Standardization**: Transforming features to have a mean of 0 and a standard deviation of 1. Useful when data needs to have the properties of a standard normal distribution, which is important for algorithms that assume normally distributed data, like linear regression.
-
-### Some Exaplmes of Methods for Normalizing/Standardizing Data
-
-- **Min-Max Normalization** `(x - min(x)) / (max(x) - min(x))`
-- **Z-Score Standardization** `(x - mean(x)) / sd(x)`
-- **Robust Scaling** `(x - median(x)) / IQR(x)`
-
-We have 4 numerical columns: `siblings_spouses`, `parents_children`, `age` and `fare`. When it comes to the first two, even though they are quantitative, they have specific interpretations in their raw form so we won't normalize/standardize them. The `age` and `fare` column however we'll normalize.
-
-```{r}
-# min-max normalization of the age column
-normalize <- function(x) {
-  (x - min(x)) / (max(x) - min(x))
-}
-
-titanic_data <- titanic_data %>%
-  mutate(
-    age = normalize(age)
-  )
-
-ggplot(titanic_data, aes(x = age)) + geom_histogram(bins = 30)
-```
-
-```{r}
-# robust scaling of the fare column
-robust_scale <- function(x) {
-  (x - median(x, na.rm = TRUE)) / IQR(x, na.rm = TRUE)
-}
-
-titanic_data <- titanic_data %>%
-  mutate(
-    fare = robust_scale(fare)
-  )
-
-ggplot(titanic_data, aes(x = fare)) + geom_histogram(bins = 30)
-```
-
-
-# Bivariate Analysis
-
-Bivariate Analysis examines the relationship between two variables to understand their interactions and correlations. Techniques used include scatter plots, which visually depict the relationship between two variables, and correlation coefficients, which quantify the strength and direction of their linear relationship. Bivariate analysis helps in identifying patterns, associations, and potential predictive relationships between variables.
-
-## Correlation Analysis
-
-Correlation Analysis evaluates the strength and direction of the linear relationship between two variables. It is quantified using the correlation coefficient, which ranges from -1 to 1. A coefficient close to 1 indicates a strong positive relationship, close to -1 indicates a strong negative relationship, and around 0 suggests no linear relationship. Correlation analysis helps in understanding how changes in one variable might be associated with changes in another.
-
-```{r}
-correlation_matrix <- round(cor(titanic_data %>% select(survived, passenger_class, age, siblings_spouses, parents_children, fare)), 2) # considering only numerical columns
-melted_correlation_matrix <- melt(correlation_matrix)
-ggplot(data = melted_correlation_matrix, aes(x = Var1, y = Var2, fill = value)) + geom_tile()
-```
-
-## Scatter Plots
-
-Scatter Plot is a graphical representation that displays the relationship between two continuous variables. Each point on the plot represents an observation, with its position determined by the values of the two variables. Scatter plots help visualize trends, correlations, and the distribution of data, making it easier to identify patterns, clusters, or outliers.
-
-```{r}
-p1 <- ggplot(titanic_data, aes(x = passenger_class, y = survived)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Passenger class vs Survived")
-
-p2 <- ggplot(titanic_data, aes(x = age, y = survived)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Age vs Survived")
-
-p3 <- ggplot(titanic_data, aes(x = siblings_spouses, y = survived)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Number of siblings and spouses vs Survived")
-
-p4 <- ggplot(titanic_data, aes(x = parents_children, y = survived)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Number of parents and children vs Survived")
-
-p5 <- ggplot(titanic_data, aes(x = fare, y = survived)) +
-  geom_point(alpha = 0.5) +
-  labs(title = "Fare vs Survived")
-
-# combine individual plots with patchwork
-(p1 | p2 | p3) / (p4 | p5)
-```
-
-## Pair Plots
-
-Pair Plot (or scatterplot matrix) is a grid of scatter plots that shows the relationships between all pairs of variables in a dataset. Each cell in the matrix is a scatter plot of two variables, while the diagonal typically shows the distribution of each variable. Pair plots provide a comprehensive view of the interactions between variables, helping to identify correlations and patterns across multiple dimensions.
-
-```{r}
-# select relevant columns
-numeric_columns <- titanic_data %>% dplyr::select(age, fare, siblings_spouses, parents_children, survived)
-
-# create a pair plot
-ggpairs(numeric_columns) +
-  labs(title = "Pair Plot of Selected Titanic Dataset Variables")
-```
-
-# Multivariate Analysis
-
-Multivariate analysis enables you to uncover more complex patterns in your data by exploring relationships between multiple variables simultaneously.
-
-## Principal Component Analysis
-
-Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms data into a set of orthogonal components (principal components) that capture the most variance in the data. By projecting the data onto these components, PCA reduces the number of variables while preserving as much of the original variability as possible. This is useful for simplifying datasets, revealing underlying structures, and visualizing high-dimensional data in lower dimensions.
-
-```{r}
-# select numeric columns for PCA
-numeric_columns <- titanic_data %>%
-  dplyr::select(age, fare, siblings_spouses, parents_children, survived) %>%
-  na.omit()  # remove rows with missing values
-
-# perform PCA
-pca_result <- prcomp(numeric_columns, scale. = TRUE)
-pca_scores <- as.data.frame(pca_result$x)
-
-# add the survived column to the pca scores
-pca_scores$survived <- numeric_columns$survived
-```
-
-```{r}
-ggplot(pca_scores, aes(x = PC1, y = PC2)) +
-  geom_point(alpha = 0.7, aes(color = survived)) +
-  labs(title = "PC1 vs PC2", x = "PC1", y = "PC2") +
-  theme_minimal()
-```
-
-```{r}
-ggplot(pca_scores, aes(x = PC2, y = PC3)) +
-  geom_point(alpha = 0.7, aes(color = survived)) +
-  labs(title = "PC2 vs PC3", x = "PC2", y = "PC3") +
-  theme_minimal()
-```
-
-```{r}
-ggplot(pca_scores, aes(x = PC1, y = PC3)) +
-  geom_point(alpha = 0.7, aes(color = survived)) +
-  labs(title = "PC1 vs PC3", x = "PC1", y = "PC3") +
-  theme_minimal()
-```
-
-## Clustering Analysis
-
-Clustering Analysis involves grouping data points into clusters such that points within the same cluster are more similar to each other than to those in other clusters. The goal is to identify natural groupings in the data. Common methods include k-means clustering, which partitions data into a predefined number of clusters by minimizing the distance between points and their cluster centroids, and hierarchical clustering, which builds a hierarchy of clusters through either iterative merging (agglomerative) or splitting (divisive). Clustering helps in discovering patterns and segmenting data for further analysis.
-
-```{r}
-# standardize or normalize the numerical features to ensure they are on a similar scale
-scaled_data <- scale(numeric_columns)
-```
-
-### K-means clustering
-
-K-means clustering partitions a dataset into *k* clusters by iteratively assigning data points to the nearest centroid and updating the centroids based on the mean of assigned points. The process continues until the centroids stabilize or a set number of iterations is reached. It is efficient for large datasets but requires specifying *k* and can be sensitive to initial centroid placement and outliers.
-
-```{r}
-# use methods like Elbow Method or Silhouette Analysis to decide the optimal number of clusters
-fviz_nbclust(scaled_data, kmeans, method = "wss")
-```
-
-```{r}
-set.seed(123)  # for reproducibility
-
-# perform k-means clustering
-kmeans_result <- kmeans(scaled_data, centers = 3, nstart = 25)
-
-# add cluster assignments to the original data
-titanic_data$cluster <- kmeans_result$cluster
-
-# visualize clusters
-ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster))) +
-  geom_point(alpha = 0.6) +
-  labs(title = "K-means Clustering", color = "Cluster") +
-  theme_minimal()
-```
-
-### Hierarchical clustering
-
-Hierarchical clustering creates a tree-like structure of clusters called a dendrogram. Agglomerative hierarchical clustering starts with each point as its own cluster and merges the closest clusters iteratively. Divisive hierarchical clustering starts with one large cluster and splits it iteratively. It doesn’t require specifying the number of clusters beforehand but can be computationally intensive for large datasets and does not allow for reassigning data points once clusters are formed.
-
-```{r}
-# compute distance matrix
-dist_matrix <- dist(scaled_data)
-
-# perform hierarchnical clustering
-hclust_result <- hclust(dist_matrix, method = "ward.D2")
-
-# cut tree to get clusters
-clusters_hc <- cutree(hclust_result, k = 3)
-
-# add cluster assignments to the original data
-titanic_data$cluster_hc <- clusters_hc
-
-# plot dendrogram
-plot(hclust_result, main = "Hierarchical Clustering Dendrogram", labels = FALSE)
-```
-
-```{r}
-ggplot(titanic_data, aes(x = age, y = fare, color = as.factor(cluster_hc))) +
-  geom_point(alpha = 0.6) +
-  labs(title = "Hierarchical Clustering", color = "Cluster") +
-  theme_minimal()
-```
-
-# Dealing with High-Dimensional Data
-
-## PCA
-We have already covered principal component analysis above.
-
-```{r}
-ggplot(pca_scores, aes(x = PC1, y = PC2)) +
-  geom_point(alpha = 0.7, aes(color = survived)) +
-  labs(title = "PC1 vs PC2", x = "PC1", y = "PC2") +
-  theme_minimal()
-```
-
-Other options for dimensionality reduction are t-SNE, UMAP or MDS.
