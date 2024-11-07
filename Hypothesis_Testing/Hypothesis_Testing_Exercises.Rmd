@@ -19,6 +19,9 @@ sigma <- 20   # Population standard deviation
 n <- 60       # Sample size
 alpha <- 0.05  # Significance level
 
+# H0: 
+# H1: 
+
 # TODO Your code here
 # Z-test
 # Critical value and p-value
@@ -34,6 +37,9 @@ sigma <- 8    # Population standard deviation
 n <- 40       # Sample size
 alpha <- 0.01  # Significance level
 
+# H0:
+# H1:
+
 # TODO Your code here
 ```
 
@@ -46,6 +52,9 @@ mu_0 <- 1200   # Population mean under null hypothesis
 sigma <- 50    # Population standard deviation
 n <- 45        # Sample size
 alpha <- 0.10  # Significance level
+
+# H0: 
+# H1: 
 
 # TODO Your code here
 ```
@@ -65,7 +74,11 @@ n_female <- 35       # Sample size of female students
 
 alpha <- 0.05  # Significance level
 
+# H0: 
+# H1: 
+
 # TODO Your code here
+
 # Z-test for two independent samples
 # Critical value and p-value
 ```
@@ -85,16 +98,3 @@ alpha_10 <- 0.10
 # Decision at 5% significance level
 # Decision at 10% significance level
 ```
-
-## **Exercise 6: Visualizing the Z-Distribution**
-6. Create a plot of the standard normal distribution and shade the area corresponding to a Z-critical value of 1.96 for a two-tailed test (representing a 5% significance level). Highlight the rejection regions.
-
-```{r}
-library(ggplot2)
-
-# TODO Your code here
-# Create a sequence of Z values
-# Plot the standard normal distribution
-```
-
-
