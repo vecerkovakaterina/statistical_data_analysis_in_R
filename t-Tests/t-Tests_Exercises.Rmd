@@ -73,32 +73,3 @@ alpha_1 <- 0.01
 # Decision at 5% significance level
 # Decision at 1% significance level
 ```
-
-## **Exercise 5: Visualizing the t-Distribution**
-5. Create a plot of the t-distribution with 10 degrees of freedom and shade the area corresponding to a t-critical value of ±2.228 for a two-tailed test at a 5% significance level. Highlight the rejection regions.
-
-```{r}
-library(ggplot2)
-
-# TODO Your code here
-# Create a sequence of t values
-# Plot the t-distribution
-```
-
-## **Exercise 6: Comparing Means of Three Groups**
-6. A researcher is interested in comparing the average test scores of three different teaching methods (A, B, C). The scores for each method are as follows:  
-    - Method A: 88, 90, 92, 87, 85  
-    - Method B: 78, 82, 80, 79, 81  
-    - Method C: 85, 86, 84, 88, 87  
-Conduct an ANOVA test (which uses t-tests in its underlying mechanics) to determine if there are significant differences in the average test scores among the three teaching methods at a 5% significance level.
-
-```{r}
-scores_A <- c(88, 90, 92, 87, 85)
-scores_B <- c(78, 82, 80, 79, 81)
-scores_C <- c(85, 86, 84, 88, 87)
-
-# TODO Your code here
-# Combine into a data frame
-# ANOVA test
-# Decision
-```
