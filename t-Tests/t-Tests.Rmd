@@ -5,7 +5,7 @@ date: "2024-10-17"
 output: html_document
 ---
 
-# t-Tests, one- and two-sample t-test
+# t-Tests: One-Sample, Independent Two-Sample, and Paired t-Tests
 
 ## 1. **Introduction to t-Tests**
   - **What is a t-Test?**
@@ -82,28 +82,78 @@ if (abs(t) > t_critical) {
 }
 ```
 
-## 4. **Interpreting the Results**
-  - If the t-statistic is larger than the critical value (or if the p-value is smaller than \( \alpha \)):
-    - **Reject \( H_0 \)**: This means there is evidence to suggest that the population mean is **different** from the hypothesized value.
-    - **Czech Translation**: Zamítáme nulovou hypotézu – existuje důkaz, že populační průměr je odlišný od předpokládané hodnoty.
-   
-  - If the t-statistic is smaller than the critical value (or if the p-value is larger than \( \alpha \)):
-    - **Fail to reject \( H_0 \)**: This means there is **not enough evidence** to suggest that the population mean is different from the hypothesized value.
-    - **Czech Translation**: Nezamítáme nulovou hypotézu – neexistuje dostatečný důkaz, že populační průměr je odlišný.
+## 4. **Independent Two-Sample t-Test**
 
-## 5. **Term Vocabulary (Slovník pojmů)**
+An independent two-sample t-test is used to compare the means of two independent groups.
+
+1. **Hypotheses**:
+    - **Null Hypothesis (\( H_0 \))**: The means of the two groups are equal (\( \mu_1 = \mu_2 \)).
+    - **Alternative Hypothesis (\( H_a \))**: The means of the two groups are not equal (\( \mu_1 \neq \mu_2 \)).
+
+2. **Calculate the t-Statistic**:
+   - Formula:
+      \[
+      t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}}
+      \]
+      where:
+      - \( \bar{x}_1 \), \( \bar{x}_2 \): means of groups 1 and 2
+      - \( s_1 \), \( s_2 \): standard deviations of groups 1 and 2
+      - \( n_1 \), \( n_2 \): sample sizes of groups 1 and 2
+
+3. **Example: Independent Two-Sample t-Test in R**:
+```{r}
+# Sample data
+group1 <- c(10, 20, 30, 40, 50)  # Sample values for group 1
+group2 <- c(15, 25, 35, 45, 55)  # Sample values for group 2
+
+# t-test
+t_test_result <- t.test(group1, group2, var.equal = TRUE)  # assuming equal variances
+t_test_result
+```
+
+## 5. **Paired t-Test**
+
+A paired t-test is used to compare means from the same group at different times (e.g., before and after treatment).
+
+1. **Hypotheses**:
+    - **Null Hypothesis (\( H_0 \))**: The mean difference between the paired observations is zero (\( \mu_d = 0 \)).
+    - **Alternative Hypothesis (\( H_a \))**: The mean difference is not zero (\( \mu_d \neq 0 \)).
+
+2. **Calculate the t-Statistic**:
+   - Formula:
+      \[
+      t = \frac{\bar{d}}{\frac{s_d}{\sqrt{n}}}
+      \]
+      where:
+      - \( \bar{d} \): mean of the differences
+      - \( s_d \): standard deviation of the differences
+      - \( n \): number of paired observations
+
+3. **Example: Paired t-Test in R**:
+```{r}
+# Sample paired data
+before <- c(80, 85, 88, 90, 92)  # Measurements before treatment
+after <- c(82, 86, 89, 91, 94)   # Measurements after treatment
+
+# Paired t-test
+paired_test_result <- t.test(before, after, paired = TRUE)
+paired_test_result
+```
+
+## 6. **Conclusion**
+  - The **t-test** family of tests is a powerful tool for comparing means, with specific tests suited for different experimental designs (one-sample, two-sample, and paired).
+  - By following the steps and examples, students will be able to conduct each type of t-test and interpret the results effectively.
+
+## 7. **Term Vocabulary (Slovník pojmů)**
 
 | **English Term**              | **Czech Translation**                        | **Explanation**                                                                            |
 |-------------------------------|----------------------------------------------|--------------------------------------------------------------------------------------------|
-| One-Sample t-Test             | Jednovýběrový t-test                        | A test that compares the mean of a single sample to a known population mean.             |
+| One-Sample t-Test             | Jednovýběrový t-test                        | A test that compares the mean of a single sample to a known population mean.               |
+| Independent Two-Sample t-Test | Dvouvýběrový t-test                         | A test that compares the means of two independent groups.                                  |
+| Paired t-Test                 | Párový t-test                               | A test that compares means from the same group at different times.                         |
 | Null Hypothesis (\( H_0 \))    | Nulová hypotéza                             | The hypothesis that there is no effect or no difference.                                   |
 | Alternative Hypothesis (\( H_a \)) | Alternativní hypotéza                  | The hypothesis that there is an effect or a difference.                                    |
 | t-statistic                   | t-statistika                                | The test statistic used in a t-test.                                                       |
 | Significance Level (\( \alpha \)) | Hladina významnosti (\( \alpha \))        | The probability of rejecting the null hypothesis when it is true (Type I error).            |
 | p-value                       | p-hodnota                                   | The probability of obtaining the observed results, or more extreme ones, under \( H_0 \).   |
-| Critical Value                | Kritická hodnota                            | The threshold value that the test statistic is compared to, based on the significance level.|
-| Degrees of Freedom (df)       | Stupně volnosti (df)                       | The number of independent values that can vary in an analysis; for a one-sample t-test, \( df = n - 1 \).|
-
-## Conclusion
-  - The **t-test** is a powerful tool for comparing means, especially with small sample sizes.
-  - By following the outlined steps, students will be able to conduct a one-sample t-test and interpret the results effectively.
+| Critical Value                | Kritická hodnota                            | The threshold value that the test statistic is compared to, based on the significance level

@@ -357,8 +357,8 @@ display: none;
 </div>
 
 
-<div id="t-tests-one--and-two-sample-t-test" class="section level1">
-<h1>t-Tests, one- and two-sample t-test</h1>
+<div id="t-tests-one-sample-independent-two-sample-and-paired-t-tests" class="section level1">
+<h1>t-Tests: One-Sample, Independent Two-Sample, and Paired t-Tests</h1>
 <div id="introduction-to-t-tests" class="section level2">
 <h2>1. <strong>Introduction to t-Tests</strong></h2>
 <ul>
@@ -475,32 +475,113 @@ if (abs(t) &gt; t_critical) {
 }</code></pre>
 <pre><code>## [1] &quot;Fail to reject H0: There is no significant difference.&quot;</code></pre>
 </div>
-<div id="interpreting-the-results" class="section level2">
-<h2>4. <strong>Interpreting the Results</strong></h2>
+<div id="independent-two-sample-t-test" class="section level2">
+<h2>4. <strong>Independent Two-Sample t-Test</strong></h2>
+<p>An independent two-sample t-test is used to compare the means of two
+independent groups.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Hypotheses</strong>:
 <ul>
-<li>If the t-statistic is larger than the critical value (or if the
-p-value is smaller than <span class="math inline">\(\alpha\)</span>):
-<ul>
-<li><strong>Reject <span class="math inline">\(H_0\)</span></strong>:
-This means there is evidence to suggest that the population mean is
-<strong>different</strong> from the hypothesized value.</li>
-<li><strong>Czech Translation</strong>: Zamítáme nulovou hypotézu –
-existuje důkaz, že populační průměr je odlišný od předpokládané
-hodnoty.</li>
+<li><strong>Null Hypothesis (<span class="math inline">\(H_0\)</span>)</strong>: The means of the two
+groups are equal (<span class="math inline">\(\mu_1 =
+\mu_2\)</span>).</li>
+<li><strong>Alternative Hypothesis (<span class="math inline">\(H_a\)</span>)</strong>: The means of the two
+groups are not equal (<span class="math inline">\(\mu_1 \neq
+\mu_2\)</span>).</li>
 </ul></li>
-<li>If the t-statistic is smaller than the critical value (or if the
-p-value is larger than <span class="math inline">\(\alpha\)</span>):
+<li><strong>Calculate the t-Statistic</strong>:
 <ul>
-<li><strong>Fail to reject <span class="math inline">\(H_0\)</span></strong>: This means there is
-<strong>not enough evidence</strong> to suggest that the population mean
-is different from the hypothesized value.</li>
-<li><strong>Czech Translation</strong>: Nezamítáme nulovou hypotézu –
-neexistuje dostatečný důkaz, že populační průměr je odlišný.</li>
+<li>Formula: <span class="math display">\[
+t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{\frac{s_1^2}{n_1} +
+\frac{s_2^2}{n_2}}}
+\]</span> where:
+<ul>
+<li><span class="math inline">\(\bar{x}_1\)</span>, <span class="math inline">\(\bar{x}_2\)</span>: means of groups 1 and 2</li>
+<li><span class="math inline">\(s_1\)</span>, <span class="math inline">\(s_2\)</span>: standard deviations of groups 1 and
+2</li>
+<li><span class="math inline">\(n_1\)</span>, <span class="math inline">\(n_2\)</span>: sample sizes of groups 1 and 2</li>
 </ul></li>
+</ul></li>
+<li><strong>Example: Independent Two-Sample t-Test in R</strong>:</li>
+</ol>
+<pre class="r"><code># Sample data
+group1 &lt;- c(10, 20, 30, 40, 50)  # Sample values for group 1
+group2 &lt;- c(15, 25, 35, 45, 55)  # Sample values for group 2
+
+# t-test
+t_test_result &lt;- t.test(group1, group2, var.equal = TRUE)  # assuming equal variances
+t_test_result</code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  group1 and group2
+## t = -0.5, df = 8, p-value = 0.6305
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -28.06004  18.06004
+## sample estimates:
+## mean of x mean of y 
+##        30        35</code></pre>
+</div>
+<div id="paired-t-test" class="section level2">
+<h2>5. <strong>Paired t-Test</strong></h2>
+<p>A paired t-test is used to compare means from the same group at
+different times (e.g., before and after treatment).</p>
+<ol style="list-style-type: decimal">
+<li><strong>Hypotheses</strong>:
+<ul>
+<li><strong>Null Hypothesis (<span class="math inline">\(H_0\)</span>)</strong>: The mean difference
+between the paired observations is zero (<span class="math inline">\(\mu_d = 0\)</span>).</li>
+<li><strong>Alternative Hypothesis (<span class="math inline">\(H_a\)</span>)</strong>: The mean difference is not
+zero (<span class="math inline">\(\mu_d \neq 0\)</span>).</li>
+</ul></li>
+<li><strong>Calculate the t-Statistic</strong>:
+<ul>
+<li>Formula: <span class="math display">\[
+t = \frac{\bar{d}}{\frac{s_d}{\sqrt{n}}}
+\]</span> where:
+<ul>
+<li><span class="math inline">\(\bar{d}\)</span>: mean of the
+differences</li>
+<li><span class="math inline">\(s_d\)</span>: standard deviation of the
+differences</li>
+<li><span class="math inline">\(n\)</span>: number of paired
+observations</li>
+</ul></li>
+</ul></li>
+<li><strong>Example: Paired t-Test in R</strong>:</li>
+</ol>
+<pre class="r"><code># Sample paired data
+before &lt;- c(80, 85, 88, 90, 92)  # Measurements before treatment
+after &lt;- c(82, 86, 89, 91, 94)   # Measurements after treatment
+
+# Paired t-test
+paired_test_result &lt;- t.test(before, after, paired = TRUE)
+paired_test_result</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  before and after
+## t = -5.7155, df = 4, p-value = 0.004636
+## alternative hypothesis: true mean difference is not equal to 0
+## 95 percent confidence interval:
+##  -2.0800874 -0.7199126
+## sample estimates:
+## mean difference 
+##            -1.4</code></pre>
+</div>
+<div id="conclusion" class="section level2">
+<h2>6. <strong>Conclusion</strong></h2>
+<ul>
+<li>The <strong>t-test</strong> family of tests is a powerful tool for
+comparing means, with specific tests suited for different experimental
+designs (one-sample, two-sample, and paired).</li>
+<li>By following the steps and examples, students will be able to
+conduct each type of t-test and interpret the results effectively.</li>
 </ul>
 </div>
 <div id="term-vocabulary-slovník-pojmů" class="section level2">
-<h2>5. <strong>Term Vocabulary (Slovník pojmů)</strong></h2>
+<h2>7. <strong>Term Vocabulary (Slovník pojmů)</strong></h2>
 <table>
 <colgroup>
 <col width="18%" />
@@ -520,6 +601,17 @@ neexistuje dostatečný důkaz, že populační průměr je odlišný.</li>
 <td>Jednovýběrový t-test</td>
 <td>A test that compares the mean of a single sample to a known
 population mean.</td>
+</tr>
+<tr class="even">
+<td>Independent Two-Sample t-Test</td>
+<td>Dvouvýběrový t-test</td>
+<td>A test that compares the means of two independent groups.</td>
+</tr>
+<tr class="odd">
+<td>Paired t-Test</td>
+<td>Párový t-test</td>
+<td>A test that compares means from the same group at different
+times.</td>
 </tr>
 <tr class="even">
 <td>Null Hypothesis (<span class="math inline">\(H_0\)</span>)</td>
@@ -552,25 +644,10 @@ ones, under <span class="math inline">\(H_0\)</span>.</td>
 <td>Critical Value</td>
 <td>Kritická hodnota</td>
 <td>The threshold value that the test statistic is compared to, based on
-the significance level.</td>
-</tr>
-<tr class="even">
-<td>Degrees of Freedom (df)</td>
-<td>Stupně volnosti (df)</td>
-<td>The number of independent values that can vary in an analysis; for a
-one-sample t-test, <span class="math inline">\(df = n - 1\)</span>.</td>
+the significance level</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="conclusion" class="section level2">
-<h2>Conclusion</h2>
-<ul>
-<li>The <strong>t-test</strong> is a powerful tool for comparing means,
-especially with small sample sizes.</li>
-<li>By following the outlined steps, students will be able to conduct a
-one-sample t-test and interpret the results effectively.</li>
-</ul>
 </div>
 </div>
 
