@@ -20,6 +20,7 @@ diet_B <- c(2, 3, 4, 3, 2)
 diet_C <- c(6, 7, 8, 7, 6)
 
 # TODO Your code here
+# Check for ANOVA prerequisites
 # Combine into a data frame
 # Perform one-way ANOVA
 ```
