@@ -36,20 +36,27 @@ output: html_document
 
 ## 4. **Steps in ANOVA**
 
-1. **Calculate the Group Means**:
+1. **Test for normality**:
+    - Use the QQ-plot, bloxplot, histogram or a normality test like the Shapiro Wilk test, the Kolmogorov-Smirnov or other.
+    - If the normality assumption is not met, you would need to use a non-parametric test like the Kruskal-Wallis test.
+    
+2. **Test for the homogeneity of variances**:
+    - Check whether the variances are equal for all groups with a boxplot or more formally with a statistical test like the Levene's test.
+
+3. **Calculate the Group Means**:
     - Compute the mean for each group.
 
-2. **Calculate the Total Mean**:
+4. **Calculate the Total Mean**:
     - The overall mean for all the data combined.
 
-3. **Partition the Total Variance**:
+5. **Partition the Total Variance**:
     - **Between-group variance**: How much the group means differ from the total mean.
     - **Within-group variance**: How much the data points within each group differ from their respective group mean.
 
-4. **Compute the F-statistic**:
+6. **Compute the F-statistic**:
     - The F-statistic is calculated using the ratio of the between-group variance to the within-group variance.
 
-5. **Make a Decision**:
+7. **Make a Decision**:
     - Compare the F-statistic to the critical F-value (from an F-distribution table based on the degrees of freedom) or use the p-value.
     - If \( F \) is greater than the critical value or the p-value is less than the significance level (\( \alpha \)), **reject** the null hypothesis.
 
