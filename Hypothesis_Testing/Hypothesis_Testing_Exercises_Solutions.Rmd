@@ -1,0 +1,138 @@
+---
+title: 'Hypothesis Testing: Exercises'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# Exercises
+
+## **Exercise 1: One-Sample Z-Test**
+  1. A manufacturer claims that the average weight of a certain product is 500 grams. A sample of 60 products has an average weight of 510 grams with a population standard deviation of 20 grams. Test the manufacturer's claim at the 5% significance level.  
+    - State the hypotheses.
+    - Perform the one-sample Z-test and make a decision.
+
+```{r}
+x_bar <- 510  # Sample mean
+mu_0 <- 500   # Population mean under null hypothesis
+sigma <- 20   # Population standard deviation
+n <- 60       # Sample size
+alpha <- 0.05  # Significance level
+
+# Z-test
+z <- (x_bar - mu_0) / (sigma / sqrt(n))
+z
+
+# Critical value and p-value
+z_critical <- qnorm(1 - alpha/2)  # Two-tailed test
+p_value <- 2 * (1 - pnorm(abs(z)))
+z_critical
+p_value
+
+# TODO Your code here
+```
+
+## **Exercise 2: One-Tailed Z-Test (Right-Tailed)**
+  2. A researcher believes that the average score on a standardized test is higher than 75. A sample of 40 students has an average score of 78, with a known population standard deviation of 8. Test the researcher’s hypothesis at a 1% significance level (right-tailed test).
+
+```{r}
+x_bar <- 78   # Sample mean
+mu_0 <- 75    # Population mean under null hypothesis
+sigma <- 8    # Population standard deviation
+n <- 40       # Sample size
+alpha <- 0.01  # Significance level
+
+# Z-test
+z <- (x_bar - mu_0) / (sigma / sqrt(n))
+z
+
+# Critical value and p-value
+z_critical <- qnorm(1 - alpha)  # Right-tailed test
+p_value <- 1 - pnorm(z)
+z_critical
+p_value
+
+# TODO Your code here
+```
+
+## **Exercise 3: One-Tailed Z-Test (Left-Tailed)**
+  3. A company claims that the average lifetime of its light bulbs is at least 1200 hours. A sample of 45 light bulbs has an average lifetime of 1180 hours with a population standard deviation of 50 hours. Test the company's claim at a 10% significance level (left-tailed test).
+
+```{r}
+x_bar <- 1180  # Sample mean
+mu_0 <- 1200   # Population mean under null hypothesis
+sigma <- 50    # Population standard deviation
+n <- 45        # Sample size
+alpha <- 0.10  # Significance level
+
+# Z-test
+z <- (x_bar - mu_0) / (sigma / sqrt(n))
+z
+
+# Critical value and p-value
+z_critical <- qnorm(alpha)  # Left-tailed test
+p_value <- pnorm(z)
+z_critical
+p_value
+
+# TODO Your code here
+```
+
+## **Exercise 4: Two-Sample Z-Test**
+  4. You are comparing the average heights of male and female students. A sample of 40 male students has an average height of 175 cm, with a standard deviation of 10 cm, and a sample of 35 female students has an average height of 165 cm, with a standard deviation of 8 cm.  
+     Test whether there is a significant difference between the average heights of male and female students at a 5% significance level.
+
+```{r}
+x_bar_male <- 175   # Sample mean of male students
+sd_male <- 10       # Standard deviation of male students
+n_male <- 40        # Sample size of male students
+
+x_bar_female <- 165  # Sample mean of female students
+sd_female <- 8       # Standard deviation of female students
+n_female <- 35       # Sample size of female students
+
+alpha <- 0.05  # Significance level
+
+# Z-test for two independent samples
+se <- sqrt((sd_male^2 / n_male) + (sd_female^2 / n_female))
+z <- (x_bar_male - x_bar_female) / se
+z
+
+# Critical value and p-value
+z_critical <- qnorm(1 - alpha/2)  # Two-tailed test
+p_value <- 2 * (1 - pnorm(abs(z)))
+z_critical
+p_value
+
+# TODO Your code here
+```
+
+#### **Exercise 5: Interpretation of p-value**
+  5. In a hypothesis test for the mean, you obtain a Z-statistic of 1.85. The p-value is calculated to be 0.064. 
+    - Based on a 5% significance level, would you reject or fail to reject the null hypothesis?
+    - What would be your conclusion at a 10% significance level?
+
+```{r}
+z <- 1.85
+p_value <- 0.064
+alpha_5 <- 0.05
+alpha_10 <- 0.10
+
+# Decision at 5% significance level
+if (p_value < alpha_5) {
+ print("Reject H0 at 5% significance level.")
+} else {
+ print("Fail to reject H0 at 5% significance level.")
+}
+
+# Decision at 10% significance level
+if (p_value < alpha_10) {
+ print("Reject H0 at 10% significance level.")
+} else {
+ print("Fail to reject H0 at 10% significance level.")
+}
+
+# TODO Your interpretation here
+```
+
+

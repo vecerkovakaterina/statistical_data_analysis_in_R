@@ -1,0 +1,147 @@
+---
+title: "t-Tests: Exercises Solutions"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-10-17"
+output: html_document
+---
+
+# Exercises
+
+## **Exercise 1: One-Sample t-Test**
+1. A nutritionist claims that the average daily calorie intake of adults is 2,500 calories. A random sample of 30 adults shows an average intake of 2,450 calories with a standard deviation of 300 calories. Test the nutritionist's claim at the 5% significance level.
+    - State the hypotheses.
+    - Perform the one-sample t-test and make a decision.
+
+```{r}
+x_bar <- 2450  # Sample mean
+mu_0 <- 2500   # Population mean under null hypothesis
+s <- 300       # Sample standard deviation
+n <- 30        # Sample size
+alpha <- 0.05  # Significance level
+
+# TODO Your code here
+
+# t-statistic
+t <- (x_bar - mu_0) / (s / sqrt(n))
+t
+
+# Critical value and p-value
+df <- n - 1  # Degrees of freedom
+t_critical <- qt(1 - alpha/2, df)  # Two-tailed test
+p_value <- 2 * (1 - pt(abs(t), df))
+t_critical
+p_value
+
+# Decision
+if (abs(t) > t_critical) {
+   print("Reject H0: There is a significant difference.")
+} else {
+   print("Fail to reject H0: There is no significant difference.")
+}
+```
+
+## **Exercise 2: Independent Two-Sample t-Test**
+2. A researcher is investigating the effect of two different teaching methods on students' performance. Group A (30 students) has an average score of 85 with a standard deviation of 5, while Group B (35 students) has an average score of 80 with a standard deviation of 6. Test whether there is a significant difference between the two groups at a 5% significance level.
+
+```{r}
+x_bar_A <- 85   # Sample mean for Group A
+s_A <- 5        # Sample standard deviation for Group A
+n_A <- 30       # Sample size for Group A
+
+x_bar_B <- 80   # Sample mean for Group B
+s_B <- 6        # Sample standard deviation for Group B
+n_B <- 35       # Sample size for Group B
+alpha <- 0.05   # Significance level
+
+# TODO Your code here
+
+# t-test for two independent samples
+se <- sqrt((s_A^2 / n_A) + (s_B^2 / n_B))
+t <- (x_bar_A - x_bar_B) / se
+t
+
+# Critical value and p-value
+df <- n_A + n_B - 2  # Degrees of freedom
+t_critical <- qt(1 - alpha/2, df)  # Two-tailed test
+p_value <- 2 * (1 - pt(abs(t), df))
+t_critical
+p_value
+
+# Decision
+if (abs(t) > t_critical) {
+   print("Reject H0: There is a significant difference between the groups.")
+} else {
+   print("Fail to reject H0: There is no significant difference between the groups.")
+}
+```
+
+## **Exercise 3: Paired t-Test**
+3. A psychologist wants to evaluate the effectiveness of a new therapy on anxiety levels. She measures the anxiety levels of 20 patients before and after the therapy. The differences in scores (after - before) are as follows: 5, 3, 8, 7, 2, 4, 6, 1, 9, 4, 2, 3, 5, 6, 7, 8, 4, 3, 5, 2. Test whether the therapy has a significant effect at a 1% significance level.
+
+```{r}
+differences <- c(5, 3, 8, 7, 2, 4, 6, 1, 9, 4, 2, 3, 5, 6, 7, 8, 4, 3, 5, 2)
+n <- length(differences)  # Sample size
+alpha <- 0.01  # Significance level
+
+# TODO Your code here
+
+# t-statistic for paired t-test
+x_bar <- mean(differences)  # Mean of differences
+s <- sd(differences)         # Standard deviation of differences
+
+t <- x_bar / (s / sqrt(n))
+t
+
+# Critical value and p-value
+df <- n - 1  # Degrees of freedom
+t_critical <- qt(1 - alpha/2, df)  # Two-tailed test
+p_value <- 2 * (1 - pt(abs(t), df))
+t_critical
+p_value
+
+# Decision
+if (abs(t) > t_critical) {
+   print("Reject H0: The therapy has a significant effect on anxiety levels.")
+} else {
+   print("Fail to reject H0: The therapy does not have a significant effect.")
+}
+
+# Paired t-test using t.test()
+t_test_result <- t.test(differences, mu = 0)
+t_test_result
+
+# Decision based on p-value
+if (t_test_result$p.value < 0.01) {
+  print("Reject H0: The therapy has a significant effect on anxiety levels.")
+} else {
+  print("Fail to reject H0: The therapy does not have a significant effect.")
+}
+```
+
+## **Exercise 4: Interpretation of p-value**
+4. In a study comparing the effects of two diets, a two-sample t-test yields a t-statistic of 2.45 and a p-value of 0.022. 
+    - Based on a 5% significance level, would you reject or fail to reject the null hypothesis?
+    - What would be your conclusion at a 1% significance level?
+
+```{r}
+t <- 2.45
+p_value <- 0.022
+alpha_5 <- 0.05
+alpha_1 <- 0.01
+
+# TODO Your interpretation here
+
+# Decision at 5% significance level
+if (p_value < alpha_5) {
+   print("Reject H0 at 5% significance level.")
+} else {
+   print("Fail to reject H0 at 5% significance level.")
+}
+
+# Decision at 1% significance level
+if (p_value < alpha_1) {
+   print("Reject H0 at 1% significance level.")
+} else {
+   print("Fail to reject H0 at 1% significance level.")
+}
+```

@@ -1,0 +1,107 @@
+---
+title: "Random Variable: Exercises Solved"
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-30-10"
+output: html_document
+---
+
+### **Exercise 1: Simulating a Biased Coin Toss**
+Simulate 1000 tosses of a biased coin where the probability of getting heads is 0.7. Calculate and plot the Probability Mass Function (PMF) for the number of heads.
+
+```{r}
+set.seed(42)
+library(ggplot2)
+# plot PMF
+```
+
+### **Exercise 2: CDF of a Biased Coin Toss**
+Using the result from Exercise 1, calculate and plot the Cumulative Distribution Function (CDF) of the number of heads in 1000 tosses of the biased coin.
+
+```{r}
+# plot the CDF using a step plot
+```
+
+### **Exercise 3: Custom Discrete Random Variable - Number of Goals in a Soccer Match**
+Suppose a soccer team scores between 0 and 4 goals per match, with the following probabilities:  
+- 0 goals: 0.2  
+- 1 goal: 0.3  
+- 2 goals: 0.25  
+- 3 goals: 0.15  
+- 4 goals: 0.1  
+
+Write code to represent this custom discrete random variable. Then, calculate and plot its PMF and CDF.
+
+```{r}
+# plot PMF
+# plot CDF
+```
+
+### **Exercise 4: Simulating Normally Distributed Test Scores**
+Simulate the scores of 500 students on an exam. The test scores are normally distributed with a mean of 75 and a standard deviation of 10.  
+1. Calculate the probability of a student scoring above 90.  
+2. Plot the Probability Density Function (PDF) of the scores.
+
+```{r}
+test_scores <- rnorm(500, mean = 75, sd = 10)
+# Calculate the probability of scoring above 90
+# Plot the PDF of the test scores
+```
+
+### **Exercise 5: Estimating CDF from Empirical Data**
+Using the test scores simulated in Exercise 4, calculate and plot the empirical Cumulative Distribution Function (CDF). Estimate the probability that a student scores less than 60.
+
+```{r}
+# TODO your code here
+```
+
+### **Exercise 6: Exploring the Relationship Between PMF and Expected Value**
+A company sells a product for $5. Each sale has a probability of 0.1, and they contact 100 customers.  
+1. Simulate the number of sales made out of 100 customers.
+2. Calculate the expected revenue from these sales.
+3. Plot the PMF of the number of sales.
+
+```{r}
+# parameters
+n_customers <- 100    # Number of customers contacted
+p_sale <- 0.1         # Probability of a sale
+
+# sales range (0 to 100 possible sales)
+# compute the PMF for each possible number of sales
+# display the PMF values
+# check that the probabilities sum to 1 (as they should)
+# calculate the expected revenue (revenue = 5 * number of sales)
+# plot the PMF for the number of sales
+# plot the PMF
+# find the number of sales with the highest probability (most likely outcome)
+```
+
+### **Exercise 7: Comparing Two Continuous Random Variables**
+Simulate two continuous random variables:  
+1. X ~ N(0, 1)  
+2. Y ~ N(3, 1.5)  
+
+1. Plot the Probability Density Functions (PDFs) of both variables on the same graph.
+2. Calculate the probability that X is greater than Y.
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+# X ~ N(0, 1) and Y ~ N(3, 1.5)
+# plot the PDFs of X and Y on the same plot
+# calculate the probability that X > Y
+# we need to find the distribution of the difference Z = X - Y and calculate P(Z > 0)
+# P(Z > 0)
+```
+
+
+### **Exercise 8: Uniform Distribution - Random Walk**
+Generate 1000 steps of a random walk, where each step is a draw from a uniform distribution between -1 and 1.  
+1. Plot the trajectory of the random walk.
+2. Calculate the cumulative sum of the walk and plot it.
+
+```{r}
+n_steps <- 1000
+steps <- runif(n_steps, min = -1, max = 1)
+# calculate the cumulative sum for the random walk trajectory
+```
