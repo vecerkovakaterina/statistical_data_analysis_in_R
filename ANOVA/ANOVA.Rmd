@@ -84,10 +84,15 @@ data <- data.frame(
  height = c(group_A, group_B, group_C),
  group = factor(rep(c("A", "B", "C"), each = 5))
 )
+data
 
 # Perform one-way ANOVA
 anova_result <- aov(height ~ group, data = data)
+# oneway.test()
 summary(anova_result)
+install.packages("report")
+library(report)
+report(anova_result)
 ```
 
 3. **Interpreting the Output**:

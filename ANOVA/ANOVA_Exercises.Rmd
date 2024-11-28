@@ -20,9 +20,6 @@ diet_B <- c(2, 3, 4, 3, 2)
 diet_C <- c(6, 7, 8, 7, 6)
 
 # TODO Your code here
-# Check for ANOVA prerequisites
-# Combine into a data frame
-# Perform one-way ANOVA
 ```
 
 ## **Exercise 2: Tukey’s HSD Post-Hoc Test**
@@ -30,7 +27,6 @@ diet_C <- c(6, 7, 8, 7, 6)
 
 ```{r}
 # TODO Your code here
-# Perform Tukey's HSD post-hoc test
 ```
 
 ## **Exercise 3: Two-Way ANOVA (Factorial Design)**
@@ -51,6 +47,12 @@ exam_scores <- c(75, 80, 85, 78, 82, 86,
                 72, 76, 79, 74, 79, 81,
                 70, 73, 77, 72, 74, 78)
 
+study_method <- factor(rep(c("A", "B", "C"), each = 6))
+gender <- factor(rep(c("Male", "Female"), each = 3, times = 3))
+exam_scores <- c(75, 80, 85, 78, 82, 86, 
+                72, 76, 79, 74, 79, 81,
+                70, 73, 77, 72, 74, 78)
+
 # TODO Your code here
 # Combine into a data frame
 # Perform two-way ANOVA
@@ -60,15 +62,7 @@ exam_scores <- c(75, 80, 85, 78, 82, 86,
 4. Based on the results of the two-way ANOVA from the previous exercise, create an interaction plot to visualize the effect of **study method** and **gender** on **exam scores**.
 
 ```{r}
-# TODO Your code here
-```
-
-## **Exercise 5: Checking Assumptions (Homogeneity of Variance)**
-5. For the ANOVA in **Exercise 1**, check the assumption of homogeneity of variances using **Levene’s Test**. You will need to install and load the `car` package for this.
-
-```{r}
-# TODO Your code here
-# Perform Levene's Test for homogeneity of variances
+# TODO your code here
 ```
 
 ## **Exercise 6: ANOVA Interpretation**
@@ -113,7 +107,8 @@ fertilizer_B <- c(90, 95, 100, 85, 92)
 fertilizer_C <- c(130, 135, 140, 132, 137)
 fertilizer_D <- c(80, 85, 78, 82, 83)
 
-# TODO Your code here
-# Combine into a data frame
-# Perform one-way ANOVA
+# TODO your code here
+# test normality
+# test variance homogeneity
+# perform one-way ANOVA
 ```

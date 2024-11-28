@@ -492,15 +492,48 @@ data &lt;- data.frame(
  height = c(group_A, group_B, group_C),
  group = factor(rep(c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), each = 5))
 )
-
-# Perform one-way ANOVA
+data</code></pre>
+<pre><code>##    height group
+## 1      18     A
+## 2      20     A
+## 3      22     A
+## 4      21     A
+## 5      19     A
+## 6      25     B
+## 7      26     B
+## 8      28     B
+## 9      27     B
+## 10     30     B
+## 11     30     C
+## 12     31     C
+## 13     29     C
+## 14     32     C
+## 15     33     C</code></pre>
+<pre class="r"><code># Perform one-way ANOVA
 anova_result &lt;- aov(height ~ group, data = data)
+# oneway.test()
 summary(anova_result)</code></pre>
 <pre><code>##             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
 ## group        2  312.1   156.1   53.82 1.02e-06 ***
 ## Residuals   12   34.8     2.9                     
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>install.packages(&quot;report&quot;)</code></pre>
+<pre><code>## The following package(s) will be installed:
+## - report [0.5.9]
+## These packages will be installed into &quot;~/Desktop/VŠCHT/PhD/vyuka/statisticka_analyza_dat/statistical_anaysis_in_R/ANOVA/renv/library/macos/R-4.4/x86_64-apple-darwin20&quot;.
+## 
+## # Installing packages --------------------------------------------------------
+## - Installing report ...                         OK [linked from cache]
+## Successfully installed 1 package in 24 milliseconds.</code></pre>
+<pre class="r"><code>library(report)
+report(anova_result)</code></pre>
+<pre><code>## The ANOVA (formula: height ~ group) suggests that:
+## 
+##   - The main effect of group is statistically significant and large (F(2, 12) =
+## 53.82, p &lt; .001; Eta2 = 0.90, 95% CI [0.77, 1.00])
+## 
+## Effect sizes were labelled following Field&#39;s (2013) recommendations.</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li><strong>Interpreting the Output</strong>:
 <ul>
