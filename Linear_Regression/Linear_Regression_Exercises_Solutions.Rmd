@@ -1,0 +1,148 @@
+---
+title: 'Linear Regression: Exercises Solutions'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-11-28"
+output: html_document
+---
+
+# Exercises
+
+1. **Covariance and Correlation Calculation**
+   - **Exercise 1:**  
+     Given the following data for variables `x` and `y`, calculate the covariance and correlation by hand (using the formulas) and compare the results with the values calculated in R.
+```{r}
+x <- c(1, 3, 5, 7, 9)
+y <- c(2, 4, 6, 8, 10)
+
+covariance <- cov(x, y)
+print(paste("Covariance:", covariance))
+```
+   
+   - **Exercise 2:**  
+     Consider a different set of data, `x = c(1, 4, 7, 10, 13)` and `y = c(13, 10, 7, 4, 1)`.  
+     Calculate the covariance and correlation and interpret the results. What does the negative correlation suggest about the relationship between `x` and `y`?
+
+```{r}
+x <- c(1, 4, 7, 10, 13)
+y <- c(13, 10, 7, 4, 1)
+
+correlation <- cor(x, y)
+print(paste("Correlation:", correlation))
+```
+
+2. **Linear Regression Model on the `mtcars` Dataset**
+   - **Exercise 3:**  
+     Use the `mtcars` dataset to fit a **simple linear regression** model predicting `mpg` based on `hp` (horsepower).  
+     - Plot the data and add the regression line to the plot.
+     - Interpret the slope and intercept of the model. What do they mean in the context of the data?
+
+```{r}
+model <- lm(mpg ~ hp, data = mtcars)
+summary(model)
+plot(mtcars$hp, mtcars$mpg)
+abline(model, col = "red")
+```
+
+   - **Exercise 4:**  
+     Fit a **multiple linear regression** model using `mpg` as the dependent variable and `hp`, `wt`, and `qsec` as independent variables.  
+     - Check the summary of the model. Which variable has the strongest effect on `mpg`?  
+     - Plot the residuals of the model and interpret whether they seem homoscedastic (constant variance).
+
+```{r}
+model_mult <- lm(mpg ~ hp + wt + qsec, data = mtcars)
+summary(model_mult)
+plot(model_mult$residuals)
+```
+
+3. **Multicollinearity Check**
+   - **Exercise 5:**  
+     Check for multicollinearity using the `vif()` function on the multiple linear regression model from Exercise 4.  
+     - What do the VIF values suggest? If any predictors have high VIF values, what should you do next? 
+     - Create a correlation matrix of the predictors and visualize it using a heatmap (you can use the `ggcorrplot` function).
+   
+```{r}
+library(car)
+vif(model_mult)
+```
+
+```{r}
+# Install and load the ggcorrplot package
+library(ggcorrplot)
+
+# Remove the Customer Value column
+reduced_data <- subset(mtcars, select = c(hp, wt, qsec))
+
+# Compute correlation at 2 decimal places
+corr_matrix = round(cor(reduced_data), 2)
+
+# Compute and show the  result
+ggcorrplot(corr_matrix, hc.order = TRUE, type = "lower",
+          lab = TRUE)
+```
+
+4. **Model Evaluation**
+   - **Exercise 6:**  
+     Evaluate the **R-squared**, **Adjusted R-squared**, **RMSE**, and **MAE** for the multiple linear regression model from Exercise 4.  
+     - Which of these metrics gives you the best understanding of how well the model fits the data?
+
+```{r}
+predictions <- predict(model_mult)
+residuals <- mtcars$mpg - predictions
+rmse <- sqrt(mean(residuals^2))
+mae <- mean(abs(residuals))
+r2 <- summary(model_mult)$r.squared
+adj_r2 <- summary(model_mult)$adj.r.squared
+print(paste("RMSE:", rmse))
+print(paste("MAE:", mae))
+print(paste("R-squared:", r2))
+print(paste("Adjusted R-squared:", adj_r2))
+```
+
+5. **Model Comparison with ANOVA**
+   - **Exercise 7:**  
+     Fit a second multiple linear regression model excluding the `disp` and `cyl` variables from the first model to avoid multicollinearity.  
+     - Use ANOVA to compare the two models and interpret whether removing these variables improved the model.
+   
+```{r}
+second_model_mult <- lm(mpg ~ hp + wt + qsec + am + gear + carb, data = mtcars)
+anova(second_model_mult, model_mult)
+```
+
+### Discussion Questions
+
+1. **Interpreting Correlation**  
+   If you calculate a correlation of -0.95 between two variables, what does that imply about their relationship? Can this be used for prediction?
+
+2. **Effect of Outliers on Linear Regression**  
+   How might outliers affect the results of a linear regression model? Can you suggest ways to handle outliers in your data?
+
+3. **Checking for Homoscedasticity**  
+   Why is homoscedasticity important in linear regression, and how can you detect it? What might happen if this assumption is violated?
+
+4. **Overfitting vs. Underfitting**  
+   What are the consequences of overfitting and underfitting a linear regression model? How can you address each problem?
+
+### Extra Challenges
+
+1. **Polynomial Regression**
+   - Extend the linear regression model by fitting a **polynomial regression** model (e.g., quadratic or cubic) and compare the results to the linear model.  
+     - Does the polynomial model provide a better fit? Justify your answer.
+
+```{r}
+model_poly <- lm(mpg ~ poly(hp, 2), data = mtcars)
+summary(model_poly)
+plot(mtcars$hp, mtcars$mpg)
+lines(sort(mtcars$hp), predict(model_poly, newdata = data.frame(hp = sort(mtcars$hp))), col = "blue")
+```
+
+2. **Ridge and Lasso Regression**
+   - Explore **Ridge** and **Lasso** regression using the `glmnet` package to prevent overfitting.  
+     - Compare the coefficients of the Ridge and Lasso models to the standard linear regression model.
+
+```{r}
+library(glmnet)
+x <- as.matrix(mtcars[, -1])
+y <- mtcars$mpg
+ridge_model <- glmnet(x, y, alpha = 0)
+lasso_model <- glmnet(x, y, alpha = 1)
+```
