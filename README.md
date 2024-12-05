@@ -1,6 +1,22 @@
 # Statistical Data Analysis in R
 This is a work in progress
 
+| Topic                            | Tutorial                      | Exercises       | Solutions       |
+|----------------------------------|-------------------------------|-----------------|-----------------|
+| Intro to R                      | ✅                             | ✅               | ❌              |
+| R programming basics            | ✅                             | ✅               | ❌              |
+| Data manipulation with tidyverse| ✅                             | ✅               | ❌              |
+| Exploratory Data Analysis       | ✅                             | ✅               | ❌              |
+| Parameter Estimation            | ✅                             | ✅               | ❌              |
+| Random Variable                 | ✅                             | ✅               | ❌              |
+| Central Limit Theorem           | ✅                             | ✅               | ❌              |
+| Confidence Intervals            | ✅                             | ✅               | ❌              |
+| Hypothesis Testing, z-test      | ✅                             | ✅               | ✅              |
+| t-Tests                         | ✅                             | ✅               | ✅              |
+| ANOVA                           | ✅                             | ✅               | ✅              |
+| Correlation, regression         | ✅                             | ✅               | ✅              |
+
+
 *Tutorials:*
 1. Intro to R
 2. R programming basics
