@@ -13,10 +13,22 @@ Covariance measures how two variables change together. It shows the direction of
 - **Negative covariance** means as one increases, the other decreases.  
 - **Zero covariance** suggests no linear relationship.
 
-Formula:  
+### **Formulas**
+
+1. **Sample Covariance**:
 \[
 \text{Cov}(X, Y) = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{n - 1}
 \]
+- \( X_i, Y_i \): Individual data points of variables \( X \) and \( Y \).  
+- \( \bar{X}, \bar{Y} \): Means of \( X \) and \( Y \).  
+- \( n \): Sample size.
+
+2. **Population Covariance**:
+\[
+\text{Cov}(X, Y) = \frac{\sum (X_i - \mu_X)(Y_i - \mu_Y)}{N}
+\]
+- \( \mu_X, \mu_Y \): Population means of \( X \) and \( Y \).  
+- \( N \): Population size.
 
 ```{r}
 x <- c(2, 4, 6, 8)
@@ -34,10 +46,19 @@ Correlation normalizes covariance, measuring the strength and direction of the r
 - **0**: No linear relationship  
 - **-1**: Perfect negative relationship
 
-Formula:  
+### **Formulas**
+
+1. **Sample Correlation Coefficient**:
 \[
-r = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y}
+r = \frac{\text{Cov}(X, Y)}{s_X \cdot s_Y}
 \]
+- \( s_X, s_Y \): Sample standard deviations of \( X \) and \( Y \).
+
+2. **Population Correlation Coefficient**:
+\[
+\rho = \frac{\text{Cov}(X, Y)}{\sigma_X \cdot \sigma_Y}
+\]
+- \( \sigma_X, \sigma_Y \): Population standard deviations of \( X \) and \( Y \).
 
 ```{r}
 x <- c(2, 4, 6, 8)
@@ -51,19 +72,25 @@ print(paste("Correlation:", correlation))
 
 Linear regression models the relationship between a dependent variable \( Y \) and one or more independent variables \( X \).
 
-### Formula:
+### **Formula**
+1. **Population Regression Line**:
 \[
 Y = \beta_0 + \beta_1 X + \epsilon
 \]
+- \( \beta_0 \): Population intercept.  
+- \( \beta_1 \): Population slope.  
+- \( \epsilon \): Residual error.
 
-Where:
+2. **Sample Regression Line**:
+\[
+\hat{Y} = b_0 + b_1 X
+\]
+- \( b_0 \): Sample intercept, estimate of \( \beta_0 \).  
+- \( b_1 \): Sample slope, estimate of \( \beta_1 \).
 
-- \( \beta_0 \): Intercept
-- \( \beta_1 \): Coefficient of \( X \)
-- \( \epsilon \): Residual error
+### **Types of Linear Regression**
 
-### Types of Linear Regression
-1. **Simple Linear Regression**: One independent variable
+1. **Simple Linear Regression**: One independent variable.
 ```{r}
 model <- lm(mpg ~ hp, data = mtcars)
 summary(model)
@@ -71,7 +98,7 @@ plot(mtcars$hp, mtcars$mpg)
 abline(model, col = "red")
 ```
 
-2. **Multiple Linear Regression**: Multiple independent variables
+2. **Multiple Linear Regression**: Multiple independent variables.
 ```{r}
 model_mult <- lm(mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb, data = mtcars)
 summary(model_mult)
@@ -110,7 +137,7 @@ ggcorrplot(corr_matrix, hc.order = TRUE, type = "lower",
           lab = TRUE)
 ```
 
-We notice three strong correlations because their value is higher than 0.8. Let's build a second model without the highly correlated disp and cyl variables to avoid multicolinearity.
+We notice three strong correlations because their value is higher than 0.8. Let's build a second model without the highly correlated disp and cyl variables to avoid multicollinearity.
 
 ```{r}
 second_model_mult <- lm(mpg ~ hp + drat + wt + qsec + vs + am + gear + carb, data = mtcars)
