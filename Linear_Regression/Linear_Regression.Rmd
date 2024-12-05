@@ -15,7 +15,7 @@ Covariance measures how two variables change together. It shows the direction of
 
 Formula:  
 \[
-\text{Cov}(X, Y) = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{n}
+\text{Cov}(X, Y) = \frac{\sum (X_i - \bar{X})(Y_i - \bar{Y})}{n - 1}
 \]
 
 ```{r}
