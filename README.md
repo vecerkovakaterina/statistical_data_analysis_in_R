@@ -9,7 +9,7 @@ This is a work in progress
 | Exploratory Data Analysis       | ✅                             | ✅               | ❌              |
 | Parameter Estimation            | ✅                             | ✅               | ❌              |
 | Random Variable                 | ✅                             | ✅               | ❌              |
-| Central Limit Theorem           | ✅                             | ✅               | ❌              |
+| Central Limit Theorem           | ✅                             | ✅               | ✅              |
 | Confidence Intervals            | ✅                             | ✅               | ✅              |
 | Hypothesis Testing, z-test      | ✅                             | ✅               | ✅              |
 | t-Tests                         | ✅                             | ✅               | ✅              |
