@@ -90,6 +90,11 @@ interaction.plot(study_method, gender, exam_scores,
 install.packages("car")
 library(car)
 
+data <- data.frame(
+ weight_loss = c(diet_A, diet_B, diet_C),
+ diet = factor(rep(c("A", "B", "C"), each = 5))
+)
+
 # Perform Levene's Test for homogeneity of variances
 leveneTest(weight_loss ~ diet, data = data)
 ```
