@@ -37,8 +37,7 @@ y <- c(2, 4, 6, 8, 10)
 
    - **Exercise 4:**  
      Fit a **multiple linear regression** model using `mpg` as the dependent variable and `hp`, `wt`, and `qsec` as independent variables.  
-     - Check the summary of the model. Which variable has the strongest effect on `mpg`?  
-     - Plot the residuals of the model and interpret whether they seem homoscedastic (constant variance).
+     - Check the summary of the model. Which variable has the strongest effect on `mpg`?
 
 ```{r}
 # TODO your code here
