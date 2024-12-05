@@ -1,0 +1,114 @@
+---
+title: 'Central Limit Theorem: Exercises Solutions'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "2024-12-05"
+output: html_document
+---
+
+# Central Limit Theorem Exercises Solutions
+
+## Exercise 1: Simulating a Population Distribution
+Create a population distribution using a non-normal distribution (e.g., exponential or uniform). 
+- Simulate a population of 10,000 values.
+- Plot the population distribution.
+
+```{r}
+library(ggplot2)
+population_distribution <- rexp(10000, 1)
+ggplot(as.data.frame(population_distribution), aes(x = population_distribution)) + geom_density(color = "#3498eb", fill = "#3498eb", alpha = 0.5)
+```
+
+## Exercise 2: Sampling from the Population
+Take random samples from the population you created in Exercise 1.
+- Draw 30 random samples, each containing 50 observations.
+- Calculate and store the means of these samples.
+
+```{r}
+random_samples <- replicate(30, sample(population_distribution, size = 50, replace = TRUE))
+random_samples_means <- apply(random_samples, 2, mean)
+random_samples_means
+```
+
+## Exercise 3: Distribution of Sample Means
+Plot the distribution of the sample means you calculated in Exercise 2.
+- Use a histogram or density plot to visualize the distribution of sample means.
+
+```{r}
+ggplot(as.data.frame(random_samples_means), aes(x = random_samples_means)) + geom_density(color = "#3498eb", fill = "#3498eb", alpha = 0.5) + labs(title = "Distribution of Sample Means", x = "Sample Means", y = "Density")
+```
+
+## Exercise 4: Verifying the CLT
+- Create a function to simulate sampling from the population and plotting the distribution of sample means.
+- Test the function with different sample sizes (e.g., 10, 30, 100) and observe how the distribution of the sample means changes.
+
+```{r}
+plot_sample_means <- function(sample_size, num_samples, population_dist) {
+  random_samples <- replicate(num_samples, sample(population_dist, size = sample_size, replace = TRUE))
+  
+  random_samples_means <- apply(random_samples, 2, mean)
+  
+  ggplot(as.data.frame(random_samples_means), aes(x = random_samples_means)) + geom_density(color = "#3498eb", fill = "#3498eb", alpha = 0.5) + labs(title = "Distribution of Sample Means", x = "Sample Means", y = "Density")
+}
+
+plot_sample_means(10, 1000, population_distribution)
+plot_sample_means(30, 1000, population_distribution)
+plot_sample_means(100, 1000, population_distribution)
+```
+
+## Exercise 5: Standard Error of the Mean
+- Calculate the standard error of the mean (SEM) for your sample means from Exercise 2.
+- Explain how SEM relates to the sample size and the variability of the population.
+
+```{r}
+random_samples_sds <- apply(random_samples, 2, sd)
+n <- 50
+# SEs <- random_samples_sds / sqrt(n)
+SE <- sd(random_samples_means) / sqrt(n)
+```
+
+## Exercise 6: Confidence Intervals
+Using the sample means calculated in Exercise 2:
+
+  - Calculate a 95% confidence interval for the population mean based on your sample means.
+  - Interpret what this interval means in the context of your simulation.
+
+```{r}
+# Calculate the mean and standard deviation of the sample means
+mean_of_sample_means <- mean(random_samples_means)
+sd_of_sample_means <- sd(random_samples_means)
+
+# Number of samples
+n_samples <- length(random_samples_means)
+
+# Calculate the 95% confidence interval
+z_score <- 1.96 # Z-score for 95% confidence level
+margin_of_error <- z_score * (sd_of_sample_means / sqrt(n_samples))
+
+lower_bound <- mean_of_sample_means - margin_of_error
+upper_bound <- mean_of_sample_means + margin_of_error
+
+# Output the confidence interval
+confidence_interval <- c(lower_bound, upper_bound)
+confidence_interval
+```
+
+## Exercise 7: Real-World Application
+Research a dataset (e.g., heights of individuals, test scores) and:
+- Load the dataset into R and explore its distribution.
+- Use the CLT to take samples and demonstrate the theorem by comparing the sample means distribution to the population distribution.
+
+```{r}
+set.seed(42)
+summary(iris$Sepal.Length)
+ggplot(iris, aes(x=Sepal.Length)) + geom_density()
+
+plot_sample_means(500, 50, iris$Sepal.Length)
+```
+
+## Exercise 8: Reflection
+Write a brief reflection on how understanding the Central Limit Theorem is beneficial in real-world data analysis situations.
+
+```{r}
+# TODO your reflections here
+```
+
