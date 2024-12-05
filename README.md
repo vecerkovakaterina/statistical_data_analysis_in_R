@@ -10,7 +10,7 @@ This is a work in progress
 | Parameter Estimation            | ✅                             | ✅               | ❌              |
 | Random Variable                 | ✅                             | ✅               | ❌              |
 | Central Limit Theorem           | ✅                             | ✅               | ❌              |
-| Confidence Intervals            | ✅                             | ✅               | ❌              |
+| Confidence Intervals            | ✅                             | ✅               | ✅              |
 | Hypothesis Testing, z-test      | ✅                             | ✅               | ✅              |
 | t-Tests                         | ✅                             | ✅               | ✅              |
 | ANOVA                           | ✅                             | ✅               | ✅              |
