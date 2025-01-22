@@ -28,8 +28,6 @@ z_critical <- qnorm(1 - alpha/2)  # Two-tailed test
 p_value <- 2 * (1 - pnorm(abs(z)))
 z_critical
 p_value
-
-# TODO Your code here
 ```
 
 ## **Exercise 2: One-Tailed Z-Test (Right-Tailed)**
@@ -51,8 +49,6 @@ z_critical <- qnorm(1 - alpha)  # Right-tailed test
 p_value <- 1 - pnorm(z)
 z_critical
 p_value
-
-# TODO Your code here
 ```
 
 ## **Exercise 3: One-Tailed Z-Test (Left-Tailed)**
@@ -74,8 +70,6 @@ z_critical <- qnorm(alpha)  # Left-tailed test
 p_value <- pnorm(z)
 z_critical
 p_value
-
-# TODO Your code here
 ```
 
 ## **Exercise 4: Two-Sample Z-Test**
@@ -103,8 +97,6 @@ z_critical <- qnorm(1 - alpha/2)  # Two-tailed test
 p_value <- 2 * (1 - pnorm(abs(z)))
 z_critical
 p_value
-
-# TODO Your code here
 ```
 
 #### **Exercise 5: Interpretation of p-value**
@@ -131,8 +123,6 @@ if (p_value < alpha_10) {
 } else {
  print("Fail to reject H0 at 10% significance level.")
 }
-
-# TODO Your interpretation here
 ```
 
 

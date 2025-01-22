@@ -1,7 +1,7 @@
 ---
 title: 'Hypothesis Testing: Exercises'
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-10-17"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -19,16 +19,11 @@ sigma <- 20   # Population standard deviation
 n <- 60       # Sample size
 alpha <- 0.05  # Significance level
 
-# H0: 
-# H1: 
-
 # TODO Your code here
-# Z-test
-# Critical value and p-value
 ```
 
-## **Exercise 2: One-Tailed Z-Test (Right-Tailed)**
-2. A researcher believes that the average score on a standardized test is higher than 75. A sample of 40 students has an average score of 78, with a known population standard deviation of 8. Test the researcher’s hypothesis at a 1% significance level (right-tailed test).
+## **Exercise 2: One-Tailed Z-Test (Left-Tailed)**
+2. A researcher believes that the average score on a standardized test is lower than 75. A sample of 40 students has an average score of 78, with a known population standard deviation of 8. Test the researcher’s hypothesis at a 1% significance level (right-tailed test).
 
 ```{r}
 x_bar <- 78   # Sample mean
@@ -36,9 +31,6 @@ mu_0 <- 75    # Population mean under null hypothesis
 sigma <- 8    # Population standard deviation
 n <- 40       # Sample size
 alpha <- 0.01  # Significance level
-
-# H0:
-# H1:
 
 # TODO Your code here
 ```
@@ -52,9 +44,6 @@ mu_0 <- 1200   # Population mean under null hypothesis
 sigma <- 50    # Population standard deviation
 n <- 45        # Sample size
 alpha <- 0.10  # Significance level
-
-# H0: 
-# H1: 
 
 # TODO Your code here
 ```
@@ -73,9 +62,6 @@ sd_female <- 8       # Standard deviation of female students
 n_female <- 35       # Sample size of female students
 
 alpha <- 0.05  # Significance level
-
-# H0: 
-# H1: 
 
 # TODO Your code here
 
