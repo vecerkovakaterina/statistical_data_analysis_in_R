@@ -1,7 +1,7 @@
 ---
 title: 'Linear Regression: Exercises Solutions'
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-11-28"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
