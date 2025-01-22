@@ -1,7 +1,7 @@
 ---
 title: "Confidence Intervals: Exercises"
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-10-17"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -15,7 +15,6 @@ output: html_document
 set.seed(123)
 sample_data <- rnorm(50, mean = 65, sd = 10)
 # Calculate 95% CI using Z-statistic
-# TODO Your code here
 ```
 
 ## **Exercise 2: Confidence Interval for the Mean (Small Sample, t-statistic)**
