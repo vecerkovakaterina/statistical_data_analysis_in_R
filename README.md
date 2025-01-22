@@ -8,7 +8,7 @@ This is a work in progress
 | Data manipulation with tidyverse| ✅                             | ✅               | ❌              |
 | Exploratory Data Analysis       | ✅                             | ✅               | ❌              |
 | Parameter Estimation            | ✅                             | ✅               | ❌              |
-| Random Variable                 | ✅                             | ✅               | ❌              |
+| Random Variable                 | ✅                             | ✅               | ✅              |
 | Central Limit Theorem           | ✅                             | ✅               | ✅              |
 | Confidence Intervals            | ✅                             | ✅               | ✅              |
 | Hypothesis Testing, z-test      | ✅                             | ✅               | ✅              |
