@@ -1,7 +1,7 @@
 ---
 title: "Random Variable: Exercises Solved"
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-30-10"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -11,14 +11,73 @@ Simulate 1000 tosses of a biased coin where the probability of getting heads is 
 ```{r}
 set.seed(42)
 library(ggplot2)
+
+# simulate coin tosses
+coin_tosses <- sample(c("heads", "tails"), size = 1000, replace = TRUE, prob = c(0.7, 0.3))
+
 # plot PMF
+coin_tosses_table <- table(coin_tosses)
+coin_tosses_data <- as.data.frame(coin_tosses_table)
+colnames(coin_tosses_data) <- c("coin_toss", "frequency")
+coin_tosses_data$coin_toss <- as.factor(coin_tosses_data$coin_toss)
+coin_tosses_data$probability <- coin_tosses_data$frequency / sum(coin_tosses_data$frequency)
+
+ggplot(coin_tosses_data, aes(x = coin_toss, y = probability)) +
+  geom_bar(stat = "identity", fill = "darkorange", color = "black") +
+  labs(title = "Probability Mass Function of Coin Tosses",
+       x = "Coin Toss Outcome",
+       y = "Probability") +
+  theme_minimal()
 ```
 
 ### **Exercise 2: CDF of a Biased Coin Toss**
 Using the result from Exercise 1, calculate and plot the Cumulative Distribution Function (CDF) of the number of heads in 1000 tosses of the biased coin.
 
 ```{r}
-# plot the CDF using a step plot
+set.seed(42)
+# compute cumulative probabilities
+cdf <- cumsum(coin_tosses_table) / sum(coin_tosses_table)
+
+# Add a zero-probability point
+cdf <- c(0, cdf)
+outcomes <- c("Start", names(coin_tosses_table))  # add a label for the zero point
+
+# create a data frame for plotting
+cdf_df <- data.frame(
+  outcome = names(cdf),
+  cumulative_probability = as.numeric(cdf)
+)
+
+# convert outcome to factor and use numeric positions for x
+cdf_df$numeric_outcome <- seq_along(cdf_df$outcome)
+
+# plot using ggplot2
+ggplot(cdf_df, aes(x = numeric_outcome, y = cumulative_probability)) +
+  # horizontal lines for steps
+  geom_segment(
+    aes(x = numeric_outcome - 0.5, xend = numeric_outcome + 0.5,
+        y = cumulative_probability, yend = cumulative_probability),
+    color = "black"
+  ) +
+  # filled points at the left end
+  geom_point(
+    aes(x = numeric_outcome - 0.5, y = cumulative_probability),
+    size = 3, color = "black", shape = 16  # filled circle
+  ) +
+  # hollow points at the right end
+  geom_point(
+    aes(x = numeric_outcome + 0.5, y = cumulative_probability),
+    size = 3, color = "black", shape = 1  # hollow circle
+  ) +
+  # customize x-axis labels
+  scale_x_continuous(breaks = cdf_df$numeric_outcome, labels = cdf_df$outcome) +
+  labs(
+    title = "Discontinuous CDF of Coin Toss Outcomes",
+    x = "Outcome",
+    y = "Cumulative Probability"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))  # ensure y-axis spans from 0 to 1
 ```
 
 ### **Exercise 3: Custom Discrete Random Variable - Number of Goals in a Soccer Match**
@@ -32,8 +91,44 @@ Suppose a soccer team scores between 0 and 4 goals per match, with the following
 Write code to represent this custom discrete random variable. Then, calculate and plot its PMF and CDF.
 
 ```{r}
+set.seed(42)
+scores <- data.frame(number_of_goals = c(0:4), probability = c(0.2, 0.3, 0.25, 0.15, 0.1))
 # plot PMF
-# plot CDF
+ggplot(scores, aes(x = number_of_goals, y = probability)) +
+  geom_bar(stat = "identity", fill = "yellowgreen", color = "black") +
+  labs(title = "Probability Mass Function of Soccer Match Scores",
+       x = "Number of Goals in a Match",
+       y = "Probability") +
+  theme_minimal()
+
+# compute the cumulative probabilities (CDF)
+scores$cumulative_probability <- cumsum(scores$probability)
+
+# plot the CDF using ggplot2
+ggplot(scores, aes(x = number_of_goals, y = cumulative_probability)) +
+  # horizontal lines for steps
+  geom_segment(
+    aes(x = number_of_goals - 0.5, xend = number_of_goals + 0.5,
+        y = cumulative_probability, yend = cumulative_probability),
+    color = "black"
+  ) +
+  # filled points at the left end
+  geom_point(
+    aes(x = number_of_goals - 0.5, y = cumulative_probability),
+    size = 3, color = "black", shape = 16  # filled circle
+  ) +
+  # hollow points at the right end
+  geom_point(
+    aes(x = number_of_goals + 0.5, y = cumulative_probability),
+    size = 3, color = "black", shape = 1  # hollow circle
+  ) +
+  labs(
+    title = "Discontinuous CDF of Goals in a Soccer Match",
+    x = "Outcome",
+    y = "Cumulative Probability"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(limits = c(0, 1))  # ensure y-axis spans from 0 to 1
 ```
 
 ### **Exercise 4: Simulating Normally Distributed Test Scores**
@@ -42,37 +137,76 @@ Simulate the scores of 500 students on an exam. The test scores are normally dis
 2. Plot the Probability Density Function (PDF) of the scores.
 
 ```{r}
-test_scores <- rnorm(500, mean = 75, sd = 10)
-# Calculate the probability of scoring above 90
-# Plot the PDF of the test scores
+set.seed(42)
+mean_score <- 75
+sd_score <- 10
+test_scores <- rnorm(500, mean = mean_score, sd = sd_score)
+
+# calculate the probability of scoring above 90
+prob_above_90 <- 1 - pnorm(90, mean = mean_score, sd = sd_score)
+prob_above_90
+
+# plot the PDF of the test scores
+ggplot(data.frame(scores = test_scores), aes(x = scores)) +
+  geom_density(fill = "yellowgreen", alpha = 0.5) +
+  geom_vline(xintercept = 90, linetype = "dashed", color = "red") +
+  labs(title = "Probability Distribution of Simulated Exam Scores",
+       x = "Score",
+       y = "Density") +
+  theme_minimal()
 ```
 
 ### **Exercise 5: Estimating CDF from Empirical Data**
 Using the test scores simulated in Exercise 4, calculate and plot the empirical Cumulative Distribution Function (CDF). Estimate the probability that a student scores less than 60.
 
 ```{r}
-# TODO your code here
+set.seed(42)
+# calculate the empirical CDF and the probability of scoring less than 60
+test_scores_ecdf <- ecdf(test_scores)
+prob_less_than_60 <- test_scores_ecdf(60)
+prob_less_than_60
+
+# plot the empirical CDF
+ggplot(data.frame(x = test_scores), aes(x)) +
+  stat_ecdf(geom = "step", color = "blue", size = 1.2) +
+  geom_vline(xintercept = 60, linetype = "dashed", color = "red") +
+  annotate("text", x = 60, y = 0.1, label = paste("P(Score < 60) =", round(prob_less_than_60, 4)), color = "red", hjust = -0.1) +
+  labs(title = "Empirical Cumulative Distribution Function (CDF)",
+       x = "Score",
+       y = "Cumulative Probability") +
+  theme_minimal()
 ```
 
 ### **Exercise 6: Exploring the Relationship Between PMF and Expected Value**
 A company sells a product for $5. Each sale has a probability of 0.1, and they contact 100 customers.  
-1. Simulate the number of sales made out of 100 customers.
+1. Simulate the number of sales made out of 100 customers (binomial distribution).
 2. Calculate the expected revenue from these sales.
 3. Plot the PMF of the number of sales.
 
 ```{r}
+set.seed(42)
 # parameters
-n_customers <- 100    # Number of customers contacted
-p_sale <- 0.1         # Probability of a sale
+n_customers <- 100    # number of customers contacted
+p_sale <- 0.1         # probability of a sale
 
-# sales range (0 to 100 possible sales)
-# compute the PMF for each possible number of sales
-# display the PMF values
-# check that the probabilities sum to 1 (as they should)
-# calculate the expected revenue (revenue = 5 * number of sales)
-# plot the PMF for the number of sales
-# plot the PMF
-# find the number of sales with the highest probability (most likely outcome)
+# simulate number of sales
+sales <- rbinom(1, size = 100, prob = 0.1)
+sales
+
+# calculate the expected revenue
+revenue <- sales * 5
+revenue
+
+# plot the PMF of the number of sales
+pmf_data <- data.frame(sales = 0:100, 
+                       probability = dbinom(0:100, size = 100, prob = 0.1))
+
+ggplot(pmf_data, aes(x = sales, y = probability)) +
+  geom_bar(stat = "identity", fill = "hotpink1", color = "black") +
+  labs(title = "PMF of Number of Sales",
+       x = "Number of Sales",
+       y = "Probability") +
+  theme_minimal()
 ```
 
 ### **Exercise 7: Comparing Two Continuous Random Variables**
@@ -84,14 +218,31 @@ Simulate two continuous random variables:
 2. Calculate the probability that X is greater than Y.
 
 ```{r}
+set.seed(42)
 library(dplyr)
 library(tidyr)
 
 # X ~ N(0, 1) and Y ~ N(3, 1.5)
+n <- 1000
+X <- rnorm(n, mean = 0, sd = 1)
+Y <- rnorm(n, mean = 3, sd = 1.5)
+
 # plot the PDFs of X and Y on the same plot
+pdf_data <- data.frame(
+  value = c(X, Y),
+  variable = c(rep("X ~ N(0,1)", n), rep("Y ~ N(3,1.5)", n))
+)
+
+ggplot(pdf_data, aes(x = value, fill = variable)) +
+  geom_density(alpha = 0.5) +
+  labs(title = "PDFs of X and Y",
+       x = "Value",
+       y = "Density") +
+  theme_minimal()
+
 # calculate the probability that X > Y
-# we need to find the distribution of the difference Z = X - Y and calculate P(Z > 0)
-# P(Z > 0)
+prob_X_greater_Y <- mean(X > Y)
+prob_X_greater_Y
 ```
 
 
@@ -101,7 +252,28 @@ Generate 1000 steps of a random walk, where each step is a draw from a uniform d
 2. Calculate the cumulative sum of the walk and plot it.
 
 ```{r}
+set.seed(42)
 n_steps <- 1000
 steps <- runif(n_steps, min = -1, max = 1)
-# calculate the cumulative sum for the random walk trajectory
+
+# calculate the cumulative sum (random walk)
+random_walk <- cumsum(steps)
+
+# plot the trajectory of the random walk
+step_data <- data.frame(step = 1:n_steps, position = steps)
+ggplot(step_data, aes(x = step, y = position)) +
+  geom_point(color = "deeppink4") +
+  labs(title = "Trajectory of Random Walk Steps",
+       x = "Step",
+       y = "Step Value") +
+  theme_minimal()
+
+# cumulative sum plot
+walk_data <- data.frame(step = 1:n_steps, position = random_walk)
+ggplot(walk_data, aes(x = step, y = position)) +
+  geom_line(color = "dodgerblue") +
+  labs(title = "Cumulative Sum of Random Walk",
+       x = "Step",
+       y = "Cumulative Position") +
+  theme_minimal()
 ```
