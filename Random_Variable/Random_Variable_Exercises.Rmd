@@ -1,7 +1,7 @@
 ---
 title: "Random Variable: Exercises Solved"
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "2024-30-10"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
