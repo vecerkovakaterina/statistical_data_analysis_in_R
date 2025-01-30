@@ -6,8 +6,8 @@ This is a work in progress
 | Intro to R                      | ✅                             | ✅               | ❌              |
 | R programming basics            | ✅                             | ✅               | ❌              |
 | Data manipulation with tidyverse| ✅                             | ✅               | ❌              |
-| Exploratory Data Analysis       | ✅                             | ✅               | ❌              |
-| Parameter Estimation            | ✅                             | ✅               | ❌              |
+| Exploratory Data Analysis       | ✅                             | ✅               | ✅              |
+| Parameter Estimation            | ✅                             | ✅               | ✅              |
 | Random Variable                 | ✅                             | ✅               | ✅              |
 | Central Limit Theorem           | ✅                             | ✅               | ✅              |
 | Confidence Intervals            | ✅                             | ✅               | ✅              |
