@@ -1,5 +1,5 @@
 ---
-title: "Parameter Estimation"
+title: "Parameter Estimation: Solution"
 author: "Kateřina Večerková vecerkok@vscht.cz"
 date: "`r Sys.Date()`"
 output: html_document
@@ -56,7 +56,7 @@ mean_mpg
 Calculate the sample mean of the `hp` (horsepower) variable in the `mtcars` dataset.
 
 ```{r}
-# TODO your code here
+mean(mtcars$hp)
 ```
 
 ## Estimating the Population Variance
@@ -78,7 +78,7 @@ var_mpg
 Calculate the sample variance of the `wt` (weight) variable in the `mtcars` dataset.
 
 ```{r}
-# TODO your code here
+var(mtcars$mpg)
 ```
 
 ### Exercise 3
@@ -87,6 +87,7 @@ Calculate the sample mean and sample variance of the `qsec` (1/4 mile time) vari
 
 ```{r}
 # calculate sample mean and variance of the 'qsec' variable
-# TODO your code here
+mean(mtcars$qsec)
+var(mtcars$qsec)
 ```
 
