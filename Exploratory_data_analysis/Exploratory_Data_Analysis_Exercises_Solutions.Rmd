@@ -1,0 +1,180 @@
+---
+title: 'Exploratory Data Analysis: Exercises Solutions'
+author: "Kateřina Večerková vecerkok@vscht.cz"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Exercises Solutions
+
+## Understanding and Summarizing the Data
+
+### Exercise 1: Load and Preview the Data
+
+**Task:** Load the Titanic dataset from a CSV file and display the first 10 rows to familiarize yourself with the data.
+
+```{r}
+library(tidyverse, quietly = TRUE)
+data <- read.csv("titanic.csv")
+head(data, n=10)
+```
+
+### Exercise 2: Data Structure and Summary Statistics
+
+**Task:** 
+1. Use the `str()` function to examine the data structure, identifying data types for each column.
+2. Obtain a summary of all variables using `summary()`. Identify any interesting values or outliers.
+
+```{r}
+str(data)
+```
+```{r}
+summary(data)
+```
+
+### Exercise 3: Checking for Missing Values
+
+**Task:** Use the `is.na()` function to check for missing values. Summarize which columns contain missing values and their frequency.
+
+```{r}
+colSums(is.na(data))
+```
+
+## Visualizing Key Variables
+
+### Exercise 4: Age Distribution
+
+**Task:** Create a histogram of the `Age` column to understand its distribution. Choose an appropriate number of bins (e.g., 20) and label your axes.
+
+```{r}
+library(ggplot2, quietly = TRUE)
+ggplot(data, aes(x=Age)) + geom_histogram(bins = 20, color = "darkolivegreen", fill = "darkolivegreen1") + xlab("Age") + ylab("Frequency")
+```
+
+### Exercise 5: Survival Rates by Gender
+
+**Task:** Create a bar plot showing the survival rates (`Survived`) by gender (`Sex`). This will help in understanding the impact of gender on survival.
+
+```{r}
+ggplot(data, aes(x = Sex, y = Survived)) +
+  geom_col(color = "orange3", fill = "orange2") +
+  labs(title = "Barplot of Gender by Survived", x = "Survived", y = "Gender")
+```
+
+### Exercise 6: Fare Distribution by Passenger Class
+
+**Task:** Create a boxplot showing the distribution of `Fare` by passenger class (`Pclass`). Interpret whether fare distributions differ across classes.
+
+```{r}
+ggplot(data, aes(x = as.factor(Pclass), y = Fare)) +
+  geom_boxplot(fill = "tomato1") +
+  labs(title = "Boxplot of Age by Survived", x = "Passenger Class", y = "Fare")
+```
+
+## Handling Missing Data
+
+### Exercise 7: Imputing Missing Age Values
+
+**Task:** Fill missing values in the `Age` column with the median age. Confirm that there are no remaining missing values.
+
+```{r}
+# from the histogram above we can see that the distribution of Age is skewed to the left, therefore we are going to imput with the column median
+age_median <- median(data$Age, na.rm = TRUE)
+data <- data %>% mutate(Age = replace_na(Age, age_median))
+
+# check the count is NAs after imputation
+sum(is.na(data$Age))
+```
+
+### Exercise 8: Dealing with Missing Embarked Data
+
+**Task:** Replace missing values in the `Embarked` column with the most common embarkation port. Display the column to confirm the change.
+
+```{r}
+embarked_without_na <- data %>% select(Embarked) %>% drop_na()
+frequency_table <- table(embarked_without_na)
+embarked_mode <- names(frequency_table)[which.max(frequency_table)]
+data <- data %>% mutate(Embarked = replace_na(Embarked, embarked_mode))
+
+# check the count is NAs after imputation
+sum(is.na(data$Embarked))
+```
+
+## Basic Bivariate Analysis
+
+### Exercise 9: Exploring Fare and Survival Relationship
+
+**Task:** Create a boxplot to examine the relationship between `Fare` and `Survived`. What does this visualization suggest about the effect of fare on survival?
+
+```{r}
+ggplot(data, aes(x = as.factor(Survived), y = Fare)) +
+  geom_boxplot(fill = "firebrick4") +
+  labs(title = "Boxplot of Fare by Survived", x = "Survived", y = "Fare")
+```
+
+### Exercise 10: Correlation Analysis
+
+**Task:** Create a correlation matrix for the numerical columns (e.g., `Age`, `Fare`, `SibSp`, and `Parch`). Interpret any strong positive or negative correlations.
+
+```{r}
+library(reshape2, quietly = TRUE)
+correlation_matrix <- round(cor(data %>% select(Survived, Pclass, Age, SibSp, Parch, Fare)), 2)
+correlation_matrix
+melted_correlation_matrix <- melt(correlation_matrix)
+melted_correlation_matrix
+ggplot(data = melted_correlation_matrix, aes(x = Var1, y = Var2, fill = value)) + geom_tile() + xlab("") + ylab("")
+```
+
+## Feature Engineering
+
+### Exercise 11: Extracting Title from Name
+
+**Task:** Extract the title (e.g., Mr., Mrs., Miss.) from the `Name` column and create a new `Title` column. Group rare titles (those that appear less than 5 times) into an "Other" category. Display a summary of the new `Title` column.
+
+```{r}
+# look at the structure of the Name column
+head(data$Name)
+
+data <- data |> 
+  separate(Name, into = c("last_name", "title_and_first_name"), sep = ", ", remove = FALSE) |> 
+  separate(title_and_first_name, into = c("title", "first_name"), sep = " ", extra = "merge") |> 
+  select(-c(last_name, first_name))
+
+# check the extracted titles
+head(data$title)
+
+# looks at the frequencies of titles
+titles_frequency_table <- table(data$title)
+titles_frequency_table
+
+# replace titles with frequency < 5 with "Other"
+rare_names <- names(titles_frequency_table[titles_frequency_table < 5])
+
+data <- data |> 
+  mutate(title = if_else(title %in% rare_names, "Other", title))
+
+# check the result
+table(data$title)
+```
+
+### Exercise 12: Creating a Family Size Variable
+
+**Task:** Create a new feature called `FamilySize` by combining `SibSp` (siblings/spouses) and `Parch` (parents/children) to represent the total family size onboard. Display a summary of the new column.
+
+```{r}
+data <- data |>
+  mutate(FamilySize = SibSp + Parch)
+
+summary(data$FamilySize)
+```
+
+## Discussion
+
+### Exercise 13: Observations and Summary
+
+**Task:** Briefly summarize your observations from the EDA. Consider any notable patterns, potential outliers, or areas for further investigation.
+
+```{r}
+# TODO your discussion here
+```
+
