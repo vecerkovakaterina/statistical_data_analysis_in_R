@@ -3,7 +3,7 @@ This is a work in progress
 
 | Topic                            | Tutorial                      | Exercises       | Solutions       |
 |----------------------------------|-------------------------------|-----------------|-----------------|
-| Intro to R                      | ✅                             | ✅               | ❌              |
+| Intro to R                      | ✅                             | ✅               | ✅              |
 | R programming basics            | ✅                             | ✅               | ❌              |
 | Data manipulation with tidyverse| ✅                             | ✅               | ❌              |
 | Exploratory Data Analysis       | ✅                             | ✅               | ✅              |
