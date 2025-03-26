@@ -1,7 +1,7 @@
 ---
 title: 'Intro to R: Exercises'
 author: "Kateřina Večerková vecerkok@vscht.cz"
-date: "9/12/2024"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
@@ -13,8 +13,14 @@ output: html_document
 1. **Install the `ggplot2` and `dplyr` packages**
 2. **Load these packages**
 
-```{r}
-# TODO your code here
+```{r, eval=FALSE}
+# install packages
+install.packages("ggplot2")
+install.packages("dplyr")
+
+# load the installed packages so we can use the implemented functions
+library(ggplot)
+library(dplyr)
 ```
 
 ## Exercise 2: Navigating RStudio
@@ -23,7 +29,7 @@ output: html_document
 1. **Run the following command in RStudio** to access the documentation for the `nrow` function:
 
 ```{r}
-# TODO your code here
+?nrow
 ```
 
 2. **Create a new R script** in RStudio and run the entire script using the Run All option.
@@ -39,14 +45,17 @@ output: html_document
 
 3. **Take a snapshot of the current environment** to create an `renv.lock` file:
 
-```{r}
-# TODO your code here
+```{r, eval=FALSE}
+install.packages("ggplot2")
+install.packages("dplyr")
+
+renv::snapshot()
 ```
 
 4. **Restore the environment** from the `renv.lock` file to ensure consistency.
 
 ```{r}
-# TODO your code here
+renv::restore()
 ```
 
 ## Exercise 4: Creating an R Markdown Document
@@ -88,5 +97,48 @@ output: html_document
    **Hint:** Define `ui` for the user interface and `server` for server-side logic. Use `shinyApp()` to run the app.
 
 ```{r}
-# TODO your code here
+# Load the Shiny package
+library(shiny)
+
+# Define UI
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("Shiny App with Slider and Plot"),
+  
+  # Sidebar layout with input and output
+  sidebarLayout(
+    sidebarPanel(
+      # Slider input: Select a range of values
+      sliderInput("range", 
+                  "Select Range:", 
+                  min = 1, 
+                  max = 100, 
+                  value = c(10, 50))
+    ),
+    
+    # Show the plot
+    mainPanel(
+      plotOutput("linePlot")
+    )
+  )
+)
+
+# Define Server logic
+server <- function(input, output) {
+  
+  output$linePlot <- renderPlot({
+    # Generate x values based on the selected range
+    x <- seq(input$range[1], input$range[2], by = 1)
+    y <- sin(x)  # Example: Using the sine function for plotting
+    
+    # Create the plot
+    plot(x, y, type = "l", col = "blue", lwd = 2,
+         xlab = "X values", ylab = "Y values (sin(x))",
+         main = "Line Plot of sin(x)")
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)
 ```

@@ -11,6 +11,7 @@
 
 <meta name="author" content="Kateřina Večerková vecerkok@vscht.cz" />
 
+<meta name="date" content="2025-03-26" />
 
 <title>Intro to R: Exercises</title>
 
@@ -351,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Intro to R: Exercises</h1>
 <h4 class="author">Kateřina Večerková <a href="mailto:vecerkok@vscht.cz" class="email">vecerkok@vscht.cz</a></h4>
-<h4 class="date">9/12/2024</h4>
+<h4 class="date">2025-03-26</h4>
 
 </div>
 
@@ -367,7 +368,13 @@ display: none;
 packages</strong></li>
 <li><strong>Load these packages</strong></li>
 </ol>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code># install packages
+install.packages(&quot;ggplot2&quot;)
+install.packages(&quot;dplyr&quot;)
+
+# load the installed packages so we can use the implemented functions
+library(ggplot)
+library(dplyr)</code></pre>
 </div>
 </div>
 <div id="exercise-2-navigating-rstudio" class="section level2">
@@ -378,7 +385,7 @@ packages</strong></li>
 <li><strong>Run the following command in RStudio</strong> to access the
 documentation for the <code>nrow</code> function:</li>
 </ol>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>?nrow</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Create a new R script</strong> in RStudio and run the entire
 script using the Run All option.</li>
@@ -400,12 +407,16 @@ packages</strong> within this <code>renv</code> environment.</p></li>
 <li><p><strong>Take a snapshot of the current environment</strong> to
 create an <code>renv.lock</code> file:</p></li>
 </ol>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>install.packages(&quot;ggplot2&quot;)
+install.packages(&quot;dplyr&quot;)
+
+renv::snapshot()</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li><strong>Restore the environment</strong> from the
 <code>renv.lock</code> file to ensure consistency.</li>
 </ol>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>renv::restore()</code></pre>
+<pre><code>## - The library is already synchronized with the lockfile.</code></pre>
 </div>
 </div>
 <div id="exercise-4-creating-an-r-markdown-document" class="section level2">
@@ -458,7 +469,51 @@ selected range.</p>
 and <code>server</code> for server-side logic. Use
 <code>shinyApp()</code> to run the app.</p></li>
 </ol>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code># WRITE THIS CODE INTO A SEPARATE FILE
+# Load the Shiny package
+library(shiny)
+
+# Define UI
+ui &lt;- fluidPage(
+  
+  # Application title
+  titlePanel(&quot;Shiny App with Slider and Plot&quot;),
+  
+  # Sidebar layout with input and output
+  sidebarLayout(
+    sidebarPanel(
+      # Slider input: Select a range of values
+      sliderInput(&quot;range&quot;, 
+                  &quot;Select Range:&quot;, 
+                  min = 1, 
+                  max = 100, 
+                  value = c(10, 50))
+    ),
+    
+    # Show the plot
+    mainPanel(
+      plotOutput(&quot;linePlot&quot;)
+    )
+  )
+)
+
+# Define Server logic
+server &lt;- function(input, output) {
+  
+  output$linePlot &lt;- renderPlot({
+    # Generate x values based on the selected range
+    x &lt;- seq(input$range[1], input$range[2], by = 1)
+    y &lt;- sin(x)  # Example: Using the sine function for plotting
+    
+    # Create the plot
+    plot(x, y, type = &quot;l&quot;, col = &quot;blue&quot;, lwd = 2,
+         xlab = &quot;X values&quot;, ylab = &quot;Y values (sin(x))&quot;,
+         main = &quot;Line Plot of sin(x)&quot;)
+  })
+}
+
+# Run the application
+shinyApp(ui = ui, server = server)</code></pre>
 </div>
 </div>
 </div>
