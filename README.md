@@ -4,7 +4,7 @@ This is a work in progress
 | Topic                            | Tutorial | Exercises | Solutions | Whiteboard notes |
 | -------------------------------- | -------- | --------- | --------- | ---------------- |
 | Intro to R                       | ✅        | ✅         | ✅         |                  |
-| R programming basics             | ✅        | ✅         | ❌         |                  |
+| R programming basics             | ✅        | ✅         | ✅         |                  |
 | Data manipulation with tidyverse | ✅        | ✅         | ❌         |                  |
 | Exploratory Data Analysis        | ✅        | ✅         | ✅         |                  |
 | Parameter Estimation             | ✅        | ✅         | ✅         |                  |
