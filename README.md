@@ -30,3 +30,5 @@ This is a work in progress
 10. t-Tests
 11. ANOVA
 12. Correlation, regression
+
+This work was supported from the grant of Specific university research grant C1_PIGA_2025_002.
