@@ -1,5 +1,5 @@
 ---
-title: 'R programming basic: Exercises'
+title: 'R programming basic: Exercises Solutions'
 author: "Kateřina Večerková vecerkok@vscht.cz"
 date: "`r Sys.Date()`"
 output: html_document
@@ -13,14 +13,14 @@ output: html_document
    - Calculate the result of adding 12 and 8.
 
 ```{r}
-# TODO your code here
+12 + 8
 ```
 
 2. **Modulus Exercise**
    - Find the remainder when 29 is divided by 6.
 
 ```{r}
-# TODO your code here
+29 %% 6
 ```
 
 ## Logical Operators
@@ -29,14 +29,14 @@ output: html_document
    - Evaluate the result of `TRUE & FALSE`.
 
 ```{r}
-# TODO your code here
+TRUE & FALSE
 ```
 
 2. **Logical OR Exercise**
    - Determine the result of `TRUE | FALSE`.
 
 ```{r}
-# TODO your code here
+TRUE | FALSE
 ```
 
 ## Relational Operators
@@ -45,14 +45,14 @@ output: html_document
    - Check if `7` is equal to `5`.
    
 ```{r}
-# TODO your code here
+7 == 5
 ```
 
 2. **Greater Than Check**
    - Verify if `10` is greater than `3`.
 
 ```{r}
-# TODO your code here
+10 > 3
 ```
 
 ## Assignment Operators
@@ -61,14 +61,14 @@ output: html_document
    - Assign the value `15` to a variable named `x` using the left assignment operator `<-`.
 
 ```{r}
-# TODO your code here
+x <- 15
 ```
 
 2. **Right Assignment**
    - Assign the value `20` to a variable named `y` using the right assignment operator `->`.
 
 ```{r}
-# TODO your code here
+20 -> y
 ```
 
 ## Miscellaneous Operators
@@ -77,15 +77,15 @@ output: html_document
    - Create a sequence from 1 to 10 using the `:` operator.
    
 ```{r}
-# TODO your code here
+1:10
 ```
 
 2. **List Subsetting**
    - Access the first column of a data frame `df` where `df` is created with `a = 1:3` and `b = 4:6`.
 
 ```{r}
-   df <- data.frame(a = 1:3, b = 4:6)
-# TODO your code here
+df <- data.frame(a = 1:3, b = 4:6)
+df$a
 ```
 
 ## Variables
@@ -94,14 +94,16 @@ output: html_document
    - Assign the value `7` to a variable named `result` and then print it.
 
 ```{r}
-# TODO your code here
+result <- 7
+print(result)
 ```
 
 2. **Variable Re-assignment**
    - Reassign the value `10` to the variable `result` and print the updated value.
 
 ```{r}
-# TODO your code here
+result <- 10
+print(result)
 ```
 
 ## Data Types
@@ -112,14 +114,14 @@ output: html_document
 
 ```{r}
 num <- 3.14
-# TODO your code here
+typeof(num)
 ```
 
 2. **Create a Factor**
    - Create a factor variable `fact` with levels `male` and `female`, and assign it the value `female`.
 
 ```{r}
-# TODO your code here
+factor("female", levels = c("female", "male"))
 ```
 
 ## Functions
@@ -130,7 +132,7 @@ num <- 3.14
 
 ```{r}
 multiply <- function(a, b) {
-# TODO your code here
+  return(a * b)
 }
 ```
 
@@ -140,7 +142,7 @@ multiply <- function(a, b) {
 
 ```{r}
 subtract <- function(x = 10) {
- # TODO your code here
+  return(10 - x)
 }
 ```
 
@@ -152,14 +154,20 @@ subtract <- function(x = 10) {
 
 ```{r}
 x <- 8
-# TODO your code here
+if (x < 10) {
+  print("x is less than 10")
+} else {
+  print("x is 10 or more")
+}
 ```
 
 2. **For Loop**
    - Write a `for` loop to print numbers from `1` to `3`.
 
 ```{r}
-# TODO your code here
+for (i in 1:3) {
+  print(i)
+}
 ```
 
 ## String Operations
@@ -170,7 +178,7 @@ x <- 8
 ```{r}
 str1 <- "Data"
 str2 <- "Science"
-# TODO your code here
+paste(str1, str2)
 ```
 
 2. **Substring Extraction**
@@ -178,7 +186,7 @@ str2 <- "Science"
 
 ```{r}
 text <- "Programming"
-# TODO your code here
+substr(text, 1, 4)
 ```
 
 3. **String Replacement**
@@ -186,7 +194,7 @@ text <- "Programming"
 
 ```{r}
 text <- "The quick brown fox jumps over the lazy dog"
-# TODO your code here
+gsub("the", "a", text, ignore.case = TRUE)
 ```
 
 4. **Case Conversion**
@@ -194,7 +202,7 @@ text <- "The quick brown fox jumps over the lazy dog"
 
 ```{r}
 text <- "hello world"
-# TODO your code here
+toupper(text)
 ```
 
 5. **String Splitting**
@@ -202,5 +210,5 @@ text <- "hello world"
 
 ```{r}
 text <- "apple,banana,cherry"
-# TODO your code here
+strsplit(text, ",")
 ```
