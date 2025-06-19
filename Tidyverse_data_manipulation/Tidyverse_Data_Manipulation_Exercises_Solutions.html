@@ -366,12 +366,50 @@ display: none;
 <p><strong>Task:</strong> Use <code>read_csv()</code> to load the
 dataset from a file named <code>penguins.csv</code> and display the
 first 6 rows.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>library(readr)
+
+penguins &lt;- read_csv(&quot;penguins.csv&quot;)</code></pre>
+<pre><code>## Rows: 344 Columns: 8
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): species, island, sex
+## dbl (5): bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g, year
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>head(penguins, 6)</code></pre>
+<pre><code>## # A tibble: 6 × 8
+##   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##   &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+## 1 Adelie  Torgersen           39.1          18.7               181        3750
+## 2 Adelie  Torgersen           39.5          17.4               186        3800
+## 3 Adelie  Torgersen           40.3          18                 195        3250
+## 4 Adelie  Torgersen           NA            NA                  NA          NA
+## 5 Adelie  Torgersen           36.7          19.3               193        3450
+## 6 Adelie  Torgersen           39.3          20.6               190        3650
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="install-the-complete-tidyverse-package" class="section level2">
 <h2>Install the complete <code>tidyverse</code> package</h2>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## The following package(s) will be installed:
+## - tidyverse [2.0.0]
+## These packages will be installed into &quot;~/Desktop/VŠCHT/PhD/vyuka/statisticka_analyza_dat/statistical_anaysis_in_R/Tidyverse_data_manipulation/renv/library/macos/R-4.4/x86_64-apple-darwin20&quot;.
+## 
+## # Installing packages --------------------------------------------------------
+## - Installing tidyverse ...                      OK [linked from cache]
+## Successfully installed 1 package in 21 milliseconds.</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ purrr     1.0.2
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
 <div id="manipulating-data-with-dplyr" class="section level2">
 <h2>Manipulating Data with dplyr</h2>
@@ -379,45 +417,144 @@ first 6 rows.</p>
 <h3>Exercise 2: Filter Rows by Species</h3>
 <p><strong>Task:</strong> Filter the dataset to include only rows where
 the species is “Adelie”.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% filter(species == &quot;Adelie&quot;)</code></pre>
+<pre><code>## # A tibble: 152 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 142 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-3-select-relevant-columns" class="section level3">
 <h3>Exercise 3: Select Relevant Columns</h3>
 <p><strong>Task:</strong> Select the columns <code>island</code>,
 <code>bill_length_mm</code>, and <code>flipper_length_mm</code> from the
 dataset.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% select(c(&quot;island&quot;, &quot;bill_length_mm&quot;, &quot;flipper_length_mm&quot;))</code></pre>
+<pre><code>## # A tibble: 344 × 3
+##    island    bill_length_mm flipper_length_mm
+##    &lt;chr&gt;              &lt;dbl&gt;             &lt;dbl&gt;
+##  1 Torgersen           39.1               181
+##  2 Torgersen           39.5               186
+##  3 Torgersen           40.3               195
+##  4 Torgersen           NA                  NA
+##  5 Torgersen           36.7               193
+##  6 Torgersen           39.3               190
+##  7 Torgersen           38.9               181
+##  8 Torgersen           39.2               195
+##  9 Torgersen           34.1               193
+## 10 Torgersen           42                 190
+## # ℹ 334 more rows</code></pre>
 </div>
 <div id="exercise-4-add-a-new-column" class="section level3">
 <h3>Exercise 4: Add a New Column</h3>
 <p><strong>Task:</strong> Create a new column that calculates the ratio
 of <code>bill_length_mm</code> to <code>flipper_length_mm</code>.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% mutate(bill_to_flipper_ratio = bill_length_mm / flipper_length_mm)</code></pre>
+<pre><code>## # A tibble: 344 × 9
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 3 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;, bill_to_flipper_ratio &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-5-summarize-data-by-species" class="section level3">
 <h3>Exercise 5: Summarize Data by Species</h3>
 <p><strong>Task:</strong> Calculate the mean and standard deviation of
 <code>flipper_length_mm</code> for each species.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% group_by(species) %&gt;% summarize(mean_flipper = mean(flipper_length_mm, na.rm = TRUE),
+                                             sd_flipper = sd(flipper_length_mm, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 3 × 3
+##   species   mean_flipper sd_flipper
+##   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Adelie            190.       6.54
+## 2 Chinstrap         196.       7.13
+## 3 Gentoo            217.       6.48</code></pre>
 </div>
 <div id="exercise-6-arrange-data-by-bill-length" class="section level3">
 <h3>Exercise 6: Arrange Data by Bill Length</h3>
 <p><strong>Task:</strong> Arrange the dataset by
 <code>bill_length_mm</code> in descending order.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% arrange(desc(bill_length_mm))</code></pre>
+<pre><code>## # A tibble: 344 × 8
+##    species   island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;     &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Gentoo    Biscoe           59.6          17                 230        6050
+##  2 Chinstrap Dream            58            17.8               181        3700
+##  3 Gentoo    Biscoe           55.9          17                 228        5600
+##  4 Chinstrap Dream            55.8          19.8               207        4000
+##  5 Gentoo    Biscoe           55.1          16                 230        5850
+##  6 Gentoo    Biscoe           54.3          15.7               231        5650
+##  7 Chinstrap Dream            54.2          20.8               201        4300
+##  8 Chinstrap Dream            53.5          19.9               205        4500
+##  9 Gentoo    Biscoe           53.4          15.8               219        5500
+## 10 Chinstrap Dream            52.8          20                 205        4550
+## # ℹ 334 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-7-group-and-summarize-by-species" class="section level3">
 <h3>Exercise 7: Group and Summarize by Species</h3>
 <p><strong>Task:</strong> For each species, count how many instances
 have <code>bill_length_mm</code> greater than 40.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% group_by(species) %&gt;% filter(bill_length_mm &gt; 40) %&gt;% count()</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   species [3]
+##   species       n
+##   &lt;chr&gt;     &lt;int&gt;
+## 1 Adelie       51
+## 2 Chinstrap    68
+## 3 Gentoo      123</code></pre>
+<pre class="r"><code>penguins %&gt;%
+  group_by(species) %&gt;%
+  summarise(
+    count_bill_gt40 = sum(bill_length_mm &gt; 40, na.rm = TRUE)
+  )</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   species   count_bill_gt40
+##   &lt;chr&gt;               &lt;int&gt;
+## 1 Adelie                 51
+## 2 Chinstrap              68
+## 3 Gentoo                123</code></pre>
 </div>
 <div id="exercise-8-rename-columns" class="section level3">
 <h3>Exercise 8: Rename Columns</h3>
 <p><strong>Task:</strong> Rename the columns <code>bill_length_mm</code>
 and <code>flipper_length_mm</code> to <code>bill_length</code> and
 <code>flipper_length</code>.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% rename(bill_length = bill_length_mm, flipper_length = flipper_length_mm)</code></pre>
+<pre><code>## # A tibble: 344 × 8
+##    species island    bill_length bill_depth_mm flipper_length body_mass_g sex   
+##    &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; 
+##  1 Adelie  Torgersen        39.1          18.7            181        3750 male  
+##  2 Adelie  Torgersen        39.5          17.4            186        3800 female
+##  3 Adelie  Torgersen        40.3          18              195        3250 female
+##  4 Adelie  Torgersen        NA            NA               NA          NA &lt;NA&gt;  
+##  5 Adelie  Torgersen        36.7          19.3            193        3450 female
+##  6 Adelie  Torgersen        39.3          20.6            190        3650 male  
+##  7 Adelie  Torgersen        38.9          17.8            181        3625 female
+##  8 Adelie  Torgersen        39.2          19.6            195        4675 male  
+##  9 Adelie  Torgersen        34.1          18.1            193        3475 &lt;NA&gt;  
+## 10 Adelie  Torgersen        42            20.2            190        4250 &lt;NA&gt;  
+## # ℹ 334 more rows
+## # ℹ 1 more variable: year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="tidying-data-with-tidyr" class="section level2">
@@ -429,25 +566,77 @@ columns <code>measurement</code> and <code>value</code>, where
 <code>measurement</code> includes the variable names
 (<code>bill_length_mm</code>, <code>flipper_length_mm</code>) and
 <code>value</code> contains the corresponding measurements.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>library(tidyr)
+
+penguins_long &lt;- penguins %&gt;%
+  pivot_longer(
+    cols = c(bill_length_mm, flipper_length_mm),
+    names_to = &quot;measurement&quot;,
+    values_to = &quot;value&quot;
+  )</code></pre>
 </div>
 <div id="exercise-10-pivoting-wider" class="section level3">
 <h3>Exercise 10: Pivoting Wider</h3>
 <p><strong>Task:</strong> Pivot the dataset back to the original wide
 format.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins_wide &lt;- penguins_long %&gt;%
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )</code></pre>
+<pre><code>## Warning: Values from `value` are not uniquely identified; output will contain list-cols.
+## • Use `values_fn = list` to suppress this warning.
+## • Use `values_fn = {summary_fun}` to summarise duplicates.
+## • Use the following dplyr code to identify duplicates.
+##   {data} |&gt;
+##   dplyr::summarise(n = dplyr::n(), .by = c(species, island, bill_depth_mm,
+##   body_mass_g, sex, year, measurement)) |&gt;
+##   dplyr::filter(n &gt; 1L)</code></pre>
 </div>
 <div id="exercise-11-separate-a-column" class="section level3">
 <h3>Exercise 11: Separate a Column</h3>
 <p><strong>Task:</strong> Split the <code>species</code> column into two
 new columns: <code>genus</code> and <code>species_type</code>.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;%
+  separate(species, into = c(&quot;genus&quot;, &quot;species_type&quot;), sep = &quot; &quot;)</code></pre>
+<pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 344 rows [1, 2, 3, 4, 5,
+## 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, ...].</code></pre>
+<pre><code>## # A tibble: 344 × 9
+##    genus  species_type island    bill_length_mm bill_depth_mm flipper_length_mm
+##    &lt;chr&gt;  &lt;chr&gt;        &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;
+##  1 Adelie &lt;NA&gt;         Torgersen           39.1          18.7               181
+##  2 Adelie &lt;NA&gt;         Torgersen           39.5          17.4               186
+##  3 Adelie &lt;NA&gt;         Torgersen           40.3          18                 195
+##  4 Adelie &lt;NA&gt;         Torgersen           NA            NA                  NA
+##  5 Adelie &lt;NA&gt;         Torgersen           36.7          19.3               193
+##  6 Adelie &lt;NA&gt;         Torgersen           39.3          20.6               190
+##  7 Adelie &lt;NA&gt;         Torgersen           38.9          17.8               181
+##  8 Adelie &lt;NA&gt;         Torgersen           39.2          19.6               195
+##  9 Adelie &lt;NA&gt;         Torgersen           34.1          18.1               193
+## 10 Adelie &lt;NA&gt;         Torgersen           42            20.2               190
+## # ℹ 334 more rows
+## # ℹ 3 more variables: body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-12-drop-na-values" class="section level3">
 <h3>Exercise 12: Drop NA Values</h3>
 <p><strong>Task:</strong> Remove rows with missing values from the
 dataset.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% drop_na()</code></pre>
+<pre><code>## # A tibble: 333 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           36.7          19.3               193        3450
+##  5 Adelie  Torgersen           39.3          20.6               190        3650
+##  6 Adelie  Torgersen           38.9          17.8               181        3625
+##  7 Adelie  Torgersen           39.2          19.6               195        4675
+##  8 Adelie  Torgersen           41.1          17.6               182        3200
+##  9 Adelie  Torgersen           38.6          21.2               191        3800
+## 10 Adelie  Torgersen           34.6          21.1               198        4400
+## # ℹ 323 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="working-with-categorical-data-with-forcats" class="section level2">
@@ -456,20 +645,74 @@ dataset.</p>
 <h3>Exercise 13: Lump Rare Species into “Other”</h3>
 <p><strong>Task:</strong> Lump the least common species into an “Other”
 category, keeping only the top 3 most common species distinct.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>library(forcats)
+
+penguins %&gt;% mutate(species = fct_lump(species, n = 3))</code></pre>
+<pre><code>## # A tibble: 344 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-14-reorder-factor-levels" class="section level3">
 <h3>Exercise 14: Reorder Factor Levels</h3>
 <p><strong>Task:</strong> Reorder the <code>species</code> factor by the
 mean <code>bill_length_mm</code> of each species in descending
 order.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% mutate(species = fct_reorder(species, bill_length_mm, .fun = mean, .desc = TRUE))</code></pre>
+<pre><code>## Warning: There was 1 warning in `mutate()`.
+## ℹ In argument: `species = fct_reorder(species, bill_length_mm, .fun = mean,
+##   .desc = TRUE)`.
+## Caused by warning:
+## ! `fct_reorder()` removing 2 missing values.
+## ℹ Use `.na_rm = TRUE` to silence this message.
+## ℹ Use `.na_rm = FALSE` to preserve NAs.</code></pre>
+<pre><code>## # A tibble: 344 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-15-reverse-the-factor-levels-order" class="section level3">
 <h3>Exercise 15: Reverse the Factor Levels Order</h3>
 <p><strong>Task:</strong> Reverse the order of the levels in the
 <code>species</code> factor.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% mutate(species = fct_rev(species))</code></pre>
+<pre><code>## # A tibble: 344 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;fct&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 334 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 </div>
 <div id="string-manipulation-with-stringr" class="section level2">
@@ -479,14 +722,30 @@ order.</p>
 <p><strong>Task:</strong> Find all rows in the <code>penguins</code>
 dataset where the <code>species</code> contains the substring
 “Adel”.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguins %&gt;% filter(str_detect(species, &quot;Adel&quot;))</code></pre>
+<pre><code>## # A tibble: 152 × 8
+##    species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+##    &lt;chr&gt;   &lt;chr&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Adelie  Torgersen           39.1          18.7               181        3750
+##  2 Adelie  Torgersen           39.5          17.4               186        3800
+##  3 Adelie  Torgersen           40.3          18                 195        3250
+##  4 Adelie  Torgersen           NA            NA                  NA          NA
+##  5 Adelie  Torgersen           36.7          19.3               193        3450
+##  6 Adelie  Torgersen           39.3          20.6               190        3650
+##  7 Adelie  Torgersen           38.9          17.8               181        3625
+##  8 Adelie  Torgersen           39.2          19.6               195        4675
+##  9 Adelie  Torgersen           34.1          18.1               193        3475
+## 10 Adelie  Torgersen           42            20.2               190        4250
+## # ℹ 142 more rows
+## # ℹ 2 more variables: sex &lt;chr&gt;, year &lt;dbl&gt;</code></pre>
 </div>
 <div id="exercise-17-extract-numeric-id-from-string" class="section level3">
 <h3>Exercise 17: Extract Numeric ID from String</h3>
 <p><strong>Task:</strong> Create a string vector of penguin IDs in the
 format “Penguin_ID-XXXXX”, where “XXXXX” is the row number. Extract just
 the numeric part of these IDs.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>penguin_ids &lt;- paste0(&quot;Penguin_ID-&quot;, sprintf(&quot;%05d&quot;, seq_len(nrow(penguins))))
+numeric_ids &lt;- str_extract(penguin_ids, &quot;\\d+&quot;)</code></pre>
 </div>
 </div>
 <div id="date-and-time-manipulation-with-lubridate" class="section level2">
@@ -495,13 +754,20 @@ the numeric part of these IDs.</p>
 <h3>Exercise 18: Parsing and Manipulating Dates</h3>
 <p><strong>Task:</strong> Convert the string <code>&quot;2023-08-15&quot;</code>
 into a date object and extract the year, month, and day components.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>library(lubridate)
+
+date &lt;- ymd(&quot;2023-08-15&quot;)
+year_val &lt;- year(date)
+month_val &lt;- month(date)
+day_val &lt;- day(date)</code></pre>
 </div>
 <div id="exercise-19-add-and-subtract-time-intervals" class="section level3">
 <h3>Exercise 19: Add and Subtract Time Intervals</h3>
 <p><strong>Task:</strong> Add 3 months to the date
 <code>&quot;2023-01-01&quot;</code> and subtract 10 days from it.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>date &lt;- ymd(&quot;2023-01-01&quot;)
+date_plus_3_months &lt;- date %m+% months(3)
+date_minus_10_days &lt;- date - days(10)</code></pre>
 </div>
 </div>
 <div id="modern-reimagining-of-data-frames-with-tibble" class="section level2">
@@ -512,13 +778,36 @@ into a date object and extract the year, month, and day components.</p>
 <code>Name</code> (character), <code>Age</code> (numeric), and
 <code>Height</code> (numeric). Then, add a new column
 <code>Weight</code>.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>library(tibble)
+
+people &lt;- tibble(
+  Name = c(&quot;Alice&quot;, &quot;Bob&quot;, &quot;Charlie&quot;),
+  Age = c(25, 30, 22),
+  Height = c(165, 180, 175)
+)
+
+people &lt;- people %&gt;%
+  mutate(Weight = c(55, 72, 68))</code></pre>
 </div>
 <div id="exercise-21-convert-a-data-frame-to-tibble" class="section level3">
 <h3>Exercise 21: Convert a Data Frame to Tibble</h3>
 <p><strong>Task:</strong> Convert the built-in <code>mtcars</code> data
 frame to a tibble.</p>
-<pre class="r"><code># TODO your code here</code></pre>
+<pre class="r"><code>as_tibble(mtcars)</code></pre>
+<pre><code>## # A tibble: 32 × 11
+##      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+##  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+##  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+##  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+##  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+##  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+##  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+##  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+##  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+## 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+## # ℹ 22 more rows</code></pre>
 </div>
 </div>
 </div>

@@ -14,13 +14,17 @@ output: html_document
 **Task:** Use `read_csv()` to load the dataset from a file named `penguins.csv` and display the first 6 rows.
 
 ```{r}
-# TODO your code here
+library(readr)
+
+penguins <- read_csv("penguins.csv")
+head(penguins, 6)
 ```
 
 ## Install the complete `tidyverse` package
 
 ```{r}
-# TODO your code here
+install.packages("tidyverse")
+library(tidyverse)
 ```
 
 ## Manipulating Data with dplyr
@@ -30,7 +34,7 @@ output: html_document
 **Task:** Filter the dataset to include only rows where the species is "Adelie".
 
 ```{r}
-# TODO your code here
+penguins %>% filter(species == "Adelie")
 ```
 
 ### Exercise 3: Select Relevant Columns
@@ -38,7 +42,7 @@ output: html_document
 **Task:** Select the columns `island`, `bill_length_mm`, and `flipper_length_mm` from the dataset.
 
 ```{r}
-# TODO your code here
+penguins %>% select(c("island", "bill_length_mm", "flipper_length_mm"))
 ```
 
 ### Exercise 4: Add a New Column
@@ -46,7 +50,7 @@ output: html_document
 **Task:** Create a new column that calculates the ratio of `bill_length_mm` to `flipper_length_mm`.
 
 ```{r}
-# TODO your code here
+penguins %>% mutate(bill_to_flipper_ratio = bill_length_mm / flipper_length_mm)
 ```
 
 ### Exercise 5: Summarize Data by Species
@@ -54,7 +58,8 @@ output: html_document
 **Task:** Calculate the mean and standard deviation of `flipper_length_mm` for each species.
 
 ```{r}
-# TODO your code here
+penguins %>% group_by(species) %>% summarize(mean_flipper = mean(flipper_length_mm, na.rm = TRUE),
+                                             sd_flipper = sd(flipper_length_mm, na.rm = TRUE))
 ```
 
 ### Exercise 6: Arrange Data by Bill Length
@@ -62,7 +67,7 @@ output: html_document
 **Task:** Arrange the dataset by `bill_length_mm` in descending order.
 
 ```{r}
-# TODO your code here
+penguins %>% arrange(desc(bill_length_mm))
 ```
 
 ### Exercise 7: Group and Summarize by Species
@@ -70,7 +75,15 @@ output: html_document
 **Task:** For each species, count how many instances have `bill_length_mm` greater than 40.
 
 ```{r}
-# TODO your code here
+penguins %>% group_by(species) %>% filter(bill_length_mm > 40) %>% count()
+```
+
+```{r}
+penguins %>%
+  group_by(species) %>%
+  summarise(
+    count_bill_gt40 = sum(bill_length_mm > 40, na.rm = TRUE)
+  )
 ```
 
 ### Exercise 8: Rename Columns
@@ -78,7 +91,7 @@ output: html_document
 **Task:** Rename the columns `bill_length_mm` and `flipper_length_mm` to `bill_length` and `flipper_length`.
 
 ```{r}
-# TODO your code here
+penguins %>% rename(bill_length = bill_length_mm, flipper_length = flipper_length_mm)
 ```
 
 ## Tidying Data with tidyr
@@ -88,7 +101,14 @@ output: html_document
 **Task:** Convert the dataset into a longer format with columns `measurement` and `value`, where `measurement` includes the variable names (`bill_length_mm`, `flipper_length_mm`) and `value` contains the corresponding measurements.
 
 ```{r}
-# TODO your code here
+library(tidyr)
+
+penguins_long <- penguins %>%
+  pivot_longer(
+    cols = c(bill_length_mm, flipper_length_mm),
+    names_to = "measurement",
+    values_to = "value"
+  )
 ```
 
 ### Exercise 10: Pivoting Wider
@@ -96,7 +116,11 @@ output: html_document
 **Task:** Pivot the dataset back to the original wide format.
 
 ```{r}
-# TODO your code here
+penguins_wide <- penguins_long %>%
+  pivot_wider(
+    names_from = measurement,
+    values_from = value
+  )
 ```
 
 ### Exercise 11: Separate a Column
@@ -104,7 +128,8 @@ output: html_document
 **Task:** Split the `species` column into two new columns: `genus` and `species_type`.
 
 ```{r}
-# TODO your code here
+penguins %>%
+  separate(species, into = c("genus", "species_type"), sep = " ")
 ```
 
 ### Exercise 12: Drop NA Values
@@ -112,7 +137,7 @@ output: html_document
 **Task:** Remove rows with missing values from the dataset.
 
 ```{r}
-# TODO your code here
+penguins %>% drop_na()
 ```
 
 ## Working with Categorical Data with `forcats`
@@ -122,7 +147,9 @@ output: html_document
 **Task:** Lump the least common species into an "Other" category, keeping only the top 3 most common species distinct.
 
 ```{r}
-# TODO your code here
+library(forcats)
+
+penguins %>% mutate(species = fct_lump(species, n = 3))
 ```
 
 ### Exercise 14: Reorder Factor Levels
@@ -130,7 +157,7 @@ output: html_document
 **Task:** Reorder the `species` factor by the mean `bill_length_mm` of each species in descending order.
 
 ```{r}
-# TODO your code here
+penguins %>% mutate(species = fct_reorder(species, bill_length_mm, .fun = mean, .desc = TRUE))
 ```
 
 ### Exercise 15: Reverse the Factor Levels Order
@@ -138,7 +165,7 @@ output: html_document
 **Task:** Reverse the order of the levels in the `species` factor.
 
 ```{r}
-# TODO your code here
+penguins %>% mutate(species = fct_rev(species))
 ```
 
 ## String Manipulation with `stringr`
@@ -148,7 +175,7 @@ output: html_document
 **Task:** Find all rows in the `penguins` dataset where the `species` contains the substring "Adel".
 
 ```{r}
-# TODO your code here
+penguins %>% filter(str_detect(species, "Adel"))
 ```
 
 ### Exercise 17: Extract Numeric ID from String
@@ -156,7 +183,8 @@ output: html_document
 **Task:** Create a string vector of penguin IDs in the format "Penguin_ID-XXXXX", where "XXXXX" is the row number. Extract just the numeric part of these IDs.
 
 ```{r}
-# TODO your code here
+penguin_ids <- paste0("Penguin_ID-", sprintf("%05d", seq_len(nrow(penguins))))
+numeric_ids <- str_extract(penguin_ids, "\\d+")
 ```
 
 ## Date and Time Manipulation with `lubridate`
@@ -166,7 +194,12 @@ output: html_document
 **Task:** Convert the string `"2023-08-15"` into a date object and extract the year, month, and day components.
 
 ```{r}
-# TODO your code here
+library(lubridate)
+
+date <- ymd("2023-08-15")
+year_val <- year(date)
+month_val <- month(date)
+day_val <- day(date)
 ```
 
 ### Exercise 19: Add and Subtract Time Intervals
@@ -174,7 +207,9 @@ output: html_document
 **Task:** Add 3 months to the date `"2023-01-01"` and subtract 10 days from it.
 
 ```{r}
-# TODO your code here
+date <- ymd("2023-01-01")
+date_plus_3_months <- date %m+% months(3)
+date_minus_10_days <- date - days(10)
 ```
 
 ## Modern Reimagining of Data Frames with `tibble`
@@ -184,7 +219,16 @@ output: html_document
 **Task:** Create a tibble with three columns: `Name` (character), `Age` (numeric), and `Height` (numeric). Then, add a new column `Weight`.
 
 ```{r}
-# TODO your code here
+library(tibble)
+
+people <- tibble(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(25, 30, 22),
+  Height = c(165, 180, 175)
+)
+
+people <- people %>%
+  mutate(Weight = c(55, 72, 68))
 ```
 
 ### Exercise 21: Convert a Data Frame to Tibble
@@ -192,5 +236,5 @@ output: html_document
 **Task:** Convert the built-in `mtcars` data frame to a tibble.
 
 ```{r}
-# TODO your code here
+as_tibble(mtcars)
 ```
