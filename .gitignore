@@ -4,5 +4,5 @@
 .Ruserdata
 Intro_to_R/renv
 R_programming_basics/renv
-*.Rproj
+**/*.Rproj
 Exploratory_data_analysis/vertical_dendrogram.png
