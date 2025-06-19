@@ -96,7 +96,8 @@ renv::restore()
 
    **Hint:** Define `ui` for the user interface and `server` for server-side logic. Use `shinyApp()` to run the app.
 
-```{r}
+```{r, eval=FALSE}
+# WRITE THIS CODE INTO A SEPARATE FILE
 # Load the Shiny package
 library(shiny)
 
