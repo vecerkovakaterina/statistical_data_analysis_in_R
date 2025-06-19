@@ -5,7 +5,7 @@ This is a work in progress
 | -------------------------------- | -------- | --------- | --------- | ---------------- |
 | Intro to R                       | ✅        | ✅         | ✅         |                  |
 | R programming basics             | ✅        | ✅         | ✅         |                  |
-| Data manipulation with tidyverse | ✅        | ✅         | ❌         |                  |
+| Data manipulation with tidyverse | ✅        | ✅         | ✅         |                  |
 | Exploratory Data Analysis        | ✅        | ✅         | ✅         |                  |
 | Parameter Estimation             | ✅        | ✅         | ✅         |                  |
 | Random Variable                  | ✅        | ✅         | ✅         |                  |
