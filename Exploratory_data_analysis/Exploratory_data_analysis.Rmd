@@ -125,9 +125,11 @@ table(data$Survived, data$Sex)
   - **Principal Component Analysis (PCA)**: is a dimensionality reduction technique that transforms data into a set of orthogonal components (principal components) that capture the most variance in the data. By projecting the data onto these components, PCA reduces the number of variables while preserving as much of the original variability as possible. This is useful for simplifying datasets, revealing underlying structures, and visualizing high-dimensional data in lower dimensions.
   
 ```{r}
+library(magrittr)
+
 # select numeric columns for PCA
-numeric_columns <- titanic_data %>%
-  dplyr::select(age, fare, siblings_spouses, parents_children, survived) %>%
+numeric_columns <- data %>%
+  dplyr::select(Age, Fare, SibSp, Parch, Survived) %>%
   na.omit()  # remove rows with missing values
 
 # perform PCA
@@ -135,7 +137,7 @@ pca_result <- prcomp(numeric_columns, scale. = TRUE)
 pca_scores <- as.data.frame(pca_result$x)
 
 # add the survived column to the pca scores
-pca_scores$survived <- numeric_columns$survived
+pca_scores$survived <- numeric_columns$Survived
 ```
 
 ```{r}
