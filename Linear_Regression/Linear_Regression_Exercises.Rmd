@@ -80,26 +80,6 @@ data("mtcars")
 2. **Effect of Outliers on Linear Regression**  
    How might outliers affect the results of a linear regression model? Can you suggest ways to handle outliers in your data?
 
-3. **Checking for Homoscedasticity**  
-   Why is homoscedasticity important in linear regression, and how can you detect it? What might happen if this assumption is violated?
-
-4. **Overfitting vs. Underfitting**  
+3. **Overfitting vs. Underfitting**  
    What are the consequences of overfitting and underfitting a linear regression model? How can you address each problem?
 
-### Extra Challenges
-
-1. **Polynomial Regression**
-   - Extend the linear regression model by fitting a **polynomial regression** model (e.g., quadratic or cubic) and compare the results to the linear model.  
-     - Does the polynomial model provide a better fit? Justify your answer.
-
-```{r}
-# TODO your code here
-```
-
-2. **Ridge and Lasso Regression**
-   - Explore **Ridge** and **Lasso** regression using the `glmnet` package to prevent overfitting.  
-     - Compare the coefficients of the Ridge and Lasso models to the standard linear regression model.
-
-```{r}
-# TODO your code here
-```
