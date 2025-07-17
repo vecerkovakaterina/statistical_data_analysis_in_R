@@ -65,6 +65,13 @@ exam_scores <- c(75, 80, 85, 78, 82, 86,
 # TODO your code here
 ```
 
+## **Exercise 5: Checking Assumptions (Homogeneity of Variance)**
+5. For the ANOVA in **Exercise 1**, check the assumption of homogeneity of variances using **Levene’s Test**. You will need to install and load the `car` package for this.
+
+```{r}
+# TODO Your code here
+```
+
 ## **Exercise 6: ANOVA Interpretation**
 6. In an ANOVA experiment, the following results were obtained:
     - **F-statistic** = 4.56  
